@@ -1,6 +1,6 @@
 ---
 name: svg-icon-assets
-description: "Create, update, or review application icons, UI symbols, logos, tray icons, favicons, touch icons, and their asset pipelines. Use SVG masters, artwork suited to small sizes, appropriate 1x/2x/3x raster outputs, and reproducible production-build optimization."
+description: "Create, change, or review icons, logos, favicons, tray/touch icons, or their asset pipelines. Unrelated UI styling and general image work do not trigger this skill."
 ---
 
 # SVG Icon Assets
@@ -9,9 +9,13 @@ Use editable SVG artwork as the source of truth and generate the raster formats 
 
 Preserve the project's icon library, visual language, framework, and build conventions. Reuse existing vector components or symbols where appropriate. This skill does not require replacing an icon system, tracing photographs into SVG, or optimizing unrelated site behavior.
 
+Respect documented project exceptions and choices already resolved by the user. If this guidance conflicts with an established asset requirement, show the unresolved conflict and ask whether to adjust that requirement or record a scoped exception before the disputed change. Do not invent an exception; record an agreed one in the project's asset guide or instructions with its scope and reason. Ordinary platform-specific output choices are not policy conflicts.
+
 ## Establish the asset contract
 
-- Read the project's asset guide before changing artwork or generation. Locate canonical sources, generators, generated files, references, and production build entrypoints. If the guide is missing, record the relevant decisions in a concise document following the project's conventions; no particular filename is required.
+Scope ordinary use to affected artwork, surfaces, and pipeline stages. Reuse the asset contract and exceptions without reopening approved artwork. For a review or explanation, inspect the requested assets and evidence; regenerate, build, or change files only when needed by the task. For implementation, follow the relevant artwork, delivery, and pipeline steps below.
+
+- Read the relevant asset-guide sections and locate affected sources, generators, outputs, consumers, and build entrypoints. During implementation, record missing asset-contract decisions in a concise guide following project conventions. A review-only task can report missing contract information without creating a document.
 - Map each affected surface to its source variant, logical display size, required physical pixel dimensions or native vector format, theme behavior, transparency/masking rules, and actual consumer. Include fallbacks and native resources when relevant.
 - Preserve editable originals, provenance, and licenses. Keep generated files distinct from masters; make changes in the source or generator instead of hand-editing generated rasters. An SVG containing an embedded bitmap does not make that bitmap resolution independent.
 - Keep exploratory concepts outside production inputs. Promote a concept only after the selected direction is recorded in the asset guide and its outputs are rebuilt and verified. Reuse an already selected direction; routine regeneration does not require a new design-selection step.
@@ -39,17 +43,13 @@ Preserve the project's icon library, visual language, framework, and build conve
 
 The normal production build or release-packaging command must generate and optimize the affected assets automatically from a clean checkout. A manually run optimizer or previously optimized committed file is not sufficient integration.
 
-- Include the strongest validated optimization settings in the production path for both emitted SVGs and generated rasters. Keep development fast with caching or cheaper settings when useful, while preserving dimensions, source selection, and appearance. Do not move expensive static-asset optimization into the application runtime.
-- Optimize generated copies, retaining editable masters. Maximize compression effort within supported formats and the visual contract; maximum optimization does not mean maximum lossy compression. Use lossless optimization by default for small icons and brand artwork. Treat lossy quantization, visual simplification, and format changes as distinct decisions requiring appropriate visual validation within the task's scope.
-- Read [production optimization](references/production-optimization.md) when implementing or changing the pipeline. Measure candidates and keep the smallest valid representation for the actual delivery path; a successful encoder run can still produce a larger file.
-- Finish byte-changing operations before content hashing, URL generation, manifests, resource embedding, or package signing. Preserve required fixed filenames and the project's caching conventions. Package only current consumer-required outputs and exclude source archives and review sheets.
-- Make outputs reproducible with recorded settings and locked build dependencies. Include source variants, generation settings, and tool versions in cache invalidation. Keep cleanup limited to generator-owned outputs, and fail the production build on required generation or validation errors.
+Reuse an established, validated pipeline for ordinary artwork changes. Read [production optimization](references/production-optimization.md) when creating or changing generation, optimization, or packaging, or investigating evidence that the pipeline is inadequate. Do not retune encoders or repeat candidate comparisons solely because another icon changed.
 
 ## Verify the delivered result
 
-Run the relevant production build and existing asset checks after changes. For a pipeline change, also verify a clean rebuild, stable output for unchanged inputs, and regeneration when a source or setting changes. If generated files are committed for tooling requirements, detect stale copies as part of the build or CI.
+After implementation changes to assets or their delivery, run the relevant production build and existing asset checks. For a pipeline change, also verify a clean rebuild, stable output for unchanged inputs, and regeneration when a source or setting changes. If generated files are committed for tooling requirements, detect stale copies as part of the build or CI. A documentation-only edit follows documentation checks instead.
 
-Check these distinct outcomes:
+Check the outcomes relevant to the change. Compression comparisons apply when optimization changes or savings are claimed; native/browser checks apply to affected consumers rather than every supported platform:
 
 | Check | Evidence |
 | --- | --- |
@@ -61,4 +61,4 @@ Check these distinct outcomes:
 
 Browser emulation and contact sheets do not establish native-device equivalence. Inspect the target browser chrome, installed tray, launcher, or other native surface when available; report any remaining platform check explicitly.
 
-Update the asset guide with the selected sources, output matrix, production generation/check commands, and meaningful limitations. Report what changed, what was verified, and any unverified visual or native behavior.
+Update the asset guide when selected sources, the output matrix, generation/check commands, or meaningful limitations change. Leave an accurate guide unchanged. Report what changed, what was verified, and any unverified visual or native behavior.

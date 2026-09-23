@@ -2,3 +2,6 @@ interface:
   display_name: "SVG Icon Assets"
   short_description: "Clear SVG icons and optimized production assets"
   default_prompt: "Use $svg-icon-assets to generate readable icons and favicons from SVG masters, wire the required density variants, and optimize them in the production build."
+
+policy:
+  allow_implicit_invocation: true

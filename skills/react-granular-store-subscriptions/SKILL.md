@@ -1,6 +1,6 @@
 ---
 name: react-granular-store-subscriptions
-description: "Implement or refactor React store subscriptions so components observe only the state they need. Use when connecting components to Redux, Zustand, Jotai, MobX, Valtio, or similar stores, or diagnosing unnecessary store-driven rerenders and broad subscriptions."
+description: "Implement, refactor, or review React store subscriptions, or diagnose store-driven rerenders. Unrelated React layout and styling work does not trigger this skill."
 ---
 
 # React Granular Store Subscriptions
@@ -9,7 +9,11 @@ Connect state at the smallest useful rendering boundary. Prefer precise subscrip
 
 This reduces renders caused by unrelated store updates. It does not guarantee that a component never renders: parents, props, context, and local state can still cause renders. A selector running, a React render, a DOM commit, and a browser repaint are different events.
 
+Respect documented project exceptions and choices already resolved by the user. If this guidance conflicts with an established project requirement, show the unresolved conflict and ask whether to adjust that requirement or record a scoped exception before the disputed change. Do not invent an exception; record an agreed one in the relevant project instructions or guide with its scope and reason. Ordinary adaptation to the installed library is not a policy conflict.
+
 ## Inspect the integration
+
+Scope ordinary use to affected stores, components, and update paths. Reuse adopted conventions and recorded exceptions. A review or explanation can use existing code and evidence; change code or add runtime probes only when the requested task needs them.
 
 - Identify the installed library and version, store definitions, provider scope, typed hooks, and existing selectors. Reuse the correct store instance for this screen, feature, or request.
 - Check resolved versions in the relevant workspace's lockfile or installed packages, as well as declared ranges in `package.json`. Compare them with the reference's example targets. Adapt version-sensitive APIs to the project; do not upgrade dependencies merely to match a snippet. Example targets describe the code, while the subscription principles apply more broadly.
@@ -42,7 +46,7 @@ Do not replace the state library, introduce a second store, or globalize local s
 
 ## Verify observable behavior
 
-Use the project's existing checks and React Profiler or a focused render probe when available. For an implementation change, exercise these cases:
+For an implementation change, use existing checks and select relevant cases from the table. Check selected-value updates and unrelated updates when applicable; list and action cases apply only to affected paths. Use React Profiler or a focused probe when runtime diagnosis or a performance claim needs that evidence, rather than starting a profiling exercise for every task.
 
 | Update | Expected observation |
 | --- | --- |

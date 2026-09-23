@@ -2,3 +2,6 @@ interface:
   display_name: "Git Commit Rules"
   short_description: "Review commits, verify identity, and require authorization"
   default_prompt: "Use $git-commit-rules to review the intended changes, check Git identity, and draft a commit message without committing or pushing."
+
+policy:
+  allow_implicit_invocation: true

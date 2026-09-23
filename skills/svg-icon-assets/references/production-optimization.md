@@ -1,6 +1,6 @@
 # Production Optimization
 
-Use this reference when implementing asset generation or optimization. The production build owns the final optimization; optional audit commands may compare candidates but must not be the only way to obtain release assets.
+Use this reference when implementing or changing asset generation, optimization, or packaging, or investigating evidence of a pipeline defect. Reuse validated settings for ordinary artwork changes. The production build owns the final optimization; optional audit commands may compare candidates but must not be the only way to obtain release assets.
 
 ## Build integration
 
@@ -19,10 +19,11 @@ canonical sources + output matrix + recorded settings
 An SVG optimizer may run before rasterization when its rendering fidelity is established. Container compression may be part of assembly. The invariant is that consumers, hashes, and signatures refer to final bytes, and validation examines what is actually shipped.
 
 - Make the normal production command invoke the pipeline in a clean checkout, including every relevant release target. Check CI/deployment entrypoints rather than assuming they invoke a particular package-manager lifecycle hook.
-- Put the expensive, validated compression effort in production. Development can reuse cached results or perform cheaper compression; it must still notice changed sources and preserve geometry, alpha, and variant selection.
+- Include the strongest validated optimization settings for emitted SVGs and generated rasters in production. Maximize compression effort within the supported formats and visual contract; this does not mean maximum lossy compression. Development can reuse cached results or perform cheaper compression; it must still notice changed sources and preserve geometry, alpha, and variant selection.
 - Keep build tools available in the build environment without adding them to the application runtime. Reuse compatible installed dependencies; lock any newly adopted build dependency according to project conventions.
 - Cache by source content, referenced inputs, output dimensions, theme/optical variant, settings, and encoder versions. A warm local cache or committed PNG must not hide a missing generation step. Avoid timestamps and machine-specific metadata in emitted assets.
 - Distinguish an unsuccessful optimization candidate from a tool failure. A valid candidate that is larger can be rejected in favor of the baseline. A required encoder failure, missing source, corrupt output, or failed validation must stop the build, not silently ship a stale file.
+- Preserve required fixed filenames and caching conventions. Package only current consumer-required outputs, excluding source archives and review sheets. Limit cleanup to generator-owned outputs.
 
 ## SVG optimization
 

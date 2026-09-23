@@ -2,3 +2,6 @@ interface:
   display_name: "English Repository Content"
   short_description: "Keep repository content consistently in English"
   default_prompt: "Use $english-repository-content to keep the repository content in this task in English."
+
+policy:
+  allow_implicit_invocation: true

@@ -1,0 +1,7 @@
+interface:
+  display_name: "Project Documentation"
+  short_description: "Maintain project docs, decisions, and shared agent rules"
+  default_prompt: "Use $project-documentation to create or update this project’s documentation, preserving its conventions and keeping decisions, implementation, and verification distinct."
+
+policy:
+  allow_implicit_invocation: true

@@ -1,11 +1,13 @@
 ---
 name: git-commit-rules
-description: "Prepare and review Git commits, check configured author and committer identities, and write concise English commit messages. Use when asked to draft a commit message, prepare or create commits, amend or reorganize commits, or push branches or tags. Keep commit, history-rewrite, and push authorization separate."
+description: "Prepare commit messages and commits, or handle requested history rewrites and pushes. Ordinary coding, status checks, and code review alone do not trigger this workflow."
 ---
 
 # Git Commit Rules
 
 Make the intended change, attribution, and authorization clear before recording or publishing Git history. Follow the user's explicit instructions and the repository's applicable requirements.
+
+Respect documented project exceptions and choices already resolved by the user. If an unresolved conflict remains between this guidance and a project rule, show the conflicting requirements and ask whether to adjust the rule or record a scoped exception before the disputed action. Do not invent an exception; record an agreed one in the project's instructions with its scope and reason. An exception to a workflow rule does not itself authorize a Git operation.
 
 ## Authorization and scope
 
@@ -18,9 +20,19 @@ Make the intended change, attribution, and authorization clear before recording 
 
 ## Review the intended changes
 
+Reuse adopted conventions without repeating a repository-wide policy review. Select only the work needed:
+
+| Request | Review scope |
+| --- | --- |
+| Message only | Read the specified diff, or staged changes by default, and draft the message. Inspect identity or run checks only if explicitly requested or required by project instructions. |
+| Prepare, create, or rewrite commits | Follow the change review below. Check effective identity before an authorized operation creates or rewrites a commit. |
+| Push only | Verify authorization, destination, and the intended branches/tags and commit range. Do not inspect unrelated working-tree changes, draft another message, or run new-commit identity checks. |
+
+For preparing, creating, or rewriting commits:
+
 1. Inspect the repository state and the applicable instructions. Review staged and unstaged diffs, and inspect the contents of relevant untracked files. Initial repositories may have no `HEAD`; use checks that work before the first commit.
 2. Determine which changes belong to the requested commit. Preserve unrelated work and existing partial staging. Stage explicit paths or hunks only after establishing their scope; do not include unrelated staged changes merely because they are already in the index.
-3. For an authorized commit, review the final staged diff, including added and deleted files. Draft the message from that content. For a message-only request, use the requested diff or staged changes by default, and state the assumed scope if the user supplied none.
+3. For an authorized commit, review the final staged diff, including added and deleted files. Draft the message from that content.
 4. Run checks appropriate to the change and required by the repository. Report failures or unavailable checks accurately. Avoid repeating successful checks unless the candidate commit changed or a failure needs investigation.
 
 If commit boundaries are materially ambiguous, complete the available review and draft before asking which changes to include. Do not silently discard or unstage someone else's work to resolve the ambiguity.
