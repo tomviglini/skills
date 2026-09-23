@@ -21,6 +21,10 @@ skills/
     SKILL.md
     agents/openai.yaml
     references/
+  svg-icon-assets/
+    SKILL.md
+    agents/openai.yaml
+    references/
   <another-skill>/
     SKILL.md
 ```
@@ -34,6 +38,7 @@ The angle-bracket names illustrate future skills. Each skill owns its instructio
 | [english-repository-content](skills/english-repository-content/SKILL.md) | Apply a shared English-language policy to repository content while preserving required names, external identifiers, and source data. |
 | [git-commit-rules](skills/git-commit-rules/SKILL.md) | Review commit scope, verify configured author and committer identities, draft English messages, and keep commit, history-rewrite, and push authorization separate. |
 | [react-granular-store-subscriptions](skills/react-granular-store-subscriptions/SKILL.md) | Connect React components to only the state they need, using Redux, Zustand, or another store's native subscription model. Reduce unnecessary renders before adding component memoization. |
+| [svg-icon-assets](skills/svg-icon-assets/SKILL.md) | Generate icons and favicons from SVG masters, design for small display sizes, wire appropriate 1x/2x/3x outputs, and optimize delivered assets in the production build. |
 
 ## Use in another project
 
