@@ -14,6 +14,10 @@ skills/
     SKILL.md
     agents/openai.yaml
     references/
+  react-granular-store-subscriptions/
+    SKILL.md
+    agents/openai.yaml
+    references/
   <another-skill>/
     SKILL.md
 ```
@@ -25,6 +29,7 @@ The angle-bracket names illustrate future skills. Each skill owns its instructio
 | Skill | Purpose |
 | --- | --- |
 | [git-commit-rules](skills/git-commit-rules/SKILL.md) | Review commit scope, verify configured author and committer identities, draft English messages, and keep commit, history-rewrite, and push authorization separate. |
+| [react-granular-store-subscriptions](skills/react-granular-store-subscriptions/SKILL.md) | Connect React components to only the state they need, using Redux, Zustand, or another store's native subscription model. Reduce unnecessary renders before adding component memoization. |
 
 ## Use in another project
 
@@ -87,6 +92,22 @@ In Claude Code:
 ```
 
 Explicitly request a commit or push when you want that operation performed. Within this repository, the contributor instructions also point to the Git skill, so it can guide the collection's own commits without installing a second copy.
+
+### React subscriptions
+
+The React skill uses the project's existing state library; Redux and Zustand are examples, not prerequisites.
+
+In Codex:
+
+```text
+Use $react-granular-store-subscriptions to refactor this screen so each component subscribes only to the state it renders.
+```
+
+In Claude Code:
+
+```text
+/react-granular-store-subscriptions Refactor this screen so each component subscribes only to the state it renders.
+```
 
 ## Add a skill
 

@@ -1,0 +1,4 @@
+interface:
+  display_name: "React Granular Store Subscriptions"
+  short_description: "Reduce React rerenders with focused store subscriptions"
+  default_prompt: "Use $react-granular-store-subscriptions to connect components to the state they need and reduce unnecessary rerenders."
