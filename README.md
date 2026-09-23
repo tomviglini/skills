@@ -1,6 +1,6 @@
 # AI Skills
 
-Reusable skills for Claude Code and Codex. All instructions, examples, and documentation are written in English.
+Reusable skills for Claude Code and Codex.
 
 Each folder under `skills/` is a portable skill with a `SKILL.md` entrypoint. Supporting references travel with it; `agents/openai.yaml` supplies optional Codex interface metadata.
 
@@ -10,6 +10,9 @@ This repository is a collection of independent skills. Each catalog entry has it
 
 ```text
 skills/
+  english-repository-content/
+    SKILL.md
+    agents/openai.yaml
   git-commit-rules/
     SKILL.md
     agents/openai.yaml
@@ -28,6 +31,7 @@ The angle-bracket names illustrate future skills. Each skill owns its instructio
 
 | Skill | Purpose |
 | --- | --- |
+| [english-repository-content](skills/english-repository-content/SKILL.md) | Apply a shared English-language policy to repository content while preserving required names, external identifiers, and source data. |
 | [git-commit-rules](skills/git-commit-rules/SKILL.md) | Review commit scope, verify configured author and committer identities, draft English messages, and keep commit, history-rewrite, and push authorization separate. |
 | [react-granular-store-subscriptions](skills/react-granular-store-subscriptions/SKILL.md) | Connect React components to only the state they need, using Redux, Zustand, or another store's native subscription model. Reduce unnecessary renders before adding component memoization. |
 
@@ -93,6 +97,24 @@ In Claude Code:
 
 Explicitly request a commit or push when you want that operation performed. Within this repository, the contributor instructions also point to the Git skill, so it can guide the collection's own commits without installing a second copy.
 
+### Repository language
+
+The [language skill](skills/english-repository-content/SKILL.md) owns the repository-content language rules. This repository's `AGENTS.md` points to it, and `CLAUDE.md` imports those instructions. Commit-message rules remain in the Git skill.
+
+In Codex:
+
+```text
+Use $english-repository-content to keep the repository content in this task in English.
+```
+
+In Claude Code:
+
+```text
+/english-repository-content Keep the repository content in this task in English.
+```
+
+For ongoing use in another project, add a reference to the installed skill's `SKILL.md` in that project's agent instructions.
+
 ### React subscriptions
 
 The React skill uses the project's existing state library; Redux and Zustand are examples, not prerequisites.
@@ -121,7 +143,7 @@ description: Describe the capability and the concrete tasks that should trigger 
 
 # Skill Title
 
-Task-specific instructions in English.
+Task-specific instructions.
 ```
 
 Keep the entrypoint concise. Add references only when they help with a particular library or workflow, and link them from the entrypoint. Keep shared instructions independent of agent-specific tools and local machine paths.

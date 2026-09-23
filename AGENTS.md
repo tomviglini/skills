@@ -1,6 +1,6 @@
 # Repository Instructions
 
-- Write all skill content, examples, documentation, and contributor-facing text in English.
+- When creating, editing, or reviewing repository content, read and apply [english-repository-content](skills/english-repository-content/SKILL.md).
 - Store each independent reusable skill under `skills/<skill-name>/SKILL.md`. Add sibling folders as the collection grows, and keep each folder portable on its own.
 - Keep the shared skill compatible with Claude Code and Codex: use `name` and `description` frontmatter and plain Markdown instructions. Put optional Codex metadata in `agents/openai.yaml`.
 - Keep each skill self-contained. Use relative links for supporting resources and avoid machine-specific paths or required agent-specific tools.
