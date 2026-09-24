@@ -10,6 +10,10 @@ This repository is a collection of independent skills. Each catalog entry has it
 
 ```text
 skills/
+  asset-versioning-and-cache/
+    SKILL.md
+    agents/openai.yaml
+    references/
   english-repository-content/
     SKILL.md
     agents/openai.yaml
@@ -43,6 +47,7 @@ The angle-bracket names illustrate future skills. Each skill owns its instructio
 
 | Skill | Purpose |
 | --- | --- |
+| [asset-versioning-and-cache](skills/asset-versioning-and-cache/SKILL.md) | Version static assets through the production build, recommend one-year immutable caching for content-derived URLs, and preserve project-specific mutable-resource and deployment policies. |
 | [english-repository-content](skills/english-repository-content/SKILL.md) | Apply a shared English-language policy to repository content while preserving required names, external identifiers, and source data. |
 | [git-commit-rules](skills/git-commit-rules/SKILL.md) | Review commit scope, verify configured author and committer identities, draft English messages, and keep commit, history-rewrite, and push authorization separate. |
 | [project-documentation](skills/project-documentation/SKILL.md) | Create and maintain README, shared AGENTS/CLAUDE instructions, architecture, ADRs, topic guides, and plans while preserving project conventions and avoiding duplicated records. |
@@ -85,6 +90,7 @@ This review applies to every adopted practice, not only `project-documentation`.
 
 | Skill | Generic guidance that can move to the skill | Information that stays in the project |
 | --- | --- | --- |
+| `asset-versioning-and-cache` | Asset fingerprinting, reference rewriting, immutable-cache defaults, and delivery verification practices | Mutable-resource lifetimes, asset paths and origins, build/hosting configuration, retention and recovery decisions, and explicit exceptions |
 | `english-repository-content` | English-language rules for code, documentation, UI, logs, and other covered content | Localization exceptions, conversation-language preferences, externally required text, and commit-message rules outside this skill's scope |
 | `git-commit-rules` | Covered commit-review, identity-checking, and message-writing procedures | Required identities, signing/hooks, and project-specific authorization or message conventions |
 | `project-documentation` | Document responsibilities, maintenance procedure, and ADR history rules | Actual architecture, decisions and their rationale, document paths, evidence, and pending work |
@@ -146,6 +152,7 @@ Each skill's description allows automatic selection for matching tasks, and Code
 
 | Adopted skill | Required use | Does not trigger it by itself |
 | --- | --- | --- |
+| `asset-versioning-and-cache` | Static-asset versioning, cache-header or delivery changes, and stale/missing assets across deployments | Ordinary artwork, content, or styling changes using an unchanged delivery pipeline; unrelated API caching |
 | `english-repository-content` | Writing, editing, or reviewing repository content under the adopted policy | Conversation or reading files for context |
 | `git-commit-rules` | Commit-message preparation or requested commit, history-rewrite, or push work | Ordinary coding, `git status`, or code review |
 | `project-documentation` | Requested documentation work or necessary updates identified by the documentation-impact assessment | A code change with no documentation impact, or reading README for context |
@@ -217,6 +224,24 @@ In Claude Code:
 ```
 
 Installation includes an initial documentation review and an `AGENTS.md` rule requiring an impact assessment before finishing every project change, followed by any necessary documentation updates. Substantially different structures require a concrete migration choice from the user; different filenames or equivalent layouts do not. See its [shared instruction guidance](skills/project-documentation/references/agent-instructions.md) for AGENTS/CLAUDE compatibility and portable references.
+
+### Asset versioning and cache
+
+Use this skill when changing static-asset URLs, production asset delivery, cache policies, or compatibility across releases. It recommends one year plus `immutable` for public content-derived asset URLs; root pages, HTML, and other mutable URLs retain project-specific freshness policies. Production review establishes whether the CDN caches each affected resource, its effective lifetime, and the rule that controls it, then verifies the policy reaching the browser. It complements the icon skill without owning artwork, density, or compression choices.
+
+Adoption reconciles existing delivery rules and records project decisions and exceptions. Ordinary use checks only affected behavior and loads header or deployment details when needed. An accepted limitation for older clients remains explicit; installation does not itself authorize deployment or a retention-system migration.
+
+In Codex:
+
+```text
+Use $asset-versioning-and-cache to review this production asset pipeline and its cache policies, preserving the project's HTML freshness and deployment decisions.
+```
+
+In Claude Code:
+
+```text
+/asset-versioning-and-cache Implement content-derived asset URLs and appropriate cache headers using this project's existing build and hosting tools.
+```
 
 ### React subscriptions
 
