@@ -21,6 +21,9 @@ skills/
     SKILL.md
     agents/openai.yaml
     references/
+  grilling/
+    SKILL.md
+    agents/openai.yaml
   project-documentation/
     SKILL.md
     agents/openai.yaml
@@ -54,17 +57,35 @@ The angle-bracket names illustrate future skills. Each skill owns its instructio
 | [asset-versioning-and-cache](skills/asset-versioning-and-cache/SKILL.md) | Version static assets through the production build, recommend one-year immutable caching for content-derived URLs, and preserve project-specific mutable-resource and deployment policies. |
 | [english-repository-content](skills/english-repository-content/SKILL.md) | Apply a shared English-language policy to repository content while preserving required names, external identifiers, and source data. |
 | [git-commit-rules](skills/git-commit-rules/SKILL.md) | Review commit scope, verify configured author and committer identities, draft English messages, and keep commit, history-rewrite, and push authorization separate. |
+| [grilling](skills/grilling/SKILL.md) | Run an explicitly invoked interview, implement when the user asks to proceed, then update docs and ADRs from the actual implementation and verification. |
 | [project-documentation](skills/project-documentation/SKILL.md) | Create and maintain README, shared AGENTS/CLAUDE instructions, architecture, ADRs, topic guides, and plans while preserving project conventions and avoiding duplicated records. |
 | [react-granular-store-subscriptions](skills/react-granular-store-subscriptions/SKILL.md) | Connect React components to only the state they need, using Redux, Zustand, or another store's native subscription model. Reduce unnecessary renders before adding component memoization. |
 | [shared-core-and-adapters](skills/shared-core-and-adapters/SKILL.md) | Share portable domain, protocol, and interaction logic through explicit platform adapters while preserving runtime ownership and independent UI and build choices. |
 | [stateless-jwt-auth](skills/stateless-jwt-auth/SKILL.md) | Require salted password records, application-signed JWTs, validation before user-state lookups, and revocation tied to the user's current credentials, without per-session storage. |
 | [svg-icon-assets](skills/svg-icon-assets/SKILL.md) | Generate icons and favicons from SVG masters, design for small display sizes, wire appropriate 1x/2x/3x outputs, and optimize delivered assets in the production build. |
 
+## Skills used in this repository
+
+This repository adopts `english-repository-content`, `git-commit-rules`, and `project-documentation` for its maintenance, and makes `grilling` available for explicit invocation. Their use conditions live in [AGENTS.md](AGENTS.md); [CLAUDE.md](CLAUDE.md) imports those same instructions. The remaining catalog entries are reusable source material, not practices adopted by this collection merely because their files are present.
+
+Each of these four skills has a relative directory symlink in both `.agents/skills/` for Codex and `.claude/skills/` for Claude Code, pointing to `../../skills/<skill-name>`. Both agents therefore discover the complete local skill, including references and invocation metadata, without maintaining duplicate content. Edit the canonical files under `skills/`. These links use the current working tree, including uncommitted edits; they are for maintaining this collection, not pinned installations in consuming projects.
+
+Keep these links and their targets together in version control when committing is authorized, and verify that the checkout preserves working symlinks. This setup is contained in the repository and requires no personal skill installation or global configuration. Other projects should use the installation and adoption procedure below.
+
 ## Use in another project
 
-The current skills define reusable project practices. Keep the shared procedure in a skill and the project's technical facts, paths, and exceptions in its own documentation. A short conditional rule in `AGENTS.md` connects the two; it replaces repeated generic instructions rather than adding another copy of them.
+This collection contains reusable project practices and explicitly invoked workflows. Keep the shared procedure in a skill and the project's technical facts, paths, and exceptions in its own documentation. For a project practice, a short conditional rule in `AGENTS.md` connects the two; it replaces repeated generic instructions rather than adding another copy of them.
 
-For this collection, **project installation includes adoption**: make the complete skill available and integrate that rule into the project's instructions. This is one shared installation procedure, not a separate installer built into every skill.
+For this collection, **project installation requires both native discovery and adoption**, for automatic practices and manual commands alike:
+
+| Part | Required result |
+| --- | --- |
+| Native discovery | The complete skill folder is accessible in a location recognized by each target agent, preserving its frontmatter, supporting files, and invocation metadata. This makes it available to the agent's skill system and selector. |
+| Project adoption | `AGENTS.md` points to the installed skill and states when to apply it, with existing project rules reconciled and exceptions retained. Claude Code can reach those shared instructions through the project's existing setup. |
+
+A README entry documents the setup; it does not install the skill. An `AGENTS.md` link can instruct an agent to read a file outside its skill directories, but that alone does not make it discoverable as a native skill. Conversely, copying the folder does not perform the project's policy reconciliation. Keep this shared installation procedure here, rather than building an installer into every skill.
+
+For an explicitly invoked workflow such as `grilling`, adoption records its availability and invocation boundary, preserving its manual controls. Do not turn it into a required step before every change or run it as part of installation. Reconcile only existing rules for that workflow; the user's invocation starts its discussion, and a subsequent instruction to proceed authorizes implementation and its necessary documentation updates.
 
 | Stage | Review scope |
 | --- | --- |
@@ -81,13 +102,13 @@ Install project-documentation from tomviglini/skills (skills/project-documentati
 
 The installing agent should:
 
-1. Read the selected `SKILL.md` and find the existing rules for its subject in README, root and nested `AGENTS.md`/`CLAUDE.md`, contributor instructions, and relevant guides under `docs/` or equivalent locations. Copy the complete skill folder to the appropriate directory, or reuse the selected existing installation. Preserve intentional local changes.
-2. Reconcile those rules using the boundaries below. Replace covered generic instructions wherever they occur with references as needed, and add or update one conditional `AGENTS.md` link to the installed `SKILL.md`. State when it must be applied; a list of available skills is insufficient. Preserve project-specific requirements and nested scope, and avoid duplicate rules on reinstall.
-3. Keep shared rules reachable from the project's Claude Code instructions. Retain a working `CLAUDE.md` import or native `AGENTS.md` setup instead of duplicating the rules.
+1. Read the selected `SKILL.md` and find the existing rules for its subject in README, root and nested `AGENTS.md`/`CLAUDE.md`, contributor instructions, and relevant guides under `docs/` or equivalent locations. Determine the target agents and project or personal scope from the request and existing setup; default a project installation to repository scope. Make the complete folder discoverable in each target agent's supported location, using the paths below or reusing a suitable existing installation. Preserve intentional local changes and automatic/manual invocation controls. Do not stop at adding an instruction link, and do not install every catalog entry when only selected skills are needed.
+2. Reconcile those rules using the boundaries below. Replace covered generic instructions wherever they occur with references as needed, and add or update one `AGENTS.md` link to the installed `SKILL.md`. For project practices, state the condition that requires applying it; a list of available skills is insufficient. For explicitly invoked workflows, state that they run only on user invocation. Preserve project-specific requirements and nested scope, and avoid duplicate rules on reinstall.
+3. Keep shared rules reachable from the project's Claude Code instructions. Retain a working `CLAUDE.md` import or native `AGENTS.md` setup instead of duplicating the rules. This instruction bridge does not replace Claude Code's own skill-discovery location when Claude Code is a target agent.
 4. For `project-documentation`, review the current docs, retain adequate organization and content, and make necessary compatible updates. Present a concrete proposal and ask before a substantial migration not already chosen by the user. Adopting the other practices does not by itself request a code refactor, icon redesign, translation of old content, or Git operation.
-5. Check files and references, then report the installed location, adopted rule, generic instructions replaced, exceptions retained, and any pending decision. Installation does not authorize commits, pushes, or unrelated project changes.
+5. Check every installed folder's `SKILL.md`, supporting links, invocation controls, and project instruction links. Verify symlink targets when used. Check discovery in each target client's skill list or selector when accessible, without invoking a workflow just to test installation; otherwise report that native discovery remains unverified. Report the installed locations and scope, adopted rule, generic instructions replaced, exceptions retained, and any pending decision. Installation does not authorize commits, pushes, or unrelated project changes.
 
-These are instructions for the installing agent, not a hook that runs when files are copied. When using a third-party installer, have the agent complete this adoption step after the download.
+These are instructions for the installing agent, not a hook that runs when files are copied. When using a third-party installer, verify its actual destination, supported discovery scope, and copied metadata, then complete adoption after the download. A download alone is not a completed project installation under this procedure.
 
 ### Reconcile existing rules
 
@@ -98,6 +119,7 @@ This review applies to every adopted practice, not only `project-documentation`.
 | `asset-versioning-and-cache` | Asset fingerprinting, reference rewriting, immutable-cache defaults, and delivery verification practices | Mutable-resource lifetimes, asset paths and origins, build/hosting configuration, retention and recovery decisions, and explicit exceptions |
 | `english-repository-content` | English-language rules for code, documentation, UI, logs, and other covered content | Localization exceptions, conversation-language preferences, externally required text, and commit-message rules outside this skill's scope |
 | `git-commit-rules` | Covered commit-review, identity-checking, and message-writing procedures | Required identities, signing/hooks, and project-specific authorization or message conventions |
+| `grilling` | An existing explicit interview procedure, transition to authorized implementation, and documentation of the verified outcome | Actual requirements, agreed decisions, pending questions, document destinations, and any separately adopted automatic planning rules |
 | `project-documentation` | Document responsibilities, maintenance procedure, and ADR history rules | Actual architecture, decisions and their rationale, document paths, evidence, and pending work |
 | `react-granular-store-subscriptions` | General subscription and memoization practices | Installed library/version, store ownership and lifetimes, domain constraints, and measured behavior |
 | `shared-core-and-adapters` | Shared-rule placement, dependency boundaries, adapter integration, and boundary verification practices | Actual domain rules, module paths, contracts, runtime lifetimes, supported platforms, toolchains, release constraints, and explicit exceptions |
@@ -109,6 +131,15 @@ Keep one current home for each retained rule and update references to any remove
 If an existing policy conflicts with the skill, identify the exact difference. Preserve explicit project exceptions or an already authorized choice. Otherwise, show the conflicting rules and ask whether to adjust the policy or record a scoped project exception before acting on that conflict. Do not invent an exception, silently discard a rule, or treat the conflict as duplication. Record an agreed exception in the relevant project instructions or guide, with its scope and reason. This conflict rule applies during ordinary skill use as well as adoption; unrelated work can continue while the decision is pending. Equivalent cleanup and reference updates do not need a separate confirmation. Routine skill use does not repeat the repository-wide adoption review.
 
 ### Copy the skill files
+
+Choose a supported location for each target agent:
+
+| Scope | Codex | Claude Code | Portability |
+| --- | --- | --- | --- |
+| Project | `<repo>/.agents/skills/<skill-name>/` | `<repo>/.claude/skills/<skill-name>/` | Travels with the repository when the complete files and any link targets are included in version control. |
+| Personal | `~/.agents/skills/<skill-name>/` | `~/.claude/skills/<skill-name>/` | Applies across projects for that user in that environment; install separately in other machines, containers, or remote environments as needed. |
+
+Install only for the agents and scope the project uses. For a portable project setup, keep all skill files inside the consuming repository. If both agents are targets, use complete copies in both locations or a complete canonical folder plus relative directory symlinks supported by the clients and checkout. Keep both locations on the selected revision. Do not use a link to the author's external checkout as a portable installation.
 
 For manual copying, run the following from this repository, replacing `/path/to/project` with the target project directory. These commands cover the file-copy step only; complete adoption afterward. The examples use `git-commit-rules` and assume a fresh destination. Substitute another catalog entry as needed.
 
@@ -138,7 +169,7 @@ Choose project or personal installation for each agent to avoid duplicate copies
 
 A personal copy makes the skill available across projects. Complete adoption in each project that should require it; a personal installation does not authorize modifying every repository. For project copies, use relative instruction links. For personal copies, register a by-name rule when appropriate rather than a machine-specific path.
 
-The installation paths follow the official [Codex skill documentation](https://learn.chatgpt.com/docs/build-skills#where-codex-loads-local-skills) and [Claude Code skill documentation](https://code.claude.com/docs/en/skills#choose-where-skills-load).
+The installation paths and directory-symlink support follow the official [Codex skill documentation](https://learn.chatgpt.com/docs/build-skills#where-codex-loads-local-skills) and [Claude Code skill documentation](https://code.claude.com/docs/en/skills#choose-where-skills-load), reviewed on 2026-09-23. Local file and link checks do not establish that a running client's selector has refreshed; restart the client if a skill does not appear.
 
 ## Versioned reuse
 
@@ -154,13 +185,14 @@ This is a manual workflow. There is no version-aware installer, lockfile, or aut
 
 ## Invoke a skill
 
-Each skill's description allows automatic selection for matching tasks, and Codex metadata explicitly keeps that selection enabled. Adoption makes the matching workflow a project instruction, so users do not need to name the skill for routine relevant work. The agent reads the full skill when the condition applies, not every skill on every task.
+Reusable project practices keep automatic selection enabled. Adoption makes their matching workflow a project instruction, so users do not need to name the skill for routine relevant work. Explicitly invoked workflows such as `grilling` disable automatic selection and run only when the user invokes them. The agent reads the relevant skill rather than every installed skill on every task.
 
 | Adopted skill | Required use | Does not trigger it by itself |
 | --- | --- | --- |
 | `asset-versioning-and-cache` | Static-asset versioning, cache-header or delivery changes, and stale/missing assets across deployments | Ordinary artwork, content, or styling changes using an unchanged delivery pipeline; unrelated API caching |
 | `english-repository-content` | Writing, editing, or reviewing repository content under the adopted policy | Conversation or reading files for context |
 | `git-commit-rules` | Commit-message preparation or requested commit, history-rewrite, or push work | Ordinary coding, `git status`, or code review |
+| `grilling` | Explicit user invocation of the grilling command | Ordinary planning, ambiguous requirements, architecture changes, installation, or another skill suggesting an interview |
 | `project-documentation` | Requested documentation work or necessary updates identified by the documentation-impact assessment | A code change with no documentation impact, or reading README for context |
 | `react-granular-store-subscriptions` | React store subscription work or diagnosis of store-driven rerenders | Unrelated React layout, styling, or imports |
 | `shared-core-and-adapters` | Shared domain/protocol logic, extraction or review of core boundaries, and adapter integration | Ordinary UI or platform-only work using unchanged boundaries; reading a shared module for context |
@@ -182,6 +214,8 @@ Explicit invocation is also available; using a skill for one task does not by it
 
 A skill can also describe a workflow for a specific deliverable, such as exporting the current task's context to a file. Such workflows may be invoked on demand rather than made a standing project rule. Choose the adoption trigger for the skill's purpose instead of requiring every installed skill on every task.
 
+For workflows explicitly designated as manual, this collection sets `policy.allow_implicit_invocation: false` in `agents/openai.yaml` for [Codex](https://learn.chatgpt.com/docs/build-skills), and `disable-model-invocation: true` in `SKILL.md` frontmatter for [Claude Code](https://code.claude.com/docs/en/skills#control-who-invokes-a-skill). Preserve both controls when copying or updating them. The Claude Code field is a host extension; the portable instructions and required `name`/`description` remain shared. Controls reviewed against official documentation on 2026-09-23; interactive loading has not been exercised in both clients in this repository.
+
 To prepare a commit with the Git skill in Codex:
 
 ```text
@@ -194,7 +228,7 @@ In Claude Code:
 /git-commit-rules Review the intended changes, check Git identity, and draft a commit message without committing or pushing.
 ```
 
-Explicitly request a commit or push when you want that operation performed. Within this repository, the contributor instructions also point to the Git skill, so it can guide the collection's own commits without installing a second copy.
+Explicitly request a commit or push when you want that operation performed. Within this repository, the Git skill is discoverable through the local links described above, and the contributor instructions require applying it to matching Git work.
 
 ### Repository language
 
@@ -213,6 +247,26 @@ In Claude Code:
 ```
 
 Project installation includes the language rule and its installed `SKILL.md` reference in the project's agent instructions; retain explicit language exceptions.
+
+### Grilling
+
+`grilling` is a manual command. It first investigates the relevant context and interviews the user about the chosen idea, requirement, or decision. It separates facts, existing decisions, recommendations, and open assumptions. By default, the proposal stays in the conversation during the discussion.
+
+When the proposal is coherent, it presents the agreed direction and remaining questions. The user decides when to proceed with implementation. The agent then writes and verifies the code, resolves routine details, and returns to the user only for material changes to agreed decisions. After that work, it updates the affected guides, ADRs, or plan from the actual outcome, including relevant discoveries. Routine documentation maintenance needs no second approval; finishing the interview alone does not generate files or authorize implementation.
+
+In Codex:
+
+```text
+Use $grilling to challenge this proposal. Discuss it with me first; when I ask you to proceed, implement and verify it, then update the affected docs and ADRs from the result.
+```
+
+In Claude Code:
+
+```text
+/grilling Review this design with me. Implement when I tell you to proceed, then document the resulting behavior and decisions after verification.
+```
+
+The user can stop after the conversation or explicitly request a written plan or design-only record instead of implementation. Such a record remains visibly unimplemented. A standalone idea does not require a repository. This skill needs no other skill installed; when the project has adopted `project-documentation`, its conventions govern the resulting updates. Implementation authorization does not by itself authorize a commit, push, or deployment.
 
 ### Project documentation
 
@@ -322,6 +376,8 @@ Task-specific instructions.
 Keep the entrypoint concise. Add references only when they help with a particular library or workflow, and link them from the entrypoint. Keep shared instructions independent of agent-specific tools and local machine paths.
 
 Decide whether a new skill defines a reusable practice or a workflow for a particular deliverable. For a practice, document a concrete conditional adoption trigger here and keep automatic selection enabled. Keep common installation mechanics in this README and substantive task instructions in the portable skill folder. Add skill-specific setup only when that skill actually needs it.
+
+Use manual-only invocation when explicitly requested by the user, as with `grilling`. Set the native controls for both supported agents described above, retain an explicit-invocation boundary in the instructions, and check that installation or another skill cannot turn it into an automatic prerequisite. Frontmatter validators that only accept standard fields may reject Claude Code's documented `disable-model-invocation` extension; check that field separately from the standard fields rather than removing the invocation control to satisfy a narrower validator.
 
 ### Keep ordinary use lightweight
 
