@@ -29,6 +29,10 @@ skills/
     SKILL.md
     agents/openai.yaml
     references/
+  shared-core-and-adapters/
+    SKILL.md
+    agents/openai.yaml
+    references/
   stateless-jwt-auth/
     SKILL.md
     agents/openai.yaml
@@ -52,6 +56,7 @@ The angle-bracket names illustrate future skills. Each skill owns its instructio
 | [git-commit-rules](skills/git-commit-rules/SKILL.md) | Review commit scope, verify configured author and committer identities, draft English messages, and keep commit, history-rewrite, and push authorization separate. |
 | [project-documentation](skills/project-documentation/SKILL.md) | Create and maintain README, shared AGENTS/CLAUDE instructions, architecture, ADRs, topic guides, and plans while preserving project conventions and avoiding duplicated records. |
 | [react-granular-store-subscriptions](skills/react-granular-store-subscriptions/SKILL.md) | Connect React components to only the state they need, using Redux, Zustand, or another store's native subscription model. Reduce unnecessary renders before adding component memoization. |
+| [shared-core-and-adapters](skills/shared-core-and-adapters/SKILL.md) | Share portable domain, protocol, and interaction logic through explicit platform adapters while preserving runtime ownership and independent UI and build choices. |
 | [stateless-jwt-auth](skills/stateless-jwt-auth/SKILL.md) | Require salted password records, application-signed JWTs, validation before user-state lookups, and revocation tied to the user's current credentials, without per-session storage. |
 | [svg-icon-assets](skills/svg-icon-assets/SKILL.md) | Generate icons and favicons from SVG masters, design for small display sizes, wire appropriate 1x/2x/3x outputs, and optimize delivered assets in the production build. |
 
@@ -95,6 +100,7 @@ This review applies to every adopted practice, not only `project-documentation`.
 | `git-commit-rules` | Covered commit-review, identity-checking, and message-writing procedures | Required identities, signing/hooks, and project-specific authorization or message conventions |
 | `project-documentation` | Document responsibilities, maintenance procedure, and ADR history rules | Actual architecture, decisions and their rationale, document paths, evidence, and pending work |
 | `react-granular-store-subscriptions` | General subscription and memoization practices | Installed library/version, store ownership and lifetimes, domain constraints, and measured behavior |
+| `shared-core-and-adapters` | Shared-rule placement, dependency boundaries, adapter integration, and boundary verification practices | Actual domain rules, module paths, contracts, runtime lifetimes, supported platforms, toolchains, release constraints, and explicit exceptions |
 | `stateless-jwt-auth` | Password storage, JWT validation order, credential binding, and revocation requirements | Existing client contracts, hashing parameters, key ownership, claim names, lifetimes, credential-update paths, and explicit migration exceptions |
 | `svg-icon-assets` | General SVG-source, density, small-size review, and optimization practices | Canonical asset paths, chosen artwork, output requirements, generation commands, licenses, and verification limits |
 
@@ -157,6 +163,7 @@ Each skill's description allows automatic selection for matching tasks, and Code
 | `git-commit-rules` | Commit-message preparation or requested commit, history-rewrite, or push work | Ordinary coding, `git status`, or code review |
 | `project-documentation` | Requested documentation work or necessary updates identified by the documentation-impact assessment | A code change with no documentation impact, or reading README for context |
 | `react-granular-store-subscriptions` | React store subscription work or diagnosis of store-driven rerenders | Unrelated React layout, styling, or imports |
+| `shared-core-and-adapters` | Shared domain/protocol logic, extraction or review of core boundaries, and adapter integration | Ordinary UI or platform-only work using unchanged boundaries; reading a shared module for context |
 | `stateless-jwt-auth` | Password and application-issued JWT authentication work under the adopted model, including credential changes and revocation | Unrelated UI, ordinary endpoints using unchanged authentication, or external-provider-only authentication |
 | `svg-icon-assets` | Icon, logo, favicon, tray/touch icon, and associated asset-pipeline work | Unrelated UI work or general image handling |
 
@@ -257,6 +264,24 @@ In Claude Code:
 
 ```text
 /react-granular-store-subscriptions Refactor this screen so each component subscribes only to the state it renders.
+```
+
+### Shared core and adapters
+
+Use this skill when extracting or changing logic shared across consumers, defining its dependency boundaries, or integrating platform adapters. It prefers portable rules and explicit effects while allowing stateful shared workflows. UI, store ownership, native facilities, and concrete persistence remain in the appropriate consuming components; existing libraries and repository layout are preserved.
+
+Adoption reconciles existing architecture rules and retains project decisions and history. Ordinary use examines only the affected boundary and consumers. Detailed extraction and verification guidance loads when relevant. Installation alone does not request an architecture migration, and sharing code does not require a shared store, a monorepo, or synchronized framework upgrades.
+
+In Codex:
+
+```text
+Use $shared-core-and-adapters to extract the common protocol behavior while preserving each platform's transport and lifecycle.
+```
+
+In Claude Code:
+
+```text
+/shared-core-and-adapters Review this shared module's dependency boundaries and its adapters, preserving the project's existing frameworks and contracts.
 ```
 
 ### Stateless JWT authentication
