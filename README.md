@@ -25,6 +25,10 @@ skills/
     SKILL.md
     agents/openai.yaml
     references/
+  stateless-jwt-auth/
+    SKILL.md
+    agents/openai.yaml
+    references/
   svg-icon-assets/
     SKILL.md
     agents/openai.yaml
@@ -43,6 +47,7 @@ The angle-bracket names illustrate future skills. Each skill owns its instructio
 | [git-commit-rules](skills/git-commit-rules/SKILL.md) | Review commit scope, verify configured author and committer identities, draft English messages, and keep commit, history-rewrite, and push authorization separate. |
 | [project-documentation](skills/project-documentation/SKILL.md) | Create and maintain README, shared AGENTS/CLAUDE instructions, architecture, ADRs, topic guides, and plans while preserving project conventions and avoiding duplicated records. |
 | [react-granular-store-subscriptions](skills/react-granular-store-subscriptions/SKILL.md) | Connect React components to only the state they need, using Redux, Zustand, or another store's native subscription model. Reduce unnecessary renders before adding component memoization. |
+| [stateless-jwt-auth](skills/stateless-jwt-auth/SKILL.md) | Require salted password records, application-signed JWTs, validation before user-state lookups, and revocation tied to the user's current credentials, without per-session storage. |
 | [svg-icon-assets](skills/svg-icon-assets/SKILL.md) | Generate icons and favicons from SVG masters, design for small display sizes, wire appropriate 1x/2x/3x outputs, and optimize delivered assets in the production build. |
 
 ## Use in another project
@@ -84,6 +89,7 @@ This review applies to every adopted practice, not only `project-documentation`.
 | `git-commit-rules` | Covered commit-review, identity-checking, and message-writing procedures | Required identities, signing/hooks, and project-specific authorization or message conventions |
 | `project-documentation` | Document responsibilities, maintenance procedure, and ADR history rules | Actual architecture, decisions and their rationale, document paths, evidence, and pending work |
 | `react-granular-store-subscriptions` | General subscription and memoization practices | Installed library/version, store ownership and lifetimes, domain constraints, and measured behavior |
+| `stateless-jwt-auth` | Password storage, JWT validation order, credential binding, and revocation requirements | Existing client contracts, hashing parameters, key ownership, claim names, lifetimes, credential-update paths, and explicit migration exceptions |
 | `svg-icon-assets` | General SVG-source, density, small-size review, and optimization practices | Canonical asset paths, chosen artwork, output requirements, generation commands, licenses, and verification limits |
 
 Keep one current home for each retained rule and update references to any removed sections. A concise human-facing summary with a link can remain useful in README; the full procedure need not be repeated there. Preserve historical ADRs and evidence even when they describe a practice now supplied by a skill.
@@ -144,6 +150,7 @@ Each skill's description allows automatic selection for matching tasks, and Code
 | `git-commit-rules` | Commit-message preparation or requested commit, history-rewrite, or push work | Ordinary coding, `git status`, or code review |
 | `project-documentation` | Requested documentation work or necessary updates identified by the documentation-impact assessment | A code change with no documentation impact, or reading README for context |
 | `react-granular-store-subscriptions` | React store subscription work or diagnosis of store-driven rerenders | Unrelated React layout, styling, or imports |
+| `stateless-jwt-auth` | Password and application-issued JWT authentication work under the adopted model, including credential changes and revocation | Unrelated UI, ordinary endpoints using unchanged authentication, or external-provider-only authentication |
 | `svg-icon-assets` | Icon, logo, favicon, tray/touch icon, and associated asset-pipeline work | Unrelated UI work or general image handling |
 
 For example, a project adopting documentation and icon practices could use the following rules. Adjust the links to actual installed locations and include only skills the project adopts:
@@ -225,6 +232,26 @@ In Claude Code:
 
 ```text
 /react-granular-store-subscriptions Refactor this screen so each component subscribes only to the state it renders.
+```
+
+### Stateless JWT authentication
+
+This skill defines an implementation contract: a complete password record with its salt embedded, application-signed JWTs, cryptographic and claim validation before user-state lookups, and a binding to the user's current stored credentials. Existing framework facilities can satisfy these requirements after verification; a framework name or skill installation alone does not establish compliance. The instructions are abstract and contain no JavaScript implementation.
+
+The model avoids per-session or per-access-token storage, sticky sessions, per-request token writes, and unnecessary issuer calls. Replicas verify JWTs locally and reuse authenticated context within each request. It still reads current user credentials after the JWT passes its stateless checks. After a password change, an earlier JWT may retain a valid application signature but must no longer grant access because its credential binding fails; the shared signing key does not need to change. It does not require a second per-user salt field. Detailed cryptographic choices and lifecycle guidance load only when relevant.
+
+During adoption, review existing authentication against the contract and retain project-specific decisions and explicit exceptions. Complete missing mechanisms within an authorized implementation scope; identify unresolved gaps and migration choices when adoption is limited to installing instructions. Routine use checks affected authentication paths without repeating the initial audit.
+
+In Codex:
+
+```text
+Use $stateless-jwt-auth to implement password-based JWT authentication, rejecting invalid tokens before user-state lookups and invalidating tokens when stored credentials change.
+```
+
+In Claude Code:
+
+```text
+/stateless-jwt-auth Review this authentication flow against the adopted password, JWT, validation-order, and credential-revocation requirements.
 ```
 
 ## Add a skill
