@@ -61,7 +61,7 @@ The angle-bracket names illustrate future skills. Each skill owns its instructio
 | [project-documentation](skills/project-documentation/SKILL.md) | Create and maintain README, shared AGENTS/CLAUDE instructions, architecture, ADRs, topic guides, and plans while preserving project conventions and avoiding duplicated records. |
 | [react-granular-store-subscriptions](skills/react-granular-store-subscriptions/SKILL.md) | Connect React components to only the state they need, using Redux, Zustand, or another store's native subscription model. Reduce unnecessary renders before adding component memoization. |
 | [shared-core-and-adapters](skills/shared-core-and-adapters/SKILL.md) | Share portable domain, protocol, and interaction logic through explicit platform adapters while preserving runtime ownership and independent UI and build choices. |
-| [stateless-jwt-auth](skills/stateless-jwt-auth/SKILL.md) | Require salted password records, application-signed JWTs, validation before user-state lookups, and revocation tied to the user's current credentials, without per-session storage. |
+| [stateless-jwt-auth](skills/stateless-jwt-auth/SKILL.md) | Require salted password records, private-key JWT signing and public-key verification, validation before user-state lookups, and revocation tied to the user's current credentials, without per-session storage. |
 | [svg-icon-assets](skills/svg-icon-assets/SKILL.md) | Generate icons and favicons from SVG masters, design for small display sizes, wire appropriate 1x/2x/3x outputs, and optimize delivered assets in the production build. |
 
 ## Skills used in this repository
@@ -123,7 +123,7 @@ This review applies to every adopted practice, not only `project-documentation`.
 | `project-documentation` | Document responsibilities, maintenance procedure, and ADR history rules | Actual architecture, decisions and their rationale, document paths, evidence, and pending work |
 | `react-granular-store-subscriptions` | General subscription and memoization practices | Installed library/version, store ownership and lifetimes, domain constraints, and measured behavior |
 | `shared-core-and-adapters` | Shared-rule placement, dependency boundaries, adapter integration, and boundary verification practices | Actual domain rules, module paths, contracts, runtime lifetimes, supported platforms, toolchains, release constraints, and explicit exceptions |
-| `stateless-jwt-auth` | Password storage, JWT validation order, credential binding, and revocation requirements | Existing client contracts, hashing parameters, key ownership, claim names, lifetimes, credential-update paths, and explicit migration exceptions |
+| `stateless-jwt-auth` | Password storage, asymmetric signing and public-key verification, JWT validation order, credential binding, and revocation requirements | Existing client contracts, hashing parameters, key ownership, claim names, lifetimes, credential-update paths, and explicit migration exceptions |
 | `svg-icon-assets` | General SVG-source, density, small-size review, and optimization practices | Canonical asset paths, chosen artwork, output requirements, generation commands, licenses, and verification limits |
 
 Keep one current home for each retained rule and update references to any removed sections. A concise human-facing summary with a link can remain useful in README; the full procedure need not be repeated there. Preserve historical ADRs and evidence even when they describe a practice now supplied by a skill.
@@ -356,16 +356,18 @@ In Claude Code:
 
 ### Stateless JWT authentication
 
-This skill defines an implementation contract: a complete password record with its salt embedded, application-signed JWTs, cryptographic and claim validation before user-state lookups, and a binding to the user's current stored credentials. Existing framework facilities can satisfy these requirements after verification; a framework name or skill installation alone does not establish compliance. The instructions are abstract and contain no JavaScript implementation.
+This skill defines an implementation contract: a complete password record with its salt embedded, asymmetrically signed application JWTs, cryptographic and claim validation before user-state lookups, and a binding to the user's current stored credentials. Issuers hold the private signing key; other services can verify signatures and applicable claims with trusted public keys without gaining issuance authority. This is signing, not encryption of the claims. Existing framework facilities can satisfy these requirements after verification; a framework name or skill installation alone does not establish compliance. The instructions are abstract and contain no JavaScript implementation.
 
-The model avoids per-session or per-access-token storage, sticky sessions, per-request token writes, and unnecessary issuer calls. Replicas verify JWTs locally and reuse authenticated context within each request. It still reads current user credentials after the JWT passes its stateless checks. After a password change, an earlier JWT may retain a valid application signature but must no longer grant access because its credential binding fails; the shared signing key does not need to change. It does not require a second per-user salt field. Detailed cryptographic choices and lifecycle guidance load only when relevant.
+An edge proxy can use only public keys to filter invalid bearer tokens before forwarding requests, without private keys or user-state lookups. The backend completes authentication and authorization before granting protected access.
+
+The model avoids per-session or per-access-token storage, sticky sessions, per-request token writes, and unnecessary issuer calls. Replicas verify JWTs locally and reuse authenticated context within each request. It still reads current user credentials after the JWT passes its stateless checks. Public-key verification alone does not enforce credential-change revocation; downstream services must rely on a trusted boundary for that check and secure its propagation. After a password change, an earlier JWT may retain a valid application signature but must no longer grant access because its credential binding fails; the shared signing key does not need to change. It does not require a second per-user salt field. Detailed cryptographic choices and lifecycle guidance load only when relevant.
 
 During adoption, review existing authentication against the contract and retain project-specific decisions and explicit exceptions. Complete missing mechanisms within an authorized implementation scope; identify unresolved gaps and migration choices when adoption is limited to installing instructions. Routine use checks affected authentication paths without repeating the initial audit.
 
 In Codex:
 
 ```text
-Use $stateless-jwt-auth to implement password-based JWT authentication, rejecting invalid tokens before user-state lookups and invalidating tokens when stored credentials change.
+Use $stateless-jwt-auth to implement password-based JWT authentication with private-key signing and public-key verification, rejecting invalid tokens before user-state lookups and invalidating tokens when stored credentials change.
 ```
 
 In Claude Code:

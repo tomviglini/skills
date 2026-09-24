@@ -1,7 +1,7 @@
 interface:
   display_name: "Stateless JWT Authentication"
-  short_description: "Enforce salted passwords and credential-bound JWTs"
-  default_prompt: "Use $stateless-jwt-auth to implement application-signed JWT authentication with salted password records, credential-change revocation, and token validation before user-state lookups."
+  short_description: "Enforce asymmetric, credential-bound JWT authentication"
+  default_prompt: "Use $stateless-jwt-auth to implement JWT authentication with private-key signing, public-key verification, salted password records, credential-change revocation, and token validation before user-state lookups."
 
 policy:
   allow_implicit_invocation: true
