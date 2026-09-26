@@ -10,6 +10,8 @@ First establish which layer resizes or moves for the keyboard and which layer sc
 
 Reveal only as much as needed, leaving reasonable breathing room. Respond to focus changes even without a new keyboard-open event, and reevaluate when multiline content or the available area changes. Prefer the installed library's focus/caret support. For custom handlers, cancel stale measurements and pending scrolls when focus changes or the screen closes, and remove listeners. Dismissal should remove temporary compensation without resetting the whole form or leaving an unusable scroll position.
 
+Identify the action associated with the active field explicitly instead of assuming the next button or the last button on screen is its action. Measure the span from the field to that action, including any intervening controls. If the span fits the available area with the usual clearance, reveal it as a unit and place the clearance after the action. Otherwise reveal the active text without forcing the form to its bottom. Reevaluate when the action, validation text, editor size, or viewport changes; keep the submit action reachable even when it cannot remain visible alongside the editor.
+
 ## React Native and Expo
 
 Documentation reviewed on **2026-09-26**. API references target **React Native 0.86**; the Expo guide is unversioned. This reference contains integration guidance, not an executed implementation or a tested compatibility range. Adapt it to the consuming project's resolved versions.

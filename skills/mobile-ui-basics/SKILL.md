@@ -16,6 +16,7 @@ Identify the supported platforms, navigation and overlay libraries, shared input
 ## Text entry and keyboard
 
 - Keep the focused editable control and insertion point visible above the software keyboard. Include multiline editors, reply composers, search, and inputs inside dialogs or sheets. If an editor is taller than the available space, keep its active line visible and the rest reachable by scrolling.
+- When a field has an associated primary action, such as Send, Search, or Continue, reveal the field and action together when they fit. Keep the same keyboard clearance below the action that would otherwise be below the field. If the group cannot fit, prioritize the active text and keep the action reachable by scrolling; do not jump to a distant form submit button or hide the focused field to expose it.
 - Handle both making room for the keyboard and revealing the focused field. A container that shrinks correctly can still leave the last field hidden. Switching fields while the keyboard is already open must work too.
 - Reuse a shared solution at the appropriate screen or overlay boundary. Coordinate keyboard avoidance, scrolling, safe areas, and fixed controls so the same obstruction is not compensated twice. Avoid hardcoded keyboard heights and per-field delay patches.
 - Preserve entered text, selection, and focus during layout changes. Keep Next, Done, submission, and dismissal consistent with the control's purpose; multiline entry should not accidentally submit. Do not steal focus back after the user dismisses the keyboard or leaves the screen.
@@ -50,7 +51,7 @@ Choose cases relevant to the change; this is not a mandatory full-app audit:
 
 | Changed area | Useful observations |
 | --- | --- |
-| Editable layout | Focus the last field, switch fields with the keyboard open, type multiple lines, submit or dismiss, and reopen. Check the applicable modal/sheet as well as normal screens. |
+| Editable layout | Focus the last field, switch fields with the keyboard open, type multiple lines, submit or dismiss, and reopen. Check field/action visibility and keyboard clearance when both fit, and active-text priority when they do not. Include applicable modals/sheets and normal screens. |
 | Layout or scrolling | Use a supported small viewport and enlarged text; reach the last content/action and return without clipping or excess blank space. |
 | Controls or requests | Activate once, try repeated input while pending, and exercise the relevant empty/error/retry path without losing the draft. |
 | Transient notifications | Show, replace, and let a notification expire: content and scroll position stay stable, underlying controls remain usable, and an old timer cannot hide a newer message. Check placement with the keyboard open when relevant. |
