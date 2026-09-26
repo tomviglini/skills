@@ -24,6 +24,10 @@ skills/
   grilling/
     SKILL.md
     agents/openai.yaml
+  mobile-ui-basics/
+    SKILL.md
+    agents/openai.yaml
+    references/
   project-documentation/
     SKILL.md
     agents/openai.yaml
@@ -58,6 +62,7 @@ The angle-bracket names illustrate future skills. Each skill owns its instructio
 | [english-repository-content](skills/english-repository-content/SKILL.md) | Apply a shared English-language policy to repository content while preserving required names, external identifiers, and source data. |
 | [git-commit-rules](skills/git-commit-rules/SKILL.md) | Review commit scope, verify configured author and committer identities, draft English messages, and keep commit, history-rewrite, and push authorization separate. |
 | [grilling](skills/grilling/SKILL.md) | Run an explicitly invoked interview, implement when the user asks to proceed, then update docs and ADRs from the actual implementation and verification. |
+| [mobile-ui-basics](skills/mobile-ui-basics/SKILL.md) | Keep mobile text entry, layouts, scrolling, touch controls, feedback, and navigation usable while preserving the project's design and libraries. |
 | [project-documentation](skills/project-documentation/SKILL.md) | Create and maintain README, shared AGENTS/CLAUDE instructions, architecture, ADRs, topic guides, and plans while preserving project conventions and avoiding duplicated records. |
 | [react-granular-store-subscriptions](skills/react-granular-store-subscriptions/SKILL.md) | Connect React components to only the state they need, using Redux, Zustand, or another store's native subscription model. Reduce unnecessary renders before adding component memoization. |
 | [shared-core-and-adapters](skills/shared-core-and-adapters/SKILL.md) | Share portable domain, protocol, and interaction logic through explicit platform adapters while preserving runtime ownership and independent UI and build choices. |
@@ -120,6 +125,7 @@ This review applies to every adopted practice, not only `project-documentation`.
 | `english-repository-content` | English-language rules for code, documentation, UI, logs, and other covered content | Localization exceptions, conversation-language preferences, externally required text, and commit-message rules outside this skill's scope |
 | `git-commit-rules` | Covered commit-review, identity-checking, and message-writing procedures | Required identities, signing/hooks, and project-specific authorization or message conventions |
 | `grilling` | An existing explicit interview procedure, transition to authorized implementation, and documentation of the verified outcome | Actual requirements, agreed decisions, pending questions, document destinations, and any separately adopted automatic planning rules |
+| `mobile-ui-basics` | Keyboard visibility, focus, scrolling, touch interaction, feedback, navigation, and focused usability checks | Supported platforms and devices, design system, installed libraries, navigation semantics, native configuration, verified behavior, and explicit exceptions |
 | `project-documentation` | Document responsibilities, maintenance procedure, and ADR history rules | Actual architecture, decisions and their rationale, document paths, evidence, and pending work |
 | `react-granular-store-subscriptions` | General subscription and memoization practices | Installed library/version, store ownership and lifetimes, domain constraints, and measured behavior |
 | `shared-core-and-adapters` | Shared-rule placement, dependency boundaries, adapter integration, and boundary verification practices | Actual domain rules, module paths, contracts, runtime lifetimes, supported platforms, toolchains, release constraints, and explicit exceptions |
@@ -209,6 +215,7 @@ Reusable project practices keep automatic selection enabled. Adoption makes thei
 | `english-repository-content` | Writing, editing, or reviewing repository content under the adopted policy | Conversation or reading files for context |
 | `git-commit-rules` | Commit-message preparation or requested commit, history-rewrite, or push work | Ordinary coding, `git status`, or code review |
 | `grilling` | Explicit user invocation of the grilling command | Ordinary planning, ambiguous requirements, architecture changes, installation, or another skill suggesting an interview |
+| `mobile-ui-basics` | Creating, changing, or reviewing mobile screens and their input, layout, or interaction behavior | Backend-only changes, desktop-only UI, or asset generation without changing the mobile interaction |
 | `project-documentation` | Requested documentation work or necessary updates identified by the documentation-impact assessment | A code change with no documentation impact, or reading README for context |
 | `react-granular-store-subscriptions` | React store subscription work or diagnosis of store-driven rerenders | Unrelated React layout, styling, or imports |
 | `shared-core-and-adapters` | Shared domain/protocol logic, extraction or review of core boundaries, and adapter integration | Ordinary UI or platform-only work using unchanged boundaries; reading a shared module for context |
@@ -318,6 +325,24 @@ In Claude Code:
 
 ```text
 /asset-versioning-and-cache Implement content-derived asset URLs and appropriate cache headers using this project's existing build and hosting tools.
+```
+
+### Mobile UI basics
+
+Use this practice when creating or changing a mobile screen, editable control, layout, or interaction, or when reviewing a mobile usability defect. It covers native apps and mobile web only where the project supports them. Ordinary use checks the affected behavior; it does not require a redesign, new dependency, or full-app audit. Keyboard details load separately for the relevant runtime.
+
+A project adopting it can add a conditional instruction to read the installed `mobile-ui-basics` skill for that work, while retaining its supported platforms, design system, navigation rules, and existing exceptions. Adding this catalog entry does not install it in another project or adopt it in this collection.
+
+In Codex:
+
+```text
+Use $mobile-ui-basics to fix this mobile form so its focused input stays visible above the keyboard and its submit action remains reachable.
+```
+
+In Claude Code:
+
+```text
+/mobile-ui-basics Review this mobile sheet's keyboard, scrolling, touch targets, and Back behavior without changing its visual design.
 ```
 
 ### React subscriptions

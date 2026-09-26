@@ -1,0 +1,6 @@
+interface:
+  display_name: "Mobile UI Basics"
+  short_description: "Keep mobile layouts, input, and navigation usable"
+
+policy:
+  allow_implicit_invocation: true
