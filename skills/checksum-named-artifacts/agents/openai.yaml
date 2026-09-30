@@ -1,0 +1,7 @@
+interface:
+  display_name: "Checksum-Named Artifacts"
+  short_description: "SHA-256 filenames for installable builds"
+  default_prompt: "Use $checksum-named-artifacts to name this project's development and release build artifacts with a SHA-256 prefix and print the full digest."
+
+policy:
+  allow_implicit_invocation: true

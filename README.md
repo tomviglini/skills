@@ -14,6 +14,10 @@ skills/
     SKILL.md
     agents/openai.yaml
     references/
+  checksum-named-artifacts/
+    SKILL.md
+    agents/openai.yaml
+    references/
   english-repository-content/
     SKILL.md
     agents/openai.yaml
@@ -59,6 +63,7 @@ The angle-bracket names illustrate future skills. Each skill owns its instructio
 | Skill | Purpose |
 | --- | --- |
 | [asset-versioning-and-cache](skills/asset-versioning-and-cache/SKILL.md) | Version static assets through the production build, recommend one-year immutable caching for content-derived URLs, and preserve project-specific mutable-resource and deployment policies. |
+| [checksum-named-artifacts](skills/checksum-named-artifacts/SKILL.md) | Name installable development and release artifacts with a SHA-256 content prefix, print the full digest, and keep named copies where later builds do not delete them. |
 | [english-repository-content](skills/english-repository-content/SKILL.md) | Apply a shared English-language policy to repository content while preserving required names, external identifiers, and source data. |
 | [git-commit-rules](skills/git-commit-rules/SKILL.md) | Review commit scope, verify configured author and committer identities, draft English messages, and keep commit, history-rewrite, and push authorization separate. |
 | [grilling](skills/grilling/SKILL.md) | Run an explicitly invoked interview, implement when the user asks to proceed, then update docs and ADRs from the actual implementation and verification. |
@@ -122,6 +127,7 @@ This review applies to every adopted practice, not only `project-documentation`.
 | Skill | Generic guidance that can move to the skill | Information that stays in the project |
 | --- | --- | --- |
 | `asset-versioning-and-cache` | Asset fingerprinting, reference rewriting, immutable-cache defaults, and delivery verification practices | Mutable-resource lifetimes, asset paths and origins, build/hosting configuration, retention and recovery decisions, and explicit exceptions |
+| `checksum-named-artifacts` | Content-hash filename format, digest printing, copy-versus-rename, stale-output, and retention practices | Build commands, covered variants and targets, output directories and shortcuts, and explicit exceptions |
 | `english-repository-content` | English-language rules for code, documentation, UI, logs, and other covered content | Localization exceptions, conversation-language preferences, externally required text, and commit-message rules outside this skill's scope |
 | `git-commit-rules` | Covered commit-review, identity-checking, and message-writing procedures | Required identities, signing/hooks, and project-specific authorization or message conventions |
 | `grilling` | An existing explicit interview procedure, transition to authorized implementation, and documentation of the verified outcome | Actual requirements, agreed decisions, pending questions, document destinations, and any separately adopted automatic planning rules |
@@ -212,6 +218,7 @@ Reusable project practices keep automatic selection enabled. Adoption makes thei
 | Adopted skill | Required use | Does not trigger it by itself |
 | --- | --- | --- |
 | `asset-versioning-and-cache` | Static-asset versioning, cache-header or delivery changes, and stale/missing assets across deployments | Ordinary artwork, content, or styling changes using an unchanged delivery pipeline; unrelated API caching |
+| `checksum-named-artifacts` | Creating, changing, or reviewing commands that build installable development or release artifacts | Running an unchanged build command; web asset URLs or product version numbers |
 | `english-repository-content` | Writing, editing, or reviewing repository content under the adopted policy | Conversation or reading files for context |
 | `git-commit-rules` | Commit-message preparation or requested commit, history-rewrite, or push work | Ordinary coding, `git status`, or code review |
 | `grilling` | Explicit user invocation of the grilling command | Ordinary planning, ambiguous requirements, architecture changes, installation, or another skill suggesting an interview |
@@ -325,6 +332,24 @@ In Claude Code:
 
 ```text
 /asset-versioning-and-cache Implement content-derived asset URLs and appropriate cache headers using this project's existing build and hosting tools.
+```
+
+### Checksum-named artifacts
+
+Use this practice when creating or changing the commands that build APKs, app bundles, development clients, installers, or similar artifacts installed by hand. Each build copies its output to `<project>-<variant>[-<target>]-<first eight SHA-256 hex characters>.<extension>` and prints the full digest, so a file identifies and verifies its own content independently of Git state. Development and release variants are both covered. When native-project regeneration or another variant's build deletes the conventional output directory, named copies go to a stable directory instead.
+
+Adoption reconciles existing artifact-naming rules and keeps project facts, such as commands, output directories, and shortcuts, in the project's build documentation. Running an unchanged build does not activate the skill, and it does not replace version codes or signing.
+
+In Codex:
+
+```text
+Use $checksum-named-artifacts to add SHA-256 filenames to this project's debug and release APK builds.
+```
+
+In Claude Code:
+
+```text
+/checksum-named-artifacts Review this installer build script against the checksum naming contract.
 ```
 
 ### Mobile UI basics
