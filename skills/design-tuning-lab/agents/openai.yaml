@@ -1,0 +1,7 @@
+interface:
+  display_name: "Design Tuning Lab"
+  short_description: "Interactive pages to tune and compare design values in context"
+  default_prompt: "Use $design-tuning-lab to build a self-contained page where I can tune these design values in real context, with visible defaults, revert, and press-to-compare controls."
+
+policy:
+  allow_implicit_invocation: true

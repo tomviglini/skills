@@ -18,6 +18,10 @@ skills/
     SKILL.md
     agents/openai.yaml
     references/
+  design-tuning-lab/
+    SKILL.md
+    agents/openai.yaml
+    references/
   english-repository-content/
     SKILL.md
     agents/openai.yaml
@@ -64,6 +68,7 @@ The angle-bracket names illustrate future skills. Each skill owns its instructio
 | --- | --- |
 | [asset-versioning-and-cache](skills/asset-versioning-and-cache/SKILL.md) | Version static assets through the production build, recommend one-year immutable caching for content-derived URLs, and preserve project-specific mutable-resource and deployment policies. |
 | [checksum-named-artifacts](skills/checksum-named-artifacts/SKILL.md) | Name installable development and release artifacts with a SHA-256 content prefix, print the full digest, and keep named copies where later builds do not delete them. |
+| [design-tuning-lab](skills/design-tuning-lab/SKILL.md) | Build interactive pages where the owner tunes and compares design values in real context, with one view per place, visible defaults, revert and press-to-compare controls, and returned values folded into a consistent system. |
 | [english-repository-content](skills/english-repository-content/SKILL.md) | Apply a shared English-language policy to repository content while preserving required names, external identifiers, and source data. |
 | [git-commit-rules](skills/git-commit-rules/SKILL.md) | Review commit scope, verify configured author and committer identities, draft English messages, and keep commit, history-rewrite, and push authorization separate. |
 | [grilling](skills/grilling/SKILL.md) | Run an explicitly invoked interview, implement when the user asks to proceed, then update docs and ADRs from the actual implementation and verification. |
@@ -128,6 +133,7 @@ This review applies to every adopted practice, not only `project-documentation`.
 | --- | --- | --- |
 | `asset-versioning-and-cache` | Asset fingerprinting, reference rewriting, immutable-cache defaults, and delivery verification practices | Mutable-resource lifetimes, asset paths and origins, build/hosting configuration, retention and recovery decisions, and explicit exceptions |
 | `checksum-named-artifacts` | Content-hash filename format, digest printing, copy-versus-rename, stale-output, and retention practices | Build commands, covered variants and targets, output directories and shortcuts, and explicit exceptions |
+| `design-tuning-lab` | Conventions for interactive design-decision pages: real context, per-view controls, visible defaults, revert, compare, and settings exchange | Design decisions and their evidence, capture sources, chosen values, archive locations, and explicit exceptions |
 | `english-repository-content` | English-language rules for code, documentation, UI, logs, and other covered content | Localization exceptions, conversation-language preferences, externally required text, and commit-message rules outside this skill's scope |
 | `git-commit-rules` | Covered commit-review, identity-checking, and message-writing procedures | Required identities, signing/hooks, and project-specific authorization or message conventions |
 | `grilling` | An existing explicit interview procedure, transition to authorized implementation, and documentation of the verified outcome | Actual requirements, agreed decisions, pending questions, document destinations, and any separately adopted automatic planning rules |
@@ -219,6 +225,7 @@ Reusable project practices keep automatic selection enabled. Adoption makes thei
 | --- | --- | --- |
 | `asset-versioning-and-cache` | Static-asset versioning, cache-header or delivery changes, and stale/missing assets across deployments | Ordinary artwork, content, or styling changes using an unchanged delivery pipeline; unrelated API caching |
 | `checksum-named-artifacts` | Creating, changing, or reviewing commands that build installable development or release artifacts | Running an unchanged build command; web asset URLs or product version numbers |
+| `design-tuning-lab` | Building or revising an interactive page for the owner to explore or decide visual design values | Implementing a chosen design in the product, static galleries or contact sheets, and ordinary UI fixes |
 | `english-repository-content` | Writing, editing, or reviewing repository content under the adopted policy | Conversation or reading files for context |
 | `git-commit-rules` | Commit-message preparation or requested commit, history-rewrite, or push work | Ordinary coding, `git status`, or code review |
 | `grilling` | Explicit user invocation of the grilling command | Ordinary planning, ambiguous requirements, architecture changes, installation, or another skill suggesting an interview |
@@ -350,6 +357,24 @@ In Claude Code:
 
 ```text
 /checksum-named-artifacts Review this installer build script against the checksum naming contract.
+```
+
+### Design tuning lab
+
+Use this practice when the owner needs to decide visual values, such as a logo treatment, palette, type scale, or spacing, by trying them in context. The page shows each place under review in its own view with only the controls that affect it; every control shows its default, reverts to it, and compares against it while pressed. Values the owner returns are read as intent and folded into a consistent system before they become the new defaults. The skill is deliberately conceptual: it fixes what the owner must be able to see and do, not a page template or library.
+
+A project adopting it records where its design evidence lives and any exceptions, such as the language of review pages. It does not replace the project's implementation, asset, or documentation workflows for the chosen design.
+
+In Codex:
+
+```text
+Use $design-tuning-lab to build a page where I can tune the logo grid and the title treatment on real captures of the landing and the app.
+```
+
+In Claude Code:
+
+```text
+/design-tuning-lab Turn these spacing and type-scale options into a lab with one tab per screen, visible defaults, revert, and compare.
 ```
 
 ### Mobile UI basics
