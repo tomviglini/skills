@@ -26,7 +26,7 @@ Reuse the existing homes for orientation, working rules, architecture, decisions
 - Read [documentation layout](references/documentation-layout.md) when establishing or reorganizing the structure, choosing where missing documentation belongs, or creating or restructuring README. A routine update to an existing guide does not require this reference.
 - Read [shared agent instructions](references/agent-instructions.md) when creating or reorganizing `AGENTS.md` and `CLAUDE.md`, or adding a reference to this skill. Preserve project constraints, Git authorization rules, language exceptions, and component scope.
 
-Complete necessary documentation updates within the task. Create missing documents only when warranted; no documentation impact means no edit or ADR. Do not generate empty scaffolding, handoffs, or routine session logs.
+Complete necessary documentation updates before the task is complete. When the project's workflow sets when a task completes, such as a close step after the owner approves the work, make them then rather than after each change. Create missing documents only when warranted; no documentation impact means no edit or ADR. Do not generate empty scaffolding, handoffs, or routine session logs.
 
 ## Maintain architecture and decisions
 

@@ -29,7 +29,7 @@ Adapt these examples to real files and requirements in the consuming repository:
 
 - Before architectural or cross-cutting changes, read
   `docs/architecture-and-decisions.md` and the relevant topic guides.
-- Before finishing a change, assess whether README, architecture, decisions,
+- Before completing a task, assess whether README, architecture, decisions,
   guides, or the maintained work plan need updates. Apply the installed
   project-documentation skill and complete affected updates in the same task.
   Create missing documents only when warranted; leave adequate records unchanged.
@@ -42,7 +42,7 @@ Keep critical project constraints explicit in agent instructions. Link detailed 
 
 ## Register the installed skill as a project rule
 
-When adopting this practice in a project, locate generic documentation-maintenance rules in README, agent instructions, contributor guides, and relevant docs. Replace rules already covered by the skill with references, including a conditional link to its installed `SKILL.md` in `AGENTS.md`. Retain unique requirements from mixed sections, project-specific paths, constraints, exceptions, and historical ADRs. The resulting `AGENTS.md` must require a documentation-impact assessment before completing every project change and application of the skill for affected updates. Resolve the actual installed path before writing the link; do not point to the author's checkout.
+When adopting this practice in a project, locate generic documentation-maintenance rules in README, agent instructions, contributor guides, and relevant docs. Replace rules already covered by the skill with references, including a conditional link to its installed `SKILL.md` in `AGENTS.md`. Retain unique requirements from mixed sections, project-specific paths, constraints, exceptions, and historical ADRs. The resulting `AGENTS.md` must require a documentation-impact assessment before completing every task, at the point the project's workflow sets for it, and application of the skill for affected updates. Resolve the actual installed path before writing the link; do not point to the author's checkout.
 
 Review the existing documentation during adoption. Leave adequate organization and content unchanged, make necessary compatible updates, and ask before a substantial migration not already chosen by the user. Ordinary use afterward maintains only the affected documents; it does not repeat the initial review of the whole repository.
 

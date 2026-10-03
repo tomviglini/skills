@@ -46,7 +46,7 @@ Once implementation is authorized, complete the agreed work using the project's 
 
 ## Document the result after implementation and verification
 
-Before finishing the authorized work, assess its documentation impact and complete the necessary updates from the final code, checks, and decisions. This maintenance is part of the implementation workflow; do not request another routine approval to update affected docs. A commit, push, deployment, or unrelated scope expansion still requires its own authorization.
+Before finishing the authorized work, assess its documentation impact and complete the necessary updates from the final code, checks, and decisions. When the project's workflow sets when a task completes, such as a close step after the owner approves the work, make these updates then. This maintenance is part of the implementation workflow; do not request another routine approval to update affected docs. A commit, push, deployment, or unrelated scope expansion still requires its own authorization.
 
 - Reuse the project's documentation conventions and an adopted documentation skill when available. For a separately requested design-only deliverable, use the same conventions but label the result as an unimplemented proposal or accepted design, as appropriate.
 - Put durable information in its existing home: current contracts or guidance in topic docs, significant trade-offs in ADRs, and pending implementation in the maintained plan when useful. Do not require `CONTEXT.md`, a new ADR directory, a plan per session, or an interview transcript.

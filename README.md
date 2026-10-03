@@ -18,6 +18,9 @@ skills/
     SKILL.md
     agents/openai.yaml
     references/
+  concept-prototype/
+    SKILL.md
+    agents/openai.yaml
   design-tuning-lab/
     SKILL.md
     agents/openai.yaml
@@ -56,6 +59,9 @@ skills/
     SKILL.md
     agents/openai.yaml
     references/
+  task-lifecycle/
+    SKILL.md
+    agents/openai.yaml
   <another-skill>/
     SKILL.md
 ```
@@ -68,6 +74,7 @@ The angle-bracket names illustrate future skills. Each skill owns its instructio
 | --- | --- |
 | [asset-versioning-and-cache](skills/asset-versioning-and-cache/SKILL.md) | Version static assets through the production build, recommend one-year immutable caching for content-derived URLs, and preserve project-specific mutable-resource and deployment policies. |
 | [checksum-named-artifacts](skills/checksum-named-artifacts/SKILL.md) | Name installable development and release artifacts with a SHA-256 content prefix, print the full digest, and keep named copies where later builds do not delete them. |
+| [concept-prototype](skills/concept-prototype/SKILL.md) | Run an explicitly invoked prototype-phase exploration: map an idea's real-use moments, weigh approaches by their architecture and trade-offs, implement it in the app for the owner to try, and defer documentation until the owner settles the direction. |
 | [design-tuning-lab](skills/design-tuning-lab/SKILL.md) | Build interactive pages where the owner tunes and compares design values in real context, with one view per place, visible defaults, revert and press-to-compare controls, and returned values folded into a consistent system. |
 | [english-repository-content](skills/english-repository-content/SKILL.md) | Apply a shared English-language policy to repository content while preserving required names, external identifiers, and source data. |
 | [git-commit-rules](skills/git-commit-rules/SKILL.md) | Review commit scope, verify configured author and committer identities, draft English messages, and keep commit, history-rewrite, and push authorization separate. |
@@ -78,12 +85,13 @@ The angle-bracket names illustrate future skills. Each skill owns its instructio
 | [shared-core-and-adapters](skills/shared-core-and-adapters/SKILL.md) | Share portable domain, protocol, and interaction logic through explicit platform adapters while preserving runtime ownership and independent UI and build choices. |
 | [stateless-jwt-auth](skills/stateless-jwt-auth/SKILL.md) | Require salted password records, private-key JWT signing and public-key verification, validation before user-state lookups, and revocation tied to the user's current credentials, without per-session storage. |
 | [svg-icon-assets](skills/svg-icon-assets/SKILL.md) | Generate icons and favicons from SVG masters, design for small display sizes, wire appropriate 1x/2x/3x outputs, and optimize delivered assets in the production build. |
+| [task-lifecycle](skills/task-lifecycle/SKILL.md) | Treat everything the owner asks for until they close it as one task: focused checks and a Git-ignored log of decisions while working, then documentation and the full checks once, when the owner closes the task. |
 
 ## Skills used in this repository
 
-This repository adopts `english-repository-content`, `git-commit-rules`, and `project-documentation` for its maintenance, and makes `grilling` available for explicit invocation. Their use conditions live in [AGENTS.md](AGENTS.md); [CLAUDE.md](CLAUDE.md) imports those same instructions. The remaining catalog entries are reusable source material, not practices adopted by this collection merely because their files are present.
+This repository adopts `english-repository-content`, `git-commit-rules`, `project-documentation`, and `task-lifecycle` for its maintenance, and makes `grilling` available for explicit invocation. Their use conditions live in [AGENTS.md](AGENTS.md); [CLAUDE.md](CLAUDE.md) imports those same instructions. The remaining catalog entries are reusable source material, not practices adopted by this collection merely because their files are present.
 
-Each of these four skills has a relative directory symlink in both `.agents/skills/` for Codex and `.claude/skills/` for Claude Code, pointing to `../../skills/<skill-name>`. Both agents therefore discover the complete local skill, including references and invocation metadata, without maintaining duplicate content. Edit the canonical files under `skills/`. These links use the current working tree, including uncommitted edits; they are for maintaining this collection, not pinned installations in consuming projects.
+Each of these five skills has a relative directory symlink in both `.agents/skills/` for Codex and `.claude/skills/` for Claude Code, pointing to `../../skills/<skill-name>`. Both agents therefore discover the complete local skill, including references and invocation metadata, without maintaining duplicate content. Edit the canonical files under `skills/`. These links use the current working tree, including uncommitted edits; they are for maintaining this collection, not pinned installations in consuming projects.
 
 Keep these links and their targets together in version control when committing is authorized, and verify that the checkout preserves working symlinks. This setup is contained in the repository and requires no personal skill installation or global configuration. Other projects should use the installation and adoption procedure below.
 
@@ -118,7 +126,7 @@ Install project-documentation from tomviglini/skills (skills/project-documentati
 The installing agent should:
 
 1. Read the selected `SKILL.md` and find the existing rules for its subject in README, root and nested `AGENTS.md`/`CLAUDE.md`, contributor instructions, relevant guides, and ADRs or equivalent decision records, including decisions in combined architecture documents. Determine the target agents and project or personal scope from the request and existing setup; default a project installation to repository scope. Make the complete folder discoverable in each target agent's supported location, using the paths below or reusing a suitable existing installation. Preserve intentional local changes and automatic/manual invocation controls. Do not stop at adding an instruction link, and do not install every catalog entry when only selected skills are needed.
-2. Reconcile those rules using the boundaries below, including [ADR reconciliation](#reconcile-adrs-during-adoption). Replace covered generic instructions in current guidance with references as needed, preserve historical decision records, and add or update one `AGENTS.md` link to the installed `SKILL.md`. For project practices, state the condition that requires applying it; a list of available skills is insufficient. For explicitly invoked workflows, state that they run only on user invocation. Preserve project-specific requirements and nested scope, and avoid duplicate rules on reinstall.
+2. Reconcile those rules using the boundaries below, including [ADR reconciliation](#reconcile-adrs-during-adoption). Replace covered generic instructions in current guidance with references as needed, preserve historical decision records, and add or update one `AGENTS.md` link to the installed `SKILL.md`. For project practices, state the condition that requires applying it; a list of available skills is insufficient. Record the project-specific values the skill relies on, such as check commands, paths, or ignored files, where the skill expects them. For explicitly invoked workflows, state that they run only on user invocation. Preserve project-specific requirements and nested scope, and avoid duplicate rules on reinstall.
 3. Keep shared rules reachable from the project's Claude Code instructions. Retain a working `CLAUDE.md` import or native `AGENTS.md` setup instead of duplicating the rules. This instruction bridge does not replace Claude Code's own skill-discovery location when Claude Code is a target agent.
 4. For `project-documentation`, review the current docs, retain adequate organization and content, and make necessary compatible updates. Present a concrete proposal and ask before a substantial migration not already chosen by the user. Adopting the other practices does not by itself request a code refactor, icon redesign, translation of old content, or Git operation.
 5. Check every installed folder's `SKILL.md`, supporting links, invocation controls, and project instruction links. Verify symlink targets when used. Check discovery in each target client's skill list or selector when accessible, without invoking a workflow just to test installation; otherwise report that native discovery remains unverified. Report the installed locations and scope, adopted rule, generic instructions replaced, exceptions retained, and any pending decision. Installation does not authorize commits, pushes, or unrelated project changes.
@@ -133,6 +141,7 @@ This review applies to every adopted practice, not only `project-documentation`.
 | --- | --- | --- |
 | `asset-versioning-and-cache` | Asset fingerprinting, reference rewriting, immutable-cache defaults, and delivery verification practices | Mutable-resource lifetimes, asset paths and origins, build/hosting configuration, retention and recovery decisions, and explicit exceptions |
 | `checksum-named-artifacts` | Content-hash filename format, digest printing, copy-versus-rename, stale-output, and retention practices | Build commands, covered variants and targets, output directories and shortcuts, and explicit exceptions |
+| `concept-prototype` | An existing explicit procedure for trying product ideas in the app before documenting them | Product decisions, demo or simulation controls, and the documentation and testing rules applied once a direction is chosen |
 | `design-tuning-lab` | Conventions for interactive design-decision pages: real context, per-view controls, visible defaults, revert, compare, and settings exchange | Design decisions and their evidence, capture sources, chosen values, archive locations, and explicit exceptions |
 | `english-repository-content` | English-language rules for code, documentation, UI, logs, and other covered content | Localization exceptions, conversation-language preferences, externally required text, and commit-message rules outside this skill's scope |
 | `git-commit-rules` | Covered commit-review, identity-checking, and message-writing procedures | Required identities, signing/hooks, and project-specific authorization or message conventions |
@@ -143,6 +152,7 @@ This review applies to every adopted practice, not only `project-documentation`.
 | `shared-core-and-adapters` | Shared-rule placement, dependency boundaries, adapter integration, and boundary verification practices | Actual domain rules, module paths, contracts, runtime lifetimes, supported platforms, toolchains, release constraints, and explicit exceptions |
 | `stateless-jwt-auth` | Password storage, asymmetric signing and public-key verification, JWT validation order, credential binding, and revocation requirements | Existing client contracts, hashing parameters, key ownership, claim names, lifetimes, credential-update paths, and explicit migration exceptions |
 | `svg-icon-assets` | General SVG-source, density, small-size review, and optimization practices | Canonical asset paths, chosen artwork, output requirements, generation commands, licenses, and verification limits |
+| `task-lifecycle` | When documentation updates and the full checks run, the pending-notes file, and committing after a close | The focused and full check commands, documentation rules and derived-material policies, and Git authorization rules |
 
 Keep one current home for each retained rule and update references to any removed sections. A concise human-facing summary with a link can remain useful in README; the full procedure need not be repeated there. Preserve historical ADRs and evidence even when they describe a practice now supplied by a skill.
 
@@ -225,6 +235,7 @@ Reusable project practices keep automatic selection enabled. Adoption makes thei
 | --- | --- | --- |
 | `asset-versioning-and-cache` | Static-asset versioning, cache-header or delivery changes, and stale/missing assets across deployments | Ordinary artwork, content, or styling changes using an unchanged delivery pipeline; unrelated API caching |
 | `checksum-named-artifacts` | Creating, changing, or reviewing commands that build installable development or release artifacts | Running an unchanged build command; web asset URLs or product version numbers |
+| `concept-prototype` | Explicit user invocation of the concept-prototype command | Ordinary feature requests, planning, design-value tuning, installation, or another skill suggesting it |
 | `design-tuning-lab` | Building or revising an interactive page for the owner to explore or decide visual design values | Implementing a chosen design in the product, static galleries or contact sheets, and ordinary UI fixes |
 | `english-repository-content` | Writing, editing, or reviewing repository content under the adopted policy | Conversation or reading files for context |
 | `git-commit-rules` | Commit-message preparation or requested commit, history-rewrite, or push work | Ordinary coding, `git status`, or code review |
@@ -235,6 +246,7 @@ Reusable project practices keep automatic selection enabled. Adoption makes thei
 | `shared-core-and-adapters` | Shared domain/protocol logic, extraction or review of core boundaries, and adapter integration | Ordinary UI or platform-only work using unchanged boundaries; reading a shared module for context |
 | `stateless-jwt-auth` | Password and application-issued JWT authentication work under the adopted model, including credential changes and revocation | Unrelated UI, ordinary endpoints using unchanged authentication, or external-provider-only authentication |
 | `svg-icon-assets` | Icon, logo, favicon, tray/touch icon, and associated asset-pipeline work | Unrelated UI work or general image handling |
+| `task-lifecycle` | Implementation work in the project: making and handing over changes, closing a task, and preparing a commit | Reading code, explaining, answering questions, or reviewing without changes |
 
 For example, a project adopting documentation and icon practices could use the following rules. Adjust the links to actual installed locations and include only skills the project adopts:
 
@@ -305,6 +317,28 @@ In Claude Code:
 
 The user can stop after the conversation or explicitly request a written plan or design-only record instead of implementation. Such a record remains visibly unimplemented. A standalone idea does not require a repository. This skill needs no other skill installed; when the project has adopted `project-documentation`, its conventions govern the resulting updates. Implementation authorization does not by itself authorize a commit, push, or deployment.
 
+### Concept prototype
+
+`concept-prototype` is a manual command for a product in its prototype phase, when the owner has an idea of how something should work and wants to decide by trying it in the app. The agent restates the question, checks how the underlying technology actually behaves, and maps the real-use moments the idea must handle, such as first use, returning after minutes or hours, bad conditions, refused permissions, and changes during use. It weighs two or three approaches, including the owner's idea as stated, by their architecture and trade-offs, and identifies the parameters that are product decisions.
+
+It then implements the behavior in the app, exposing hard-to-reproduce conditions and decision parameters through the project's demo controls, and puts the two most promising approaches behind a switch when that is cheap. When trying the idea needs something costly, such as a native dependency and a new build, it presents the approaches and a recommendation and lets the owner choose first. The report describes the concept, meaning the behavior in each moment, the architecture, the trade-offs, suggestions, and open questions, rather than the diff.
+
+While it runs, the project's quick checks still run, but documentation, decision records, and new tests wait until the owner settles the direction. The agent then removes the discarded approaches and brings the change up to the project's standards. Invoking the command is itself the owner's instruction to defer that upkeep, even where a project requires documentation with every change, so projects need no rule or exception for it and a personal installation is enough.
+
+In Codex:
+
+```text
+Use $concept-prototype to work out how location acquisition should fit into opening and returning to the app, and let me try it.
+```
+
+In Claude Code:
+
+```text
+/concept-prototype The first time, show "acquiring location" and fetch posts only when it finishes; coming back two minutes later should not show the same thing.
+```
+
+Choosing a direction does not authorize a commit, push, or deployment.
+
 ### Project documentation
 
 Use the documentation skill to organize a new or existing project, or to maintain the affected documents after a change. It respects existing paths and decision history, creates only useful documents, and keeps proposals, accepted decisions, implementation, and verification distinct. It does not generate handoffs or routine session logs.
@@ -322,6 +356,26 @@ In Claude Code:
 ```
 
 Installation includes an initial documentation review and an `AGENTS.md` rule requiring an impact assessment before finishing every project change, followed by any necessary documentation updates. Substantially different structures require a concrete migration choice from the user; different filenames or equivalent layouts do not. See its [shared instruction guidance](skills/project-documentation/references/agent-instructions.md) for AGENTS/CLAUDE compatibility and portable references.
+
+### Task lifecycle
+
+`task-lifecycle` sets when documentation and the full checks run. A task is everything the owner asks for until they close it, however many requests it spans. While it is open, the agent makes the changes, runs the project's focused checks, and logs in a Git-ignored `.pending-docs.md` what the diff will not show: decisions and their reasons, discarded alternatives, discoveries, unverified points, and the documents expected to change. It hands the work over for the owner to try.
+
+When the owner makes clear they are satisfied, the agent closes the task: it updates the documentation from the diff and the notes, runs the full checks, reports and fixes failures when it can, and deletes the notes. A commit requested after a close needs no further checks; a commit requested while notes exist closes the task first. The notes file also tells a new session that a task is open.
+
+A project adopting it lists its focused and full checks in `AGENTS.md`, ignores `.pending-docs.md`, and moves rules that update documentation after every change, or run full suites at commit time, to the close. `project-documentation` decides what to document; this skill decides when.
+
+In Codex:
+
+```text
+Use $task-lifecycle to close this task: update the documentation from the pending notes and run the full checks.
+```
+
+In Claude Code:
+
+```text
+/task-lifecycle Close this task: update the documentation from the pending notes and run the full checks.
+```
 
 ### Asset versioning and cache
 

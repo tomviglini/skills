@@ -1,0 +1,6 @@
+interface:
+  display_name: "Concept Prototype"
+  short_description: "Try a product idea in the app across its real-use moments"
+
+policy:
+  allow_implicit_invocation: false
