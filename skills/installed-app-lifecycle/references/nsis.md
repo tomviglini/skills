@@ -4,11 +4,13 @@ Read this reference when the installer is built with NSIS. Target: NSIS 3.11 wit
 
 ## Pages
 
+MUI2 gives a `MUI_PAGE_CUSTOMFUNCTION_*` define to the next page inserted, so define it immediately before the directory page; placed before the welcome page, the plan runs for the default folder instead of the chosen one.
+
 ```nsis
 !define MUI_PAGE_CUSTOMFUNCTION_LEAVE PlanData
 !insertmacro MUI_PAGE_DIRECTORY
 Page custom DataPage DataLeave        ; shown only when something would be lost
-Page custom OptionsPage OptionsLeave  ; start with Windows, running-copy notice
+Page custom OptionsPage OptionsLeave  ; start with Windows
 !insertmacro MUI_PAGE_INSTFILES
 ```
 
@@ -77,16 +79,25 @@ FunctionEnd
 
 Function OptionsLeave
   ${NSD_GetState} $StartWithWindowsCheckbox $StartWithWindows
+FunctionEnd
+
+; Closes a running copy without asking, through its own Exit first so its tray icons go away.
+; WM_CLOSE comes from !include "WinMessages.nsh".
+!macro CloseApp PREFIX
+Function ${PREFIX}CloseApp
   FindWindow $0 "${APP_WINDOW_CLASS}"
   ${If} $0 <> 0
-    MessageBox MB_OKCANCEL|MB_ICONINFORMATION "${PRODUCT_NAME} is running. Setup closes it to continue." IDOK close_it
-    Abort
-    close_it:
+    SendMessage $0 ${WM_CLOSE} 0 0 /TIMEOUT=3000
+    Sleep 1000
   ${EndIf}
+  nsExec::ExecToLog 'taskkill /F /IM "${APP_EXE}"'
 FunctionEnd
+!macroend
+!insertmacro CloseApp ""
+!insertmacro CloseApp "un."
 ```
 
-Prefer a named label to relative jumps inside LogicLib blocks. Close the copy in the install section, by sending `WM_CLOSE` to the app's window first and then running `taskkill` as a fallback.
+Call `CloseApp` at the start of the install section and `un.CloseApp` at the start of the uninstall section. Prefer a named label to relative jumps inside LogicLib blocks.
 
 ## Apply
 

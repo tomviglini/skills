@@ -73,7 +73,7 @@ Before reading any data, the app runs the same plan and applies only what loses 
 
 ## Running copies
 
-Detect a running copy by its window class or process name, and include helper processes such as a local server or browser processes. Tell the user that the installer will close it. Close it through the app's own exit path first, so tray icons disappear, then force-close what remains.
+Detect a running copy by its window class or process name, and include helper processes such as a local server or browser processes. Close it without asking, since installing, updating, or removing the app implies it. Close it through the app's own exit path first, so tray icons disappear, then force-close what remains. When the app has no window to message, give it a named exit event that the new build can signal, and keep the force-close for versions without it.
 
 ## Uninstall
 
