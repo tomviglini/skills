@@ -1,0 +1,7 @@
+interface:
+  display_name: "Installed App Lifecycle"
+  short_description: "Keep saved data across installs, updates and uninstalls"
+  default_prompt: "Use $installed-app-lifecycle to make this app's installer, updates and saved data follow per-item versions, consent before any loss, and TOML settings."
+
+policy:
+  allow_implicit_invocation: true
