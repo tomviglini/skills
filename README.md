@@ -90,7 +90,7 @@ The angle-bracket names illustrate future skills. Each skill owns its instructio
 | [shared-core-and-adapters](skills/shared-core-and-adapters/SKILL.md) | Share portable domain, protocol, and interaction logic through explicit platform adapters while preserving runtime ownership and independent UI and build choices. |
 | [stateless-jwt-auth](skills/stateless-jwt-auth/SKILL.md) | Require salted password records, private-key JWT signing and public-key verification, validation before user-state lookups, and revocation tied to the user's current credentials, without per-session storage. |
 | [svg-icon-assets](skills/svg-icon-assets/SKILL.md) | Generate icons and favicons from SVG masters, design for small display sizes, wire appropriate 1x/2x/3x outputs, and optimize delivered assets in the production build. |
-| [task-lifecycle](skills/task-lifecycle/SKILL.md) | Treat everything the owner asks for until they close it as one task: focused checks and a Git-ignored log of decisions while working, then documentation and the full checks once, when the owner closes the task. |
+| [task-lifecycle](skills/task-lifecycle/SKILL.md) | Treat everything the owner asks for until they close it as one task: focused checks and a Git-ignored log of decisions while working, then documentation and the full checks once, when the owner closes the task; pipelines that ship a build run those same checks and build scripts. |
 
 ## Skills used in this repository
 
@@ -158,7 +158,7 @@ This review applies to every adopted practice, not only `project-documentation`.
 | `shared-core-and-adapters` | Shared-rule placement, dependency boundaries, adapter integration, and boundary verification practices | Actual domain rules, module paths, contracts, runtime lifetimes, supported platforms, toolchains, release constraints, and explicit exceptions |
 | `stateless-jwt-auth` | Password storage, asymmetric signing and public-key verification, JWT validation order, credential binding, and revocation requirements | Existing client contracts, hashing parameters, key ownership, claim names, lifetimes, credential-update paths, and explicit migration exceptions |
 | `svg-icon-assets` | General SVG-source, density, small-size review, and optimization practices | Canonical asset paths, chosen artwork, output requirements, generation commands, licenses, and verification limits |
-| `task-lifecycle` | When documentation updates and the full checks run, the pending-notes file, and committing after a close | The focused and full check commands, documentation rules and derived-material policies, and Git authorization rules |
+| `task-lifecycle` | When documentation updates and the full checks run, the pending-notes file, committing after a close, and pipelines running the same checks and build scripts as local work | The focused and full check commands, documentation rules and derived-material policies, and Git authorization rules |
 
 Keep one current home for each retained rule and update references to any removed sections. A concise human-facing summary with a link can remain useful in README; the full procedure need not be repeated there. Preserve historical ADRs and evidence even when they describe a practice now supplied by a skill.
 
@@ -253,7 +253,7 @@ Reusable project practices keep automatic selection enabled. Adoption makes thei
 | `shared-core-and-adapters` | Shared domain/protocol logic, extraction or review of core boundaries, and adapter integration | Ordinary UI or platform-only work using unchanged boundaries; reading a shared module for context |
 | `stateless-jwt-auth` | Password and application-issued JWT authentication work under the adopted model, including credential changes and revocation | Unrelated UI, ordinary endpoints using unchanged authentication, or external-provider-only authentication |
 | `svg-icon-assets` | Icon, logo, favicon, tray/touch icon, and associated asset-pipeline work | Unrelated UI work or general image handling |
-| `task-lifecycle` | Implementation work in the project: making and handing over changes, closing a task, and preparing a commit | Reading code, explaining, answering questions, or reviewing without changes |
+| `task-lifecycle` | Implementation work in the project: making and handing over changes, closing a task, preparing a commit, and creating or changing release or deployment pipelines | Reading code, explaining, answering questions, or reviewing without changes |
 
 For example, a project adopting documentation and icon practices could use the following rules. Adjust the links to actual installed locations and include only skills the project adopts:
 

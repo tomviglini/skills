@@ -1,6 +1,6 @@
 ---
 name: task-lifecycle
-description: "Run the changes requested in a project through one lifecycle: work with focused checks while logging what the diff will not show in .pending-docs.md, hand over for the owner to try, and when the owner approves, close the task by writing the pending documentation and running the full checks. Apply to implementation work in an adopting project; reading, explaining, and answering questions do not trigger it."
+description: "Run the changes requested in a project through one lifecycle: work with focused checks while logging what the diff will not show in .pending-docs.md, hand over for the owner to try, and when the owner approves, close the task by writing the pending documentation and running the full checks. Pipelines that build or publish what the project ships run those same checks and build scripts. Apply to implementation work in an adopting project, including creating or changing such pipelines; reading, explaining, and answering questions do not trigger it."
 ---
 
 # Task Lifecycle
@@ -29,6 +29,15 @@ To close:
 ## Commit
 
 A commit still needs the owner's explicit request and follows the project's Git rules. If `.pending-docs.md` exists when a commit is requested, close the task first. Otherwise the last close already documented and checked everything, so commit without repeating the checks.
+
+## Pipelines
+
+A pipeline that builds, publishes, or deploys what the project ships (a release workflow, a deployment, a store build) produces what users get, so it runs what a close runs locally:
+
+- It calls the project's own scripts for the full checks and for the release build, the ones the project's instructions name, with the same pinned toolchain, shell, and options. It does not copy their commands into its own steps.
+- It adds only what the runner itself needs, such as checking out the code, and what has no local counterpart, such as publishing the result and recording the outcome.
+- When the runner needs a different path, change the shared script so both take it, instead of adding a pipeline-only step.
+- Checks that need a device, an emulator, or other hardware stay local. The project's instructions list each such exception and its reason.
 
 ## Across sessions
 

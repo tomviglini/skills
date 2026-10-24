@@ -21,7 +21,7 @@ Read this reference when adding or changing how an app finds a newer version, or
 
 ## Publishing
 
-- A pushed `vX.Y.Z` tag makes CI check the tag against the product version, run the project's full checks, build the installer, and publish it as a release of the same repository with CI's own token. CI calls the same scripts the maintainers run locally, in the same shell, so a published build matches a local one; keep differences to what the runner needs. It then downloads the published file, compares it with the build, and records the outcome where the maintainer can read it without the host's web interface, such as a git note.
+- A pushed `vX.Y.Z` tag makes CI check the tag against the product version, run the project's full checks and its release build through the same scripts used locally, and publish the installer as a release of the same repository with CI's own token. It then downloads the published file, compares it with the build, and records the outcome where the maintainer can read it without the host's web interface, such as a git note.
 - Mark a release as the host's latest only when it carries the highest version.
 - Deleting a tag can delete its release. A maintainer can then test the update path with a throwaway higher version built from a commit that never reaches the main branch, and remove it afterwards.
 - Give the installer a fixed name prefix, so the app can pick it among the release's files.
