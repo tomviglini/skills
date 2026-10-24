@@ -131,7 +131,7 @@ Install project-documentation from tomviglini/skills (skills/project-documentati
 The installing agent should:
 
 1. Read the selected `SKILL.md` and find the existing rules for its subject in README, root and nested `AGENTS.md`/`CLAUDE.md`, contributor instructions, relevant guides, and ADRs or equivalent decision records, including decisions in combined architecture documents. Determine the target agents and project or personal scope from the request and existing setup; default a project installation to repository scope. Make the complete folder discoverable in each target agent's supported location, using the paths below or reusing a suitable existing installation. Preserve intentional local changes and automatic/manual invocation controls. Do not stop at adding an instruction link, and do not install every catalog entry when only selected skills are needed.
-2. Reconcile those rules using the boundaries below, including [ADR reconciliation](#reconcile-adrs-during-adoption). Replace covered generic instructions in current guidance with references as needed, preserve historical decision records, and add or update one `AGENTS.md` link to the installed `SKILL.md`. For project practices, state the condition that requires applying it; a list of available skills is insufficient. Record the project-specific values the skill relies on, such as check commands, paths, or ignored files, where the skill expects them. For explicitly invoked workflows, state that they run only on user invocation. Preserve project-specific requirements and nested scope, and avoid duplicate rules on reinstall.
+2. Reconcile those rules using the boundaries below, including [ADR reconciliation](#reconcile-adrs-during-adoption). Replace covered generic instructions in current guidance with references as needed, preserve historical decision records, and add or update one `AGENTS.md` link to the installed `SKILL.md`. For project practices, state the condition that requires applying it; a list of available skills is insufficient. Record the project-specific values the skill relies on, such as check commands, paths, or ignored files, where the skill expects them. For explicitly invoked workflows, state that they run only on user invocation. Preserve project-specific requirements and nested scope, and avoid duplicate rules on reinstall. With a project's first installed skill, also add the [check for outdated copies](#check-installed-copies).
 3. Keep shared rules reachable from the project's Claude Code instructions. Retain a working `CLAUDE.md` import or native `AGENTS.md` setup instead of duplicating the rules. This instruction bridge does not replace Claude Code's own skill-discovery location when Claude Code is a target agent.
 4. For `project-documentation`, review the current docs, retain adequate organization and content, and make necessary compatible updates. Present a concrete proposal and ask before a substantial migration not already chosen by the user. Adopting the other practices does not by itself request a code refactor, icon redesign, translation of old content, or Git operation.
 5. Check every installed folder's `SKILL.md`, supporting links, invocation controls, and project instruction links. Verify symlink targets when used. Check discovery in each target client's skill list or selector when accessible, without invoking a workflow just to test installation; otherwise report that native discovery remains unverified. Report the installed locations and scope, adopted rule, generic instructions replaced, exceptions retained, and any pending decision. Installation does not authorize commits, pushes, or unrelated project changes.
@@ -232,6 +232,29 @@ Record the source repository, skill path, and full commit SHA in the consuming p
 Track each installed skill separately. A collection release does not require installing or upgrading every skill; a project can update one selected folder while retaining its other installed skills.
 
 This is a manual workflow. There is no version-aware installer, lockfile, or automatic updater yet. A version label in skill metadata alone would not enforce a pinned installation.
+
+### Check installed copies
+
+An installed copy does not learn that its source changed. Each consuming project therefore checks its own copies, and the owner decides what to update:
+
+- **When:** once per task in the consuming project, before the first time the task applies an installed skill. Reading, explaining, and answering questions do not trigger it.
+- **How:** compare the content of each installed skill folder with the same folder on this collection's pushed `main` branch, using a fresh shallow clone or a clean local checkout of the freshly fetched `main`. Compare files rather than recorded commits, since a recorded commit can be stale. Git does not track empty folders, so ignore them.
+- **Report:** tell the owner which installed skills differ, what changed, and what that would change in the project, such as a project rule the change affects or a local edit to the copy that an update would replace. Then continue the task with the installed copy.
+- **Update:** only when the owner asks, following the upgrade steps above: review the change, reconcile the affected rules, and update the copy in every agent location and its recorded commit together. Never update a copy on your own initiative.
+- **Every project:** when the owner asks to check every project, run the same comparison in each consuming project and report the result per project.
+
+For example, from the consuming project's root, with SSH access to this repository:
+
+```bash
+source=$(mktemp -d)
+git clone --quiet --depth 1 git@github.com:tomviglini/skills.git "$source"
+for skill in .agents/skills/*/; do
+  name=$(basename "$skill")
+  git diff --no-index --quiet "$source/skills/$name" "$skill" || echo "differs: $name"
+done
+```
+
+The project's `AGENTS.md` states this check, with the installed location and where the project records source commits; installation adds it with the first skill.
 
 ## Invoke a skill
 
