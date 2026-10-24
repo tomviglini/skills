@@ -22,9 +22,10 @@ The owner closes a task by making clear they are satisfied with it; no fixed phr
 To close:
 
 1. Update the documentation from the task's diff and `.pending-docs.md`, following the project's documentation rules, such as its ADRs, guides, and README files. Update derived material only as the project's rules say.
-2. Run the project's full checks.
-3. If a check fails, tell the owner what failed. Fix it when possible, rerun the checks, and update the documentation if the fix affects it; say so if the fix changes behavior the owner already tried. If it cannot be fixed, report it and leave the task open.
-4. Delete `.pending-docs.md`, then report the documents changed and the checks run. The task is ready to commit.
+2. Run the reviews the project's instructions attach to closing a task, such as a legal check when the change touches its areas, and record their result where those instructions say.
+3. Run the project's full checks.
+4. If a check fails, tell the owner what failed. Fix it when possible, rerun the checks, and update the documentation if the fix affects it; say so if the fix changes behavior the owner already tried. If it cannot be fixed, report it and leave the task open.
+5. Delete `.pending-docs.md`, then report the documents changed and the reviews and checks run. The task is ready to commit.
 
 ## Commit
 

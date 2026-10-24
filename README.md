@@ -28,9 +28,6 @@ skills/
   desktop-ui-basics/
     SKILL.md
     agents/openai.yaml
-  english-repository-content/
-    SKILL.md
-    agents/openai.yaml
   git-commit-rules/
     SKILL.md
     agents/openai.yaml
@@ -42,6 +39,9 @@ skills/
     SKILL.md
     agents/openai.yaml
     references/
+  legal-compliance/
+    SKILL.md
+    agents/openai.yaml
   mobile-ui-basics/
     SKILL.md
     agents/openai.yaml
@@ -55,6 +55,9 @@ skills/
     agents/openai.yaml
     references/
   release-publishing/
+    SKILL.md
+    agents/openai.yaml
+  repository-language/
     SKILL.md
     agents/openai.yaml
   shared-core-and-adapters/
@@ -87,14 +90,15 @@ The angle-bracket names illustrate future skills. Each skill owns its instructio
 | [concept-prototype](skills/concept-prototype/SKILL.md) | Run an explicitly invoked prototype-phase exploration: map an idea's real-use moments, weigh approaches by their architecture and trade-offs, implement it in the app for the owner to try, and defer documentation until the owner settles the direction. |
 | [design-tuning-lab](skills/design-tuning-lab/SKILL.md) | Build interactive pages where the owner tunes and compares design values in real context, with one view per place, visible defaults, revert and press-to-compare controls, and returned values folded into a consistent system. |
 | [desktop-ui-basics](skills/desktop-ui-basics/SKILL.md) | Keep a desktop app's own screens predictable: the hand pointer on everything clickable it draws, layouts that stay put while their content changes, and short interface text. |
-| [english-repository-content](skills/english-repository-content/SKILL.md) | Apply a shared English-language policy to repository content while preserving required names, external identifiers, and source data. |
-| [git-commit-rules](skills/git-commit-rules/SKILL.md) | Review commit scope, verify configured author and committer identities, draft English messages, and keep commit, history-rewrite, and push authorization separate. |
+| [git-commit-rules](skills/git-commit-rules/SKILL.md) | Review commit scope, verify configured author and committer identities, draft messages in the project's language, and keep commit, history-rewrite, and push authorization separate. |
 | [grilling](skills/grilling/SKILL.md) | Run an explicitly invoked interview, implement when the user asks to proceed, then update docs and ADRs from the actual implementation and verification. |
 | [installed-app-lifecycle](skills/installed-app-lifecycle/SKILL.md) | Install, update, and uninstall desktop apps while keeping saved data across versions: per-item format versions and migrations, consent and a backup before any loss, TOML settings, opt-in start with the OS, and update checks against published releases. |
+| [legal-compliance](skills/legal-compliance/SKILL.md) | Check what a repository publishes for legal issues at a depth that fits the moment (task close, release, going public or to a store), recommend names that keep other companies' brands referential, record decisions once, and keep a compliance record. |
 | [mobile-ui-basics](skills/mobile-ui-basics/SKILL.md) | Keep mobile text entry, layouts, scrolling, touch controls, feedback, navigation, and interface text usable while preserving the project's design and libraries. |
 | [project-documentation](skills/project-documentation/SKILL.md) | Create and maintain README, shared AGENTS/CLAUDE instructions, architecture, ADRs, topic guides, and plans while preserving project conventions and avoiding duplicated records. |
 | [react-granular-store-subscriptions](skills/react-granular-store-subscriptions/SKILL.md) | Connect React components to only the state they need, using Redux, Zustand, or another store's native subscription model. Reduce unnecessary renders before adding component memoization. |
 | [release-publishing](skills/release-publishing/SKILL.md) | Publish versioned releases from a tag: one product version, CI that runs the project's own checks and builds, files named by version, a dated title, the latest mark only on the highest version, notes that introduce the product and list the release's changes, a license and disclaimer, an outcome record, and cleanup on tag deletion. |
+| [repository-language](skills/repository-language/SKILL.md) | Declare one language per repository in `AGENTS.md` and write its code, documentation, interface text, release notes, and commit messages in it, preserving required names, external identifiers, and source data. |
 | [shared-core-and-adapters](skills/shared-core-and-adapters/SKILL.md) | Share portable domain, protocol, and interaction logic through explicit platform adapters while preserving runtime ownership and independent UI and build choices. |
 | [stateless-jwt-auth](skills/stateless-jwt-auth/SKILL.md) | Require salted password records, private-key JWT signing and public-key verification, validation before user-state lookups, and revocation tied to the user's current credentials, without per-session storage. |
 | [svg-icon-assets](skills/svg-icon-assets/SKILL.md) | Generate icons and favicons from SVG masters, design for small display sizes, wire appropriate 1x/2x/3x outputs, and optimize delivered assets in the production build. |
@@ -102,9 +106,9 @@ The angle-bracket names illustrate future skills. Each skill owns its instructio
 
 ## Skills used in this repository
 
-This repository adopts `english-repository-content`, `git-commit-rules`, `project-documentation`, and `task-lifecycle` for its maintenance, and makes `grilling` available for explicit invocation. Their use conditions live in [AGENTS.md](AGENTS.md); [CLAUDE.md](CLAUDE.md) imports those same instructions. The remaining catalog entries are reusable source material, not practices adopted by this collection merely because their files are present.
+This repository adopts `git-commit-rules`, `legal-compliance`, `project-documentation`, `repository-language`, and `task-lifecycle` for its maintenance, and makes `grilling` available for explicit invocation. Their use conditions live in [AGENTS.md](AGENTS.md); [CLAUDE.md](CLAUDE.md) imports those same instructions. The remaining catalog entries are reusable source material, not practices adopted by this collection merely because their files are present.
 
-Each of these five skills has a relative directory symlink in both `.agents/skills/` for Codex and `.claude/skills/` for Claude Code, pointing to `../../skills/<skill-name>`. Both agents therefore discover the complete local skill, including references and invocation metadata, without maintaining duplicate content. Edit the canonical files under `skills/`. These links use the current working tree, including uncommitted edits; they are for maintaining this collection, not pinned installations in consuming projects.
+Each of these six skills has a relative directory symlink in both `.agents/skills/` for Codex and `.claude/skills/` for Claude Code, pointing to `../../skills/<skill-name>`. Both agents therefore discover the complete local skill, including references and invocation metadata, without maintaining duplicate content. Edit the canonical files under `skills/`. These links use the current working tree, including uncommitted edits; they are for maintaining this collection, not pinned installations in consuming projects.
 
 Keep these links and their targets together in version control when committing is authorized, and verify that the checkout preserves working symlinks. This setup is contained in the repository and requires no personal skill installation or global configuration. Other projects should use the installation and adoption procedure below.
 
@@ -112,7 +116,7 @@ Keep these links and their targets together in version control when committing i
 
 This collection contains reusable project practices and explicitly invoked workflows. Keep the shared procedure in a skill and the project's technical facts, paths, and exceptions in its own documentation. For a project practice, a short conditional rule in `AGENTS.md` connects the two; it replaces repeated generic instructions rather than adding another copy of them.
 
-The skills are written in English, but what they produce follows each project's language: documentation, interface text, release notes, and commit messages use the language the project's `AGENTS.md` names. A project in another language states it there and does not adopt `english-repository-content`.
+The skills are written in English, but what they produce follows each project's language: code, documentation, interface text, release notes, and commit messages use the language the project's `AGENTS.md` declares, as [Repository language](#repository-language) describes.
 
 For this collection, **project installation requires both native discovery and adoption**, for automatic practices and manual commands alike:
 
@@ -159,14 +163,15 @@ This review applies to every adopted practice, not only `project-documentation`.
 | `concept-prototype` | An existing explicit procedure for trying product ideas in the app before documenting them | Product decisions, demo or simulation controls, and the documentation and testing rules applied once a direction is chosen |
 | `design-tuning-lab` | Conventions for interactive design-decision pages: real context, per-view controls, visible defaults, revert, compare, and settings exchange | Design decisions and their evidence, capture sources, chosen values, archive locations, and explicit exceptions |
 | `desktop-ui-basics` | Pointer conventions, layout stability while content changes, interface-text brevity, and focused hover and state checks | Supported windows and UI technologies, design system, components, and explicit exceptions |
-| `english-repository-content` | English-language rules for code, documentation, UI, logs, and other covered content | Localization exceptions, conversation-language preferences, externally required text, and commit-message rules outside this skill's scope |
 | `git-commit-rules` | Covered commit-review, identity-checking, and message-writing procedures | Required identities, signing/hooks, and project-specific authorization or message conventions |
 | `grilling` | An existing explicit interview procedure, transition to authorized implementation, and documentation of the verified outcome | Actual requirements, agreed decisions, pending questions, document destinations, and any separately adopted automatic planning rules |
 | `installed-app-lifecycle` | Data-folder item rules, per-item versions, migration and consent before loss, backup and uninstall handling, settings-file rules, start-with-OS default, and update-check behavior | Data location, the actual items and their versions, migrations, installer tool and paths, release location, and explicit exceptions |
+| `legal-compliance` | When legal checks run and how deep, the areas checked, naming recommendations, recording decisions once, ground rules, and the record's structure | The products and companies it works with, their sources, the project's own limits (such as what its product must never do), decisions already taken, and the record's path |
 | `mobile-ui-basics` | Keyboard visibility, focus, scrolling, touch interaction, feedback, navigation, and focused usability checks | Supported platforms and devices, design system, installed libraries, navigation semantics, native configuration, verified behavior, and explicit exceptions |
 | `project-documentation` | Document responsibilities, maintenance procedure, and ADR history rules | Actual architecture, decisions and their rationale, document paths, evidence, and pending work |
 | `react-granular-store-subscriptions` | General subscription and memoization practices | Installed library/version, store ownership and lifetimes, domain constraints, and measured behavior |
-| `release-publishing` | Tag and version rules, pipeline steps, release titles, latest marking, notes sections and template, license and disclaimer basics, outcome records, and tag-deletion cleanup | Host and repository, version source, build scripts and runners, file names, the notes template's text, and explicit exceptions |
+| `release-publishing` | Tag and version rules, pipeline steps, release titles, latest marking, notes sections and template, the license and disclaimer requirement before a first release, outcome records, and tag-deletion cleanup | Host and repository, version source, build scripts and runners, file names, the notes template's text, and explicit exceptions |
+| `repository-language` | Where the language is declared and the rules for writing in it | The declared language, any area that uses another language, conversation-language preferences, externally required text, and commit-message format rules |
 | `shared-core-and-adapters` | Shared-rule placement, dependency boundaries, adapter integration, and boundary verification practices | Actual domain rules, module paths, contracts, runtime lifetimes, supported platforms, toolchains, release constraints, and explicit exceptions |
 | `stateless-jwt-auth` | Password storage, asymmetric signing and public-key verification, JWT validation order, credential binding, and revocation requirements | Existing client contracts, hashing parameters, key ownership, claim names, lifetimes, credential-update paths, and explicit migration exceptions |
 | `svg-icon-assets` | General SVG-source, density, small-size review, and optimization practices | Canonical asset paths, chosen artwork, output requirements, generation commands, licenses, and verification limits |
@@ -239,7 +244,7 @@ The copy commands copy local files. They do not resolve a version, record the so
 
 For reproducible use, commit the skills and select a specific Git commit before copying. Release tags such as `v0.1.0` can name repository snapshots once published; resolve the tag to its full commit SHA and keep published tags unchanged. A repository tag covers all skills at that revision.
 
-Record the source repository, skill path, and full commit SHA in the consuming project's documentation. Include project-installed files in version control when a commit is authorized. Each project can then retain its chosen revision. To upgrade, select a newer revision, review the changes to the skill and its supporting files, and update both the installed copy and recorded SHA together. Reconcile affected adoption rules and exceptions without repeating an unrelated policy audit or adding duplicate instructions.
+Record the source repository, skill path, and full commit SHA in the consuming project's documentation: an "Agent skills" section of its README with a table of each installed skill, linked to its `SKILL.md`, and its source commit, sorted by name. Include project-installed files in version control when a commit is authorized. Each project can then retain its chosen revision. To upgrade, select a newer revision, review the changes to the skill and its supporting files, and update both the installed copy and recorded SHA together. Reconcile affected adoption rules and exceptions without repeating an unrelated policy audit or adding duplicate instructions.
 
 Track each installed skill separately. A collection release does not require installing or upgrading every skill; a project can update one selected folder while retaining its other installed skills.
 
@@ -279,14 +284,15 @@ Reusable project practices keep automatic selection enabled. Adoption makes thei
 | `concept-prototype` | Explicit user invocation of the concept-prototype command | Ordinary feature requests, planning, design-value tuning, installation, or another skill suggesting it |
 | `design-tuning-lab` | Building or revising an interactive page for the owner to explore or decide visual design values | Implementing a chosen design in the product, static galleries or contact sheets, and ordinary UI fixes |
 | `desktop-ui-basics` | Creating, changing, or reviewing desktop screens, their clickable elements, changing content, or interface text | Mobile screens, backend-only changes, and the operating system's own dialogs and menus |
-| `english-repository-content` | Writing, editing, or reviewing repository content under the adopted policy | Conversation or reading files for context |
 | `git-commit-rules` | Commit-message preparation or requested commit, history-rewrite, or push work | Ordinary coding, `git status`, or code review |
 | `grilling` | Explicit user invocation of the grilling command | Ordinary planning, ambiguous requirements, architecture changes, installation, or another skill suggesting an interview |
 | `installed-app-lifecycle` | Changing an installer or uninstaller, anything the app keeps between runs, update checks, and preparing a release that changes saved data | Ordinary features that leave saved data and the installer unchanged; web deployments or app-store releases |
+| `legal-compliance` | Naming a project, closing a task that touches its areas, preparing a release, and making a repository public, submitting to a store, or charging | Changes that add no dependency, asset, data handling, permission, or other company's name or material |
 | `mobile-ui-basics` | Creating, changing, or reviewing mobile screens and their input, layout, or interaction behavior | Backend-only changes, desktop-only UI, or asset generation without changing the mobile interaction |
 | `project-documentation` | Requested documentation work or necessary updates identified by the documentation-impact assessment | A code change with no documentation impact, or reading README for context |
 | `react-granular-store-subscriptions` | React store subscription work or diagnosis of store-driven rerenders | Unrelated React layout, styling, or imports |
 | `release-publishing` | Creating or changing a release pipeline or its notes template, and preparing, publishing, editing, or deleting a release | App-store submissions, web deployments, and local builds that are not published |
+| `repository-language` | Writing, editing, or reviewing repository content, or a repository without a declared language | Conversation or reading files for context |
 | `shared-core-and-adapters` | Shared domain/protocol logic, extraction or review of core boundaries, and adapter integration | Ordinary UI or platform-only work using unchanged boundaries; reading a shared module for context |
 | `stateless-jwt-auth` | Password and application-issued JWT authentication work under the adopted model, including credential changes and revocation | Unrelated UI, ordinary endpoints using unchanged authentication, or external-provider-only authentication |
 | `svg-icon-assets` | Icon, logo, favicon, tray/touch icon, and associated asset-pipeline work | Unrelated UI work or general image handling |
@@ -325,21 +331,21 @@ Explicitly request a commit or push when you want that operation performed. With
 
 ### Repository language
 
-The [language skill](skills/english-repository-content/SKILL.md) owns the repository-content language rules. This repository's `AGENTS.md` points to it, and `CLAUDE.md` imports those instructions. Commit-message rules remain in the Git skill.
+Each repository declares one language in the language section of its root `AGENTS.md`, with a first line such as `Repository language: English.`, or `Idioma del repositorio: español.` in a Spanish file. The [language skill](skills/repository-language/SKILL.md) applies it to everything written in the repository; an area that needs another language, such as a bilingual website, gets its own line there. Without a declaration, the agent asks the owner and adds it. Commit-message format stays in the Git skill.
 
 In Codex:
 
 ```text
-Use $english-repository-content to keep the repository content in this task in English.
+Use $repository-language to keep the repository content in this task in the project's declared language.
 ```
 
 In Claude Code:
 
 ```text
-/english-repository-content Keep the repository content in this task in English.
+/repository-language Keep the repository content in this task in the project's declared language.
 ```
 
-Project installation includes the language rule and its installed `SKILL.md` reference in the project's agent instructions; retain explicit language exceptions.
+Project installation adds the language section and the installed `SKILL.md` reference to the project's agent instructions, retaining the areas the owner chose to keep in another language.
 
 ### Grilling
 
@@ -545,6 +551,24 @@ In Claude Code:
 /release-publishing Write the notes for the published v1.2.0 release from this repository's template.
 ```
 
+### Legal compliance
+
+Use this practice to check what a repository publishes for legal issues, at a depth that fits the moment. Closing a task checks only the area the change touches, such as a new dependency or stored data; a release checks what changed and what ships; making a repository public, submitting to a store, or charging runs a complete check against primary sources and the whole Git history. It covers licenses and third-party notices, names and other companies' trademarks, the disclaimer, the terms of products the project works with, privacy, store policies, and exposure before going public. When a project is named, it recommends keeping other brands after the project's own name; once the owner decides, the decision is recorded once with what would reopen it and is not raised again. It gives no legal advice.
+
+A project adopting it records in `AGENTS.md` when the checks run and where its record lives, such as `docs/compliance.md`, and keeps its own limits and decisions there. `release-publishing` relies on it for the license, disclaimer, and the check before each release.
+
+In Codex:
+
+```text
+Use $legal-compliance to run the complete check before this repository becomes public.
+```
+
+In Claude Code:
+
+```text
+/legal-compliance Check this release's dependencies, notices, and disclaimer against the record.
+```
+
 ### Shared core and adapters
 
 Use this skill when extracting or changing logic shared across consumers, defining its dependency boundaries, or integrating platform adapters. It prefers portable rules and explicit effects while allowing stateful shared workflows. UI, store ownership, native facilities, and concrete persistence remain in the appropriate consuming components; existing libraries and repository layout are preserved.
@@ -623,3 +647,9 @@ Before finishing a new or revised skill, review representative requests for init
 Keep general principles in the skill entrypoint and library-specific API targets beside the examples. Each code reference should identify its target versions, documentation review date, official sources, and whether the examples were only reviewed or also executed. Record exact tested versions when executable validation exists; a major-version API target does not claim a tested compatibility range.
 
 Agents should compare those targets with the consuming project's resolved dependencies and adapt the code. These library versions are separate from the Git revision used to version the skill itself.
+
+## Disclaimer and license
+
+This is an independent collection, not affiliated with or endorsed by Anthropic or OpenAI. Claude Code is Anthropic's and Codex is OpenAI's; they are named only to say which agents the skills work with. Other names in the skills, such as libraries, services, and stores, belong to their owners. The skills are provided as is, as the license states.
+
+The skills are under the MIT [License](LICENSE). The compliance record is [docs/compliance.md](docs/compliance.md).

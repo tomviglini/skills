@@ -1,6 +1,16 @@
 # Repository Instructions
 
-- When creating, editing, or reviewing repository content, read and apply [english-repository-content](.agents/skills/english-repository-content/SKILL.md).
+## Language
+
+- Repository language: English.
+- When creating, editing, or reviewing repository content, read and apply [repository-language](.agents/skills/repository-language/SKILL.md). Conversation follows the user's language.
+
+## Compliance
+
+- The repository is public under the MIT [LICENSE](LICENSE). When closing a task that adds material from someone else, such as quoted documentation or a copied example, or that names another company's product beyond saying what a skill works with, and before each release tag, read and apply [legal-compliance](.agents/skills/legal-compliance/SKILL.md). The record is [docs/compliance.md](docs/compliance.md).
+
+## Collection
+
 - Store each independent reusable skill under `skills/<skill-name>/SKILL.md`. Add sibling folders as the collection grows, and keep each folder portable on its own.
 - Keep the skills adopted by this repository, listed in README, discoverable through relative folder links in `.agents/skills/` and `.claude/skills/`. Adding a skill to the catalog does not itself adopt it here.
 - Keep the shared skill compatible with Claude Code and Codex: use `name` and `description` frontmatter and plain Markdown instructions. Put optional Codex metadata in `agents/openai.yaml`.

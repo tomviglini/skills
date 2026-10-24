@@ -37,19 +37,16 @@ Keep the notes' fixed text in a template next to the pipeline, such as `.github/
 1. **Opening:** one sentence on what the product is and what it works with.
 2. **Download and install:** which file to download from the release's assets for each platform, how to install it, and how to update. When the host adds source archives, say they are not the product.
 3. **Features:** the main capabilities, four to six short bullets.
-4. **Changes in this release:** the subjects of the commits since the previous release tag, filled in by the pipeline. The first release says "First release."
+4. **Changes in this release:** the subjects of the commits since the previous release tag, filled in by the pipeline. The first release says "First release." in the repository's language.
 5. **Disclaimer:** when the product works with another company's product, brand, or service: independent and not affiliated, plus any limit a user needs to know.
 6. **License:** the repository's license, and that the package includes it.
 
-Keep every text short: what the reader gets and does, without the product's internals or reassurances users already expect. Write the notes in the repository's content language. Editing a published release's notes by hand follows the same template, filled in for that release.
+Keep every text short: what the reader gets and does, without the product's internals or reassurances users already expect. Write the notes, the template included, in the language the repository declares. Editing a published release's notes by hand follows the same template, filled in for that release.
 
 ## License and disclaimer
 
-Before a repository's first release, cover the basics:
-
-- A license file at the repository root: MIT unless the maintainer chooses another, with the year and the copyright holder. Archives and other packages that carry files include it.
-- When the product works with another company's product, brand, or service, a disclaimer in the README and in the notes: an independent project, not affiliated with or endorsed by that company; its trademarks are theirs and are named only to say what the product works with; what the product does not do when it matters, such as not bypassing DRM or logins; and that it is provided as is, as the license states.
-- A deeper legal review, such as a written compliance prompt an agent runs, is worth it before making a repository public or publishing in a store, and when a change adds third-party code or assets, network access, or data handling. It is not required for every release.
+- Before a repository's first release, it has a license file at its root, included in the archives and other packages that carry files. When the product works with another company's product, brand, or service, the README and the notes carry a disclaimer.
+- Their content, the notices for third-party material, and the legal check before each release follow the project's compliance practice, such as the `legal-compliance` skill. Without one: MIT unless the maintainer chooses another, with the year and the copyright holder, and a disclaimer saying that the project is independent and not affiliated with that company, that its trademarks are its own, and that the product is provided as is.
 
 ## Verify
 

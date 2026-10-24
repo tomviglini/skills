@@ -1,0 +1,7 @@
+interface:
+  display_name: "Legal Compliance"
+  short_description: "Check licenses, names, terms, and privacy before publishing"
+  default_prompt: "Use $legal-compliance to run the check this moment needs and update the repository's compliance record."
+
+policy:
+  allow_implicit_invocation: true

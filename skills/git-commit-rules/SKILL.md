@@ -49,7 +49,7 @@ Author and committer need not be identical. Preserve legitimate original authors
 
 ## Write the commit message
 
-- Write a concise subject describing the actual change, in the commit language the project's instructions name, English when they name none. In English, start with a lowercase imperative verb; in another language, follow the project's convention, such as a capitalized infinitive in Spanish.
+- Write a concise subject describing the actual change, in the language the project's instructions declare for the repository, or for commit messages when they name one separately; English when they declare none. In English, start with a lowercase imperative verb; in another language, follow the project's convention, such as a capitalized infinitive in Spanish.
 - Preserve the capitalization of proper names, product names, identifiers, and acronyms.
 - Aim for 72 characters or fewer and omit a trailing period.
 - Describe the meaningful change or resulting behavior. Avoid vague subjects and generic summaries of activity.
