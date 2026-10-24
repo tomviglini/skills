@@ -1,6 +1,6 @@
 ---
 name: mobile-ui-basics
-description: "Build, change, or review mobile screens for usable text entry, layouts, touch controls, feedback, and navigation. Apply to native apps and supported mobile web views; unrelated backend work or desktop-only UI does not trigger it."
+description: "Build, change, or review mobile screens for usable text entry, layouts, touch controls, feedback, navigation, and short interface text. Apply to native apps and supported mobile web views; unrelated backend work or desktop-only UI does not trigger it."
 ---
 
 # Mobile UI Basics
@@ -37,6 +37,11 @@ For keyboard defects or changes to editable layouts, read [keyboard handling](re
 - Keep Back, close, gestures, and cancellation consistent with the navigation stack and platform. Transient state such as a keyboard, dialog, selection, or local zoom may consume Back before leaving a screen when that matches the interaction. Do not hardcode one universal priority or trap the user in an overlay.
 - Confine focus and interaction to a modal while it is active; hidden screens must not intercept controls. Restore focus to the invoking control or another sensible destination when closing. Preserve drafts and reading position where the flow calls for them.
 - Use motion to explain transitions without blocking input. Respect reduced-motion settings and handle repeated taps or interrupted transitions without duplicate routes or stale updates.
+
+## Interface text
+
+- Each text says what happened or what the user can do, in as few words as carry it.
+- Leave out how the app works inside, what another element on the screen already says, and reassurances about behavior users already expect. Where something unexpected does happen, the screen that handles it says so.
 
 ## Transient notifications
 

@@ -25,6 +25,9 @@ skills/
     SKILL.md
     agents/openai.yaml
     references/
+  desktop-ui-basics/
+    SKILL.md
+    agents/openai.yaml
   english-repository-content/
     SKILL.md
     agents/openai.yaml
@@ -80,11 +83,12 @@ The angle-bracket names illustrate future skills. Each skill owns its instructio
 | [checksum-named-artifacts](skills/checksum-named-artifacts/SKILL.md) | Name installable development and release artifacts with a SHA-256 content prefix (published versioned releases by their version), print the full digest, and keep named copies where later builds do not delete them. |
 | [concept-prototype](skills/concept-prototype/SKILL.md) | Run an explicitly invoked prototype-phase exploration: map an idea's real-use moments, weigh approaches by their architecture and trade-offs, implement it in the app for the owner to try, and defer documentation until the owner settles the direction. |
 | [design-tuning-lab](skills/design-tuning-lab/SKILL.md) | Build interactive pages where the owner tunes and compares design values in real context, with one view per place, visible defaults, revert and press-to-compare controls, and returned values folded into a consistent system. |
+| [desktop-ui-basics](skills/desktop-ui-basics/SKILL.md) | Keep a desktop app's own screens predictable: the hand pointer on everything clickable it draws, layouts that stay put while their content changes, and short interface text. |
 | [english-repository-content](skills/english-repository-content/SKILL.md) | Apply a shared English-language policy to repository content while preserving required names, external identifiers, and source data. |
 | [git-commit-rules](skills/git-commit-rules/SKILL.md) | Review commit scope, verify configured author and committer identities, draft English messages, and keep commit, history-rewrite, and push authorization separate. |
 | [grilling](skills/grilling/SKILL.md) | Run an explicitly invoked interview, implement when the user asks to proceed, then update docs and ADRs from the actual implementation and verification. |
 | [installed-app-lifecycle](skills/installed-app-lifecycle/SKILL.md) | Install, update, and uninstall desktop apps while keeping saved data across versions: per-item format versions and migrations, consent and a backup before any loss, TOML settings, opt-in start with the OS, and update checks against published releases. |
-| [mobile-ui-basics](skills/mobile-ui-basics/SKILL.md) | Keep mobile text entry, layouts, scrolling, touch controls, feedback, and navigation usable while preserving the project's design and libraries. |
+| [mobile-ui-basics](skills/mobile-ui-basics/SKILL.md) | Keep mobile text entry, layouts, scrolling, touch controls, feedback, navigation, and interface text usable while preserving the project's design and libraries. |
 | [project-documentation](skills/project-documentation/SKILL.md) | Create and maintain README, shared AGENTS/CLAUDE instructions, architecture, ADRs, topic guides, and plans while preserving project conventions and avoiding duplicated records. |
 | [react-granular-store-subscriptions](skills/react-granular-store-subscriptions/SKILL.md) | Connect React components to only the state they need, using Redux, Zustand, or another store's native subscription model. Reduce unnecessary renders before adding component memoization. |
 | [shared-core-and-adapters](skills/shared-core-and-adapters/SKILL.md) | Share portable domain, protocol, and interaction logic through explicit platform adapters while preserving runtime ownership and independent UI and build choices. |
@@ -148,6 +152,7 @@ This review applies to every adopted practice, not only `project-documentation`.
 | `checksum-named-artifacts` | Content-hash filename format, version names for published releases, digest printing, copy-versus-rename, stale-output, and retention practices | Build commands, covered variants and targets, output directories and shortcuts, and explicit exceptions |
 | `concept-prototype` | An existing explicit procedure for trying product ideas in the app before documenting them | Product decisions, demo or simulation controls, and the documentation and testing rules applied once a direction is chosen |
 | `design-tuning-lab` | Conventions for interactive design-decision pages: real context, per-view controls, visible defaults, revert, compare, and settings exchange | Design decisions and their evidence, capture sources, chosen values, archive locations, and explicit exceptions |
+| `desktop-ui-basics` | Pointer conventions, layout stability while content changes, interface-text brevity, and focused hover and state checks | Supported windows and UI technologies, design system, components, and explicit exceptions |
 | `english-repository-content` | English-language rules for code, documentation, UI, logs, and other covered content | Localization exceptions, conversation-language preferences, externally required text, and commit-message rules outside this skill's scope |
 | `git-commit-rules` | Covered commit-review, identity-checking, and message-writing procedures | Required identities, signing/hooks, and project-specific authorization or message conventions |
 | `grilling` | An existing explicit interview procedure, transition to authorized implementation, and documentation of the verified outcome | Actual requirements, agreed decisions, pending questions, document destinations, and any separately adopted automatic planning rules |
@@ -266,6 +271,7 @@ Reusable project practices keep automatic selection enabled. Adoption makes thei
 | `checksum-named-artifacts` | Creating, changing, or reviewing commands that build installable development or release artifacts | Running an unchanged build command; web asset URLs or product version numbers |
 | `concept-prototype` | Explicit user invocation of the concept-prototype command | Ordinary feature requests, planning, design-value tuning, installation, or another skill suggesting it |
 | `design-tuning-lab` | Building or revising an interactive page for the owner to explore or decide visual design values | Implementing a chosen design in the product, static galleries or contact sheets, and ordinary UI fixes |
+| `desktop-ui-basics` | Creating, changing, or reviewing desktop screens, their clickable elements, changing content, or interface text | Mobile screens, backend-only changes, and the operating system's own dialogs and menus |
 | `english-repository-content` | Writing, editing, or reviewing repository content under the adopted policy | Conversation or reading files for context |
 | `git-commit-rules` | Commit-message preparation or requested commit, history-rewrite, or push work | Ordinary coding, `git status`, or code review |
 | `grilling` | Explicit user invocation of the grilling command | Ordinary planning, ambiguous requirements, architecture changes, installation, or another skill suggesting an interview |
@@ -459,6 +465,24 @@ In Claude Code:
 
 ```text
 /design-tuning-lab Turn these spacing and type-scale options into a lab with one tab per screen, visible defaults, revert, and compare.
+```
+
+### Desktop UI basics
+
+Use this practice when creating or changing a desktop app's own screens: clickable elements, content that changes with state, and interface text. It covers native windows the app draws and web UIs shown in a desktop window or browser; the operating system's own menus and dialogs keep their behavior. Ordinary use checks the affected elements and states; it does not require a redesign or a full-app audit.
+
+A project adopting it can add a conditional instruction to read the installed `desktop-ui-basics` skill for that work, while retaining its design system, components, and existing exceptions. Adding this catalog entry does not install it in another project or adopt it in this collection.
+
+In Codex:
+
+```text
+Use $desktop-ui-basics to add a Check now button to this settings card so it keeps its place while the status changes.
+```
+
+In Claude Code:
+
+```text
+/desktop-ui-basics Review this window's clickable elements and status texts without changing its visual design.
 ```
 
 ### Mobile UI basics

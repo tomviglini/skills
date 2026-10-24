@@ -1,0 +1,6 @@
+interface:
+  display_name: "Desktop UI Basics"
+  short_description: "Keep desktop pointers, layouts, and texts predictable"
+
+policy:
+  allow_implicit_invocation: true

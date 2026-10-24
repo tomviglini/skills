@@ -1,14 +1,16 @@
 # Update Checks
 
-Read this reference when adding or changing how an app finds a newer version, or how its releases are published. Status: accepted design, reviewed on 2026-10-23, implemented in one consuming project (a Rust app on Windows that reads GitHub releases through the REST API).
+Read this reference when adding or changing how an app finds a newer version, or how its releases are published. Status: accepted design, reviewed on 2026-10-23 and extended on 2026-10-24, implemented in four consuming projects on Windows: Rust apps that read GitHub releases through WinHTTP, and apps whose local Node server shows a web UI.
 
 ## Behavior
 
 - **App closed:** nothing runs. No service, scheduled task, or helper process checks for updates.
 - **Settings:** automatic checks are on by default, at an interval the user picks from a short list (for example daily or weekly, weekly by default). A "Check now" button works even with automatic checks off. Next to these settings, show the time of the last check and what it found or what is missing.
+- **Check now:** shows that the check is under way and then its result where the user asked for it. When the settings live in a menu that closes, a small dialog shows both. Automatic checks show nothing but the indicator.
 - **Timing:** look whether a check is due shortly after start-up (the network may not be up yet when the OS starts the app), then about hourly. Store the time of the last check that read the releases with the app's state. A failed check moves nothing and is retried at the next look; its message appears only in the settings.
 - **Newest version:** the highest stable `vX.Y.Z` tag above the running version, compared as numbers, never as text. Read every page of the release list; ignore drafts, pre-releases, and other tags. Do not rely on a host's "latest" mark: on GitHub it follows the last release published by default, so a fix for an older line can carry it. Major, minor, and patch updates get the same treatment unless the project defines release channels.
-- **Indicator:** a small, clickable note in the main window, such as a download icon with "Version 1.4.0 available". Never a pop-up, and never installed on its own. Show the running version somewhere in the window too.
+- **Indicator:** a small, clickable note in the main window, such as a download icon with "Version 1.4.0 available". Never a pop-up, and never installed on its own. Show the running version somewhere in the window too. Keep these texts short: the version found and how to get it.
+- **Where:** only the installed desktop app shows update notices and settings, on the computer where it runs. Clients that update another way, such as mobile apps or pages opened from other devices, show none.
 - **Installing:** the note opens the installer's download address in the default browser. The user opens the downloaded file, and the installer closes the running app as in [installer flow](installer-flow.md). Open only addresses on the release host, whatever a response contains. An unsigned installer downloaded this way meets the OS's and the browser's reputation warnings; code signing, or an in-app download checked against the release's published SHA-256, avoids them at a higher cost.
 
 ## Release location
@@ -25,3 +27,4 @@ Read this reference when adding or changing how an app finds a newer version, or
 - Mark a release as the host's latest only when it carries the highest version.
 - Deleting a tag can delete its release. A maintainer can then test the update path with a throwaway higher version built from a commit that never reaches the main branch, and remove it afterwards.
 - Give the installer a fixed name prefix, so the app can pick it among the release's files.
+- A repository that ships several installable files, such as a desktop Setup and an Android APK, publishes them as separate files of one release under one product version. Keep that version in one place, read by every build; an Android versionCode derived from it (for example major × 10000 + minor × 100 + patch) rises with every release, so each one installs over the last.
