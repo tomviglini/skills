@@ -77,7 +77,7 @@ The angle-bracket names illustrate future skills. Each skill owns its instructio
 | Skill | Purpose |
 | --- | --- |
 | [asset-versioning-and-cache](skills/asset-versioning-and-cache/SKILL.md) | Version static assets through the production build, recommend one-year immutable caching for content-derived URLs, and preserve project-specific mutable-resource and deployment policies. |
-| [checksum-named-artifacts](skills/checksum-named-artifacts/SKILL.md) | Name installable development and release artifacts with a SHA-256 content prefix, print the full digest, and keep named copies where later builds do not delete them. |
+| [checksum-named-artifacts](skills/checksum-named-artifacts/SKILL.md) | Name installable development and release artifacts with a SHA-256 content prefix (published versioned releases by their version), print the full digest, and keep named copies where later builds do not delete them. |
 | [concept-prototype](skills/concept-prototype/SKILL.md) | Run an explicitly invoked prototype-phase exploration: map an idea's real-use moments, weigh approaches by their architecture and trade-offs, implement it in the app for the owner to try, and defer documentation until the owner settles the direction. |
 | [design-tuning-lab](skills/design-tuning-lab/SKILL.md) | Build interactive pages where the owner tunes and compares design values in real context, with one view per place, visible defaults, revert and press-to-compare controls, and returned values folded into a consistent system. |
 | [english-repository-content](skills/english-repository-content/SKILL.md) | Apply a shared English-language policy to repository content while preserving required names, external identifiers, and source data. |
@@ -145,7 +145,7 @@ This review applies to every adopted practice, not only `project-documentation`.
 | Skill | Generic guidance that can move to the skill | Information that stays in the project |
 | --- | --- | --- |
 | `asset-versioning-and-cache` | Asset fingerprinting, reference rewriting, immutable-cache defaults, and delivery verification practices | Mutable-resource lifetimes, asset paths and origins, build/hosting configuration, retention and recovery decisions, and explicit exceptions |
-| `checksum-named-artifacts` | Content-hash filename format, digest printing, copy-versus-rename, stale-output, and retention practices | Build commands, covered variants and targets, output directories and shortcuts, and explicit exceptions |
+| `checksum-named-artifacts` | Content-hash filename format, version names for published releases, digest printing, copy-versus-rename, stale-output, and retention practices | Build commands, covered variants and targets, output directories and shortcuts, and explicit exceptions |
 | `concept-prototype` | An existing explicit procedure for trying product ideas in the app before documenting them | Product decisions, demo or simulation controls, and the documentation and testing rules applied once a direction is chosen |
 | `design-tuning-lab` | Conventions for interactive design-decision pages: real context, per-view controls, visible defaults, revert, compare, and settings exchange | Design decisions and their evidence, capture sources, chosen values, archive locations, and explicit exceptions |
 | `english-repository-content` | English-language rules for code, documentation, UI, logs, and other covered content | Localization exceptions, conversation-language preferences, externally required text, and commit-message rules outside this skill's scope |
@@ -404,7 +404,7 @@ In Claude Code:
 
 ### Checksum-named artifacts
 
-Use this practice when creating or changing the commands that build APKs, app bundles, development clients, installers, or similar artifacts installed by hand. Each build copies its output to `<project>-<variant>[-<target>]-<first eight SHA-256 hex characters>.<extension>` and prints the full digest, so a file identifies and verifies its own content independently of Git state. Development and release variants are both covered. When native-project regeneration or another variant's build deletes the conventional output directory, named copies go to a stable directory instead.
+Use this practice when creating or changing the commands that build APKs, app bundles, development clients, installers, or similar artifacts installed by hand. Each build copies its output to `<project>-<variant>[-<target>]-<first eight SHA-256 hex characters>.<extension>` and prints the full digest, so a file identifies and verifies its own content independently of Git state. Development and release variants are both covered. A published release with a version, such as one built from a `v1.4.0` tag, is named `<project>-<variant>[-<target>]-1.4.0.<extension>` instead, and its full digest is published with it. When native-project regeneration or another variant's build deletes the conventional output directory, named copies go to a stable directory instead.
 
 Adoption reconciles existing artifact-naming rules and keeps project facts, such as commands, output directories, and shortcuts, in the project's build documentation. Running an unchanged build does not activate the skill, and it does not replace version codes or signing.
 

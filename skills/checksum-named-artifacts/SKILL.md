@@ -1,6 +1,6 @@
 ---
 name: checksum-named-artifacts
-description: "Name installable build artifacts, such as APKs, app bundles, and installers, with a SHA-256 content prefix and print the full digest. Use when creating, changing, or reviewing the commands that build development or release artifacts for manual installation; excludes web asset fingerprinting and product versioning."
+description: "Name installable build artifacts, such as APKs, app bundles, and installers, with a SHA-256 content prefix and print the full digest; a published release with a version is named by that version instead. Use when creating, changing, or reviewing the commands that build development or release artifacts for manual installation; excludes web asset fingerprinting and choosing version numbers."
 ---
 
 # Checksum-Named Artifacts
@@ -17,7 +17,8 @@ Give every installable build artifact a filename derived from its own bytes, so 
 
 - Build first, then compute SHA-256 over the final artifact bytes, after signing, alignment, and any other post-processing.
 - Name the copy `<project>-<variant>[-<target>]-<hash>.<extension>`, where `<hash>` is the first eight lowercase hexadecimal characters of that digest. Use the project's own variant names, such as `debug`, `dev`, `release`, or `setup`. Add a target, such as `arm64`, when the build is limited to one architecture or platform. Examples: `example-release-arm64-18e782c2.apk`, `example-setup-4c0e9a1f.exe`.
-- The suffix identifies content, not the Git commit or the product version. Identical bytes produce the same name; any packaging change produces a different name, even when the version is unchanged. Do not claim reproducible builds because of it.
+- A published release that carries a product version, such as one built from a `v1.4.0` tag, names its artifact by that version instead: `<project>-<variant>[-<target>]-<version>.<extension>`, without the tag's `v`, for example `example-setup-1.4.0.exe`. Take the version from the same source the build stamps into the product, so the name, the tag, and the installed version agree. Publish the complete SHA-256 with the release, for example through the host's file digest or a release record. Builds without a published version, including release-variant builds handed over for testing, keep the hash.
+- The hash suffix identifies content, not the Git commit or the product version. Identical bytes produce the same name; any packaging change produces a different name, even when the version is unchanged. Do not claim reproducible builds because of it.
 - Copy the artifact rather than renaming it. Leave the build tool's conventional output, such as `app-release.apk`, in place for tools that expect it; both files contain the same bytes.
 - Print the named path and the complete SHA-256 when the build finishes.
 - Name only an artifact produced by the current run. Stop on build failure instead of copying a stale file left by an earlier build.
@@ -39,7 +40,7 @@ After an implementation change, run the affected build commands, or explain why 
 
 | Check | Evidence |
 | --- | --- |
-| Name | The file matches the pattern for its variant and target. |
+| Name | The file matches the pattern for its variant and target: the hash, or the version for a published release. |
 | Digest | An independent SHA-256 of the named file matches the printed digest and the suffix. |
 | Identity | The named copy is byte-identical to the conventional output of the same run. |
 | Retention | Building another covered variant, including any regeneration step, leaves earlier named copies in place. |
