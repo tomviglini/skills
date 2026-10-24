@@ -112,6 +112,8 @@ Keep these links and their targets together in version control when committing i
 
 This collection contains reusable project practices and explicitly invoked workflows. Keep the shared procedure in a skill and the project's technical facts, paths, and exceptions in its own documentation. For a project practice, a short conditional rule in `AGENTS.md` connects the two; it replaces repeated generic instructions rather than adding another copy of them.
 
+The skills are written in English, but what they produce follows each project's language: documentation, interface text, release notes, and commit messages use the language the project's `AGENTS.md` names. A project in another language states it there and does not adopt `english-repository-content`.
+
 For this collection, **project installation requires both native discovery and adoption**, for automatic practices and manual commands alike:
 
 | Part | Required result |
