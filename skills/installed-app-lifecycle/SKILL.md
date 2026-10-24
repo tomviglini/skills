@@ -39,7 +39,7 @@ Read [settings files](references/settings-files.md) when creating or changing a 
 2. **Plan:** the new build reports per item whether it keeps, migrates, or resets it.
 3. **Warning:** when something the user would miss is lost, list it, offer a backup copy with its size, and let Cancel keep the installed version. Offer no silent path that resets user data.
 4. **Apply:** after the files are installed, the new build applies the plan, performing the resets the user agreed to. At start-up the app itself applies only what loses nothing, so copies run without the installer still upgrade.
-5. **Start with the OS:** an installer option, unchecked for a new install and showing the current choice on an update. The app's settings change it later.
+5. **Start with the OS:** an installer option, unchecked for a new install and showing the current choice on an update. The app's settings change it later. The OS's own entries are the only record: read them each time instead of saving a copy, and on Windows read both the Run value and the Startup apps mark.
 6. **Size:** report the installed files plus a bounded data estimate where the OS lists installed apps.
 7. **Uninstall:** close a running copy the same way, remove everything except `backup\`, and ask whether to delete the copies when there are any.
 

@@ -1,6 +1,6 @@
 # NSIS
 
-Read this reference when the installer is built with NSIS. Target: NSIS 3.11 with MUI2, LogicLib, and nsDialogs. Reviewed on 2026-10-23, and exercised in one consuming project on Windows x64 (new install, update, uninstall). Adapt names, paths, and the app's window class.
+Read this reference when the installer is built with NSIS. Target: NSIS 3.11 with MUI2, LogicLib, and nsDialogs. Reviewed on 2026-10-23, and exercised in four consuming projects on Windows x64 (new install, update, uninstall). Adapt names, paths, and the app's window class.
 
 ## Pages
 
@@ -67,14 +67,36 @@ FunctionEnd
 ## Options and running copies
 
 ```nsis
+!define RUN_KEY "Software\Microsoft\Windows\CurrentVersion\Run"
+!define APPROVED_KEY "Software\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\Run"
+
 Function .onInit
-  ; the current choice: off for a new install, kept on an update
-  ReadRegStr $0 HKCU "Software\Microsoft\Windows\CurrentVersion\Run" "${RUN_VALUE}"
+  ; the current choice: off for a new install, kept on an update, and off when Startup apps
+  ; turned the entry off
+  StrCpy $StartWithWindows ${BST_UNCHECKED}
+  ReadRegStr $0 HKCU "${RUN_KEY}" "${RUN_VALUE}"
   ${If} $0 != ""
     StrCpy $StartWithWindows ${BST_CHECKED}
-  ${Else}
-    StrCpy $StartWithWindows ${BST_UNCHECKED}
+    Call ReadStartupApproval
+    ${If} $0 = 1
+      StrCpy $StartWithWindows ${BST_UNCHECKED}
+    ${EndIf}
   ${EndIf}
+FunctionEnd
+
+; $0 = 1 when Startup apps turned the Run entry off: its mark's first byte is odd.
+Function ReadStartupApproval
+  StrCpy $0 0
+  System::Alloc 64
+  Pop $1
+  ; HKEY_CURRENT_USER, RRF_RT_REG_BINARY
+  System::Call 'advapi32::RegGetValueW(p 0x80000001, w "${APPROVED_KEY}", w "${RUN_VALUE}", i 8, p 0, p r1, *i 64) i .r2'
+  ${If} $2 = 0
+    System::Call '*$1(&i1 .r3)'
+    IntOp $3 $3 & 1
+    StrCpy $0 $3
+  ${EndIf}
+  System::Free $1
 FunctionEnd
 
 Function OptionsLeave
@@ -98,6 +120,20 @@ FunctionEnd
 ```
 
 Call `CloseApp` at the start of the install section and `un.CloseApp` at the start of the uninstall section. Prefer a named label to relative jumps inside LogicLib blocks.
+
+## Start with Windows
+
+In the install section, write both entries or neither; the uninstall section deletes both:
+
+```nsis
+  ${If} $StartWithWindows == ${BST_CHECKED}
+    WriteRegStr HKCU "${RUN_KEY}" "${RUN_VALUE}" '"$INSTDIR\${APP_EXE}" --background'
+    WriteRegBin HKCU "${APPROVED_KEY}" "${RUN_VALUE}" 020000000000000000000000
+  ${Else}
+    DeleteRegValue HKCU "${RUN_KEY}" "${RUN_VALUE}"
+    DeleteRegValue HKCU "${APPROVED_KEY}" "${RUN_VALUE}"
+  ${EndIf}
+```
 
 ## Apply
 

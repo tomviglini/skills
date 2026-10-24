@@ -71,6 +71,23 @@ The installer runs the plan from a temporary copy of the new executable before i
 
 Before reading any data, the app runs the same plan and applies only what loses nothing. Data that needs consent stays as it is, and the app works with what it can read. This covers copies run without the installer and data restored by hand.
 
+## Start with the OS
+
+Keep no copy of the choice in the data folder: the OS's entries decide whether the app starts, a copy can disagree with them, and on Windows they are per user while the data folder is shared by every account.
+
+On Windows, two places decide it, and the app and the installer read and write both:
+
+| Entry | Meaning |
+| --- | --- |
+| `HKCU\Software\Microsoft\Windows\CurrentVersion\Run`, a string value with the app's command line | The app is registered to start |
+| `HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\Run`, a binary value with the same name | How Startup apps (Settings, Task Manager) set it: an odd first byte means turned off; Windows writes `02` and eleven zero bytes for on. Missing means on |
+
+- **Read:** on when the Run value exists and its mark is missing or has an even first byte.
+- **Turn on:** write the Run value and the `02` mark, so an earlier "off" from Startup apps does not keep it from starting.
+- **Turn off and uninstall:** delete both values.
+
+This mark layout comes from community documentation and observed registry values; Microsoft does not document it. Reviewed on 2026-10-23.
+
 ## Running copies
 
 Detect a running copy by its window class or process name, and include helper processes such as a local server or browser processes. Close it without asking, since installing, updating, or removing the app implies it. Close it through the app's own exit path first, so tray icons disappear, then force-close what remains. When the app has no window to message, give it a named exit event that the new build can signal, and keep the force-close for versions without it.
