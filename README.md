@@ -54,6 +54,9 @@ skills/
     SKILL.md
     agents/openai.yaml
     references/
+  release-publishing/
+    SKILL.md
+    agents/openai.yaml
   shared-core-and-adapters/
     SKILL.md
     agents/openai.yaml
@@ -91,6 +94,7 @@ The angle-bracket names illustrate future skills. Each skill owns its instructio
 | [mobile-ui-basics](skills/mobile-ui-basics/SKILL.md) | Keep mobile text entry, layouts, scrolling, touch controls, feedback, navigation, and interface text usable while preserving the project's design and libraries. |
 | [project-documentation](skills/project-documentation/SKILL.md) | Create and maintain README, shared AGENTS/CLAUDE instructions, architecture, ADRs, topic guides, and plans while preserving project conventions and avoiding duplicated records. |
 | [react-granular-store-subscriptions](skills/react-granular-store-subscriptions/SKILL.md) | Connect React components to only the state they need, using Redux, Zustand, or another store's native subscription model. Reduce unnecessary renders before adding component memoization. |
+| [release-publishing](skills/release-publishing/SKILL.md) | Publish versioned releases from a tag: one product version, CI that runs the project's own checks and builds, files named by version, a dated title, the latest mark only on the highest version, notes that introduce the product and list the release's changes, a license and disclaimer, an outcome record, and cleanup on tag deletion. |
 | [shared-core-and-adapters](skills/shared-core-and-adapters/SKILL.md) | Share portable domain, protocol, and interaction logic through explicit platform adapters while preserving runtime ownership and independent UI and build choices. |
 | [stateless-jwt-auth](skills/stateless-jwt-auth/SKILL.md) | Require salted password records, private-key JWT signing and public-key verification, validation before user-state lookups, and revocation tied to the user's current credentials, without per-session storage. |
 | [svg-icon-assets](skills/svg-icon-assets/SKILL.md) | Generate icons and favicons from SVG masters, design for small display sizes, wire appropriate 1x/2x/3x outputs, and optimize delivered assets in the production build. |
@@ -156,10 +160,11 @@ This review applies to every adopted practice, not only `project-documentation`.
 | `english-repository-content` | English-language rules for code, documentation, UI, logs, and other covered content | Localization exceptions, conversation-language preferences, externally required text, and commit-message rules outside this skill's scope |
 | `git-commit-rules` | Covered commit-review, identity-checking, and message-writing procedures | Required identities, signing/hooks, and project-specific authorization or message conventions |
 | `grilling` | An existing explicit interview procedure, transition to authorized implementation, and documentation of the verified outcome | Actual requirements, agreed decisions, pending questions, document destinations, and any separately adopted automatic planning rules |
-| `installed-app-lifecycle` | Data-folder item rules, per-item versions, migration and consent before loss, backup and uninstall handling, settings-file rules, start-with-OS default, update-check behavior, and release publishing | Data location, the actual items and their versions, migrations, installer tool and paths, release location, and explicit exceptions |
+| `installed-app-lifecycle` | Data-folder item rules, per-item versions, migration and consent before loss, backup and uninstall handling, settings-file rules, start-with-OS default, and update-check behavior | Data location, the actual items and their versions, migrations, installer tool and paths, release location, and explicit exceptions |
 | `mobile-ui-basics` | Keyboard visibility, focus, scrolling, touch interaction, feedback, navigation, and focused usability checks | Supported platforms and devices, design system, installed libraries, navigation semantics, native configuration, verified behavior, and explicit exceptions |
 | `project-documentation` | Document responsibilities, maintenance procedure, and ADR history rules | Actual architecture, decisions and their rationale, document paths, evidence, and pending work |
 | `react-granular-store-subscriptions` | General subscription and memoization practices | Installed library/version, store ownership and lifetimes, domain constraints, and measured behavior |
+| `release-publishing` | Tag and version rules, pipeline steps, release titles, latest marking, notes sections and template, license and disclaimer basics, outcome records, and tag-deletion cleanup | Host and repository, version source, build scripts and runners, file names, the notes template's text, and explicit exceptions |
 | `shared-core-and-adapters` | Shared-rule placement, dependency boundaries, adapter integration, and boundary verification practices | Actual domain rules, module paths, contracts, runtime lifetimes, supported platforms, toolchains, release constraints, and explicit exceptions |
 | `stateless-jwt-auth` | Password storage, asymmetric signing and public-key verification, JWT validation order, credential binding, and revocation requirements | Existing client contracts, hashing parameters, key ownership, claim names, lifetimes, credential-update paths, and explicit migration exceptions |
 | `svg-icon-assets` | General SVG-source, density, small-size review, and optimization practices | Canonical asset paths, chosen artwork, output requirements, generation commands, licenses, and verification limits |
@@ -275,10 +280,11 @@ Reusable project practices keep automatic selection enabled. Adoption makes thei
 | `english-repository-content` | Writing, editing, or reviewing repository content under the adopted policy | Conversation or reading files for context |
 | `git-commit-rules` | Commit-message preparation or requested commit, history-rewrite, or push work | Ordinary coding, `git status`, or code review |
 | `grilling` | Explicit user invocation of the grilling command | Ordinary planning, ambiguous requirements, architecture changes, installation, or another skill suggesting an interview |
-| `installed-app-lifecycle` | Changing an installer or uninstaller, anything the app keeps between runs, update checks or release publishing, and preparing a release that changes saved data | Ordinary features that leave saved data and the installer unchanged; web deployments or app-store releases |
+| `installed-app-lifecycle` | Changing an installer or uninstaller, anything the app keeps between runs, update checks, and preparing a release that changes saved data | Ordinary features that leave saved data and the installer unchanged; web deployments or app-store releases |
 | `mobile-ui-basics` | Creating, changing, or reviewing mobile screens and their input, layout, or interaction behavior | Backend-only changes, desktop-only UI, or asset generation without changing the mobile interaction |
 | `project-documentation` | Requested documentation work or necessary updates identified by the documentation-impact assessment | A code change with no documentation impact, or reading README for context |
 | `react-granular-store-subscriptions` | React store subscription work or diagnosis of store-driven rerenders | Unrelated React layout, styling, or imports |
+| `release-publishing` | Creating or changing a release pipeline or its notes template, and preparing, publishing, editing, or deleting a release | App-store submissions, web deployments, and local builds that are not published |
 | `shared-core-and-adapters` | Shared domain/protocol logic, extraction or review of core boundaries, and adapter integration | Ordinary UI or platform-only work using unchanged boundaries; reading a shared module for context |
 | `stateless-jwt-auth` | Password and application-issued JWT authentication work under the adopted model, including credential changes and revocation | Unrelated UI, ordinary endpoints using unchanged authentication, or external-provider-only authentication |
 | `svg-icon-assets` | Icon, logo, favicon, tray/touch icon, and associated asset-pipeline work | Unrelated UI work or general image handling |
@@ -517,6 +523,24 @@ In Claude Code:
 
 ```text
 /react-granular-store-subscriptions Refactor this screen so each component subscribes only to the state it renders.
+```
+
+### Release publishing
+
+Use this practice when a repository publishes versioned releases from tags, or when a release's notes are written or edited. It covers the version and tag, the pipeline's steps, the release title and files, the latest mark, the notes' sections, the outcome record, and cleanup on tag deletion; desktop apps and browser extensions alike. Publishing, deleting, and editing releases still need the maintainer's request.
+
+A project adopting it can add a conditional instruction to read the installed `release-publishing` skill for that work, while retaining its host, version source, build scripts, notes template, and existing exceptions. Adding this catalog entry does not install it in another project or adopt it in this collection.
+
+In Codex:
+
+```text
+Use $release-publishing to add a notes template to this repository's release workflow.
+```
+
+In Claude Code:
+
+```text
+/release-publishing Write the notes for the published v1.2.0 release from this repository's template.
 ```
 
 ### Shared core and adapters

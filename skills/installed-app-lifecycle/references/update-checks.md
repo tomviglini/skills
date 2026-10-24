@@ -1,6 +1,6 @@
 # Update Checks
 
-Read this reference when adding or changing how an app finds a newer version, or how its releases are published. Status: accepted design, reviewed on 2026-10-23 and extended on 2026-10-24, implemented in four consuming projects on Windows: Rust apps that read GitHub releases through WinHTTP, and apps whose local Node server shows a web UI.
+Read this reference when adding or changing how an app finds a newer version. How its releases are published (tags, files, notes, records) is the release-publishing practice. Status: accepted design, reviewed on 2026-10-23 and extended on 2026-10-24, implemented in four consuming projects on Windows: Rust apps that read GitHub releases through WinHTTP, and apps whose local Node server shows a web UI.
 
 ## Behavior
 
@@ -21,10 +21,7 @@ Read this reference when adding or changing how an app finds a newer version, or
 - **Private repository:** never embed a token in the app or the installer; anyone can extract it. A person with access writes their own read-only token in a secrets file in the data folder, separate from the settings. On GitHub that is a fine-grained token limited to the repository with Contents read; there is no releases-only permission, so it can read the code too. A private repository without a token makes no request, and the settings say what is missing. A rejected token (401 or 403) and a repository the request cannot see (404) get their own messages.
 - To keep a token from reading the code, publish into a separate releases-only repository. The pipeline then needs its own write token for it, because a CI token writes only to its own repository.
 
-## Publishing
+## What the app relies on in a release
 
-- A pushed `vX.Y.Z` tag makes CI check the tag against the product version, run the project's full checks and its release build through the same scripts used locally, and publish the installer as a release of the same repository with CI's own token. It then downloads the published file, compares it with the build, and records the outcome where the maintainer can read it without the host's web interface, such as a git note.
-- Mark a release as the host's latest only when it carries the highest version.
-- Deleting a tag can delete its release. A maintainer can then test the update path with a throwaway higher version built from a commit that never reaches the main branch, and remove it afterwards.
-- Give the installer a fixed name prefix, so the app can pick it among the release's files.
-- A repository that ships several installable files, such as a desktop Setup and an Android APK, publishes them as separate files of one release under one product version. Keep that version in one place, read by every build; an Android versionCode derived from it (for example major × 10000 + minor × 100 + patch) rises with every release, so each one installs over the last.
+- The installer has a fixed name prefix, so the app can pick it among the release's files.
+- Release tags are `vX.Y.Z`, and the host's "latest" mark is not trusted (see Newest version above).

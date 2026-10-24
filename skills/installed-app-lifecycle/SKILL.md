@@ -1,6 +1,6 @@
 ---
 name: installed-app-lifecycle
-description: "Install, update, and uninstall a desktop app while keeping its saved data across versions: per-item format versions, migrations, consent and a backup before any loss, TOML settings, opt-in start with the OS, and update checks against published releases. Use when changing an installer or uninstaller, adding or changing anything the app keeps between runs, adding or changing update checks or release publishing, or preparing a release that changes saved data; excludes web deployments and app-store mobile releases."
+description: "Install, update, and uninstall a desktop app while keeping its saved data across versions: per-item format versions, migrations, consent and a backup before any loss, TOML settings, opt-in start with the OS, and update checks against published releases. Use when changing an installer or uninstaller, adding or changing anything the app keeps between runs, adding or changing update checks, or preparing a release that changes saved data; excludes web deployments and app-store mobile releases."
 ---
 
 # Installed App Lifecycle
@@ -47,7 +47,7 @@ The migration logic lives in the app's own code, where it is tested; the install
 
 ## Check for updates
 
-Read [update checks](references/update-checks.md) when adding or changing update checks or how releases are published. Nothing runs while the app is closed. A running app checks its release location at an interval the user can change (on and weekly by default) and shows when it last checked. The newest version is the highest stable version number above the running one, not the host's "latest" mark. It appears as a small clickable note that opens the installer's download, only in the installed desktop app, and the running version is always visible. Never install automatically, and never embed credentials: a private release location uses a read-only token the user writes in the data folder.
+Read [update checks](references/update-checks.md) when adding or changing update checks. Nothing runs while the app is closed. A running app checks its release location at an interval the user can change (on and weekly by default) and shows when it last checked. The newest version is the highest stable version number above the running one, not the host's "latest" mark. It appears as a small clickable note that opens the installer's download, only in the installed desktop app, and the running version is always visible. Never install automatically, and never embed credentials: a private release location uses a read-only token the user writes in the data folder.
 
 ## Verify
 

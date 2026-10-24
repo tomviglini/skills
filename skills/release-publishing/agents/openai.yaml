@@ -1,0 +1,6 @@
+interface:
+  display_name: "Release Publishing"
+  short_description: "Publish tagged releases with named files and clear notes"
+
+policy:
+  allow_implicit_invocation: true
