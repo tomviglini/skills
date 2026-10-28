@@ -25,9 +25,10 @@ skills/
     SKILL.md
     agents/openai.yaml
     references/
-  desktop-ui-basics/
+  desktop-ui-design/
     SKILL.md
     agents/openai.yaml
+    references/
   git-commit-rules/
     SKILL.md
     agents/openai.yaml
@@ -42,7 +43,11 @@ skills/
   legal-compliance/
     SKILL.md
     agents/openai.yaml
-  mobile-ui-basics/
+  mobile-ui-design/
+    SKILL.md
+    agents/openai.yaml
+    references/
+  privacy-by-design/
     SKILL.md
     agents/openai.yaml
     references/
@@ -57,6 +62,7 @@ skills/
   release-publishing/
     SKILL.md
     agents/openai.yaml
+    references/
   repository-language/
     SKILL.md
     agents/openai.yaml
@@ -89,15 +95,16 @@ The angle-bracket names illustrate future skills. Each skill owns its instructio
 | [checksum-named-artifacts](skills/checksum-named-artifacts/SKILL.md) | Name installable development and release artifacts with a SHA-256 content prefix (published versioned releases by their version), print the full digest, and keep named copies where later builds do not delete them. |
 | [concept-prototype](skills/concept-prototype/SKILL.md) | Run an explicitly invoked prototype-phase exploration: map an idea's real-use moments, weigh approaches by their architecture and trade-offs, implement it in the app for the owner to try, and defer documentation until the owner settles the direction. |
 | [design-tuning-lab](skills/design-tuning-lab/SKILL.md) | Build interactive pages where the owner tunes and compares design values in real context, with one view per place, visible defaults, revert and press-to-compare controls, and returned values folded into a consistent system. |
-| [desktop-ui-basics](skills/desktop-ui-basics/SKILL.md) | Keep a desktop app's own screens predictable: the hand pointer on everything clickable it draws, layouts that stay put while their content changes, and short interface text. |
-| [git-commit-rules](skills/git-commit-rules/SKILL.md) | Review commit scope, verify configured author and committer identities, draft messages in the project's language, and keep commit, history-rewrite, and push authorization separate. |
+| [desktop-ui-design](skills/desktop-ui-design/SKILL.md) | Keep a desktop app's own screens predictable and consistent: the hand pointer on everything clickable it draws, layouts that stay put while their content changes, reference proportions (spacing, control heights, alignment, type, corners, contrast, target size), short interface text, and screenshots of every changed screen in each theme and state. |
+| [git-commit-rules](skills/git-commit-rules/SKILL.md) | Group closed work into few commits, review commit scope, verify configured author and committer identities, draft messages in the project's language, and keep commit, history-rewrite, and push authorization separate. |
 | [grilling](skills/grilling/SKILL.md) | Run an explicitly invoked interview, implement when the user asks to proceed, then update docs and ADRs from the actual implementation and verification. |
-| [installed-app-lifecycle](skills/installed-app-lifecycle/SKILL.md) | Install, update, and uninstall desktop apps while keeping saved data across versions: per-item format versions and migrations, consent and a backup before any loss, TOML settings, opt-in start with the OS, and update checks against published releases. |
+| [installed-app-lifecycle](skills/installed-app-lifecycle/SKILL.md) | Install, update, and uninstall desktop apps while keeping saved data across versions: per-item format versions and migrations, consent and a backup before any loss, TOML settings, opt-in start with the OS, update checks against published releases, and log files with rotation. |
 | [legal-compliance](skills/legal-compliance/SKILL.md) | Check what a repository publishes for legal issues at a depth that fits the moment (task close, release, going public or to a store), recommend names that keep other companies' brands referential, record decisions once, and keep a compliance record. |
-| [mobile-ui-basics](skills/mobile-ui-basics/SKILL.md) | Keep mobile text entry, layouts, scrolling, touch controls, feedback, navigation, and interface text usable while preserving the project's design and libraries. |
+| [mobile-ui-design](skills/mobile-ui-design/SKILL.md) | Keep mobile screens at home on the platform (edge-to-edge insets, system Back, permissions), consistent in their proportions (spacing, touch targets, type, corners, contrast, text scaling), with items controlled on their cards and managed in an editor, text entry visible above the keyboard, steady feedback, and screens checked on an emulator. |
+| [privacy-by-design](skills/privacy-by-design/SKILL.md) | Keep users' data private while building apps: collect, keep, log, send, and show only what a feature needs; no secrets or personal data in logs, errors, URLs, or exports; no telemetry by default; bounded retention; made-up data in tests and screenshots. |
 | [project-documentation](skills/project-documentation/SKILL.md) | Create and maintain README, shared AGENTS/CLAUDE instructions, architecture, ADRs, topic guides, and plans while preserving project conventions and avoiding duplicated records. |
 | [react-granular-store-subscriptions](skills/react-granular-store-subscriptions/SKILL.md) | Connect React components to only the state they need, using Redux, Zustand, or another store's native subscription model. Reduce unnecessary renders before adding component memoization. |
-| [release-publishing](skills/release-publishing/SKILL.md) | Publish versioned releases from a tag: one product version, CI that runs the project's own checks and builds, files named by version, a dated title, the latest mark only on the highest version, notes that introduce the product and list the release's changes, a license and disclaimer, an outcome record, and cleanup on tag deletion. |
+| [release-publishing](skills/release-publishing/SKILL.md) | Publish versioned releases from a tag: one product version, CI that runs the project's own checks and builds, files named by version, a dated title, the latest mark only on the highest version, notes that introduce the product and list the release's changes, a license and disclaimer, an outcome record, cleanup on tag deletion, and measured pipeline speed. |
 | [repository-language](skills/repository-language/SKILL.md) | Declare one language per repository in `AGENTS.md` and write its code, documentation, interface text, release notes, and commit messages in it, preserving required names, external identifiers, and source data. |
 | [shared-core-and-adapters](skills/shared-core-and-adapters/SKILL.md) | Share portable domain, protocol, and interaction logic through explicit platform adapters while preserving runtime ownership and independent UI and build choices. |
 | [stateless-jwt-auth](skills/stateless-jwt-auth/SKILL.md) | Require salted password records, private-key JWT signing and public-key verification, validation before user-state lookups, and revocation tied to the user's current credentials, without per-session storage. |
@@ -106,7 +113,7 @@ The angle-bracket names illustrate future skills. Each skill owns its instructio
 
 ## Skills used in this repository
 
-This repository adopts `git-commit-rules`, `legal-compliance`, `project-documentation`, `repository-language`, and `task-lifecycle` for its maintenance, and makes `grilling` available for explicit invocation. Their use conditions live in [AGENTS.md](AGENTS.md); [CLAUDE.md](CLAUDE.md) imports those same instructions. The remaining catalog entries are reusable source material, not practices adopted by this collection merely because their files are present.
+This repository adopts `git-commit-rules`, `legal-compliance`, `privacy-by-design`, `project-documentation`, `repository-language`, and `task-lifecycle` for its maintenance, and makes `grilling` available for explicit invocation. Their use conditions live in [AGENTS.md](AGENTS.md); [CLAUDE.md](CLAUDE.md) imports those same instructions. The remaining catalog entries are reusable source material, not practices adopted by this collection merely because their files are present.
 
 Each of these six skills has a relative directory symlink in both `.agents/skills/` for Codex and `.claude/skills/` for Claude Code, pointing to `../../skills/<skill-name>`. Both agents therefore discover the complete local skill, including references and invocation metadata, without maintaining duplicate content. Edit the canonical files under `skills/`. These links use the current working tree, including uncommitted edits; they are for maintaining this collection, not pinned installations in consuming projects.
 
@@ -162,15 +169,16 @@ This review applies to every adopted practice, not only `project-documentation`.
 | `checksum-named-artifacts` | Content-hash filename format, version names for published releases, digest printing, copy-versus-rename, stale-output, and retention practices | Build commands, covered variants and targets, output directories and shortcuts, and explicit exceptions |
 | `concept-prototype` | An existing explicit procedure for trying product ideas in the app before documenting them | Product decisions, demo or simulation controls, and the documentation and testing rules applied once a direction is chosen |
 | `design-tuning-lab` | Conventions for interactive design-decision pages: real context, per-view controls, visible defaults, revert, compare, and settings exchange | Design decisions and their evidence, capture sources, chosen values, archive locations, and explicit exceptions |
-| `desktop-ui-basics` | Pointer conventions, layout stability while content changes, interface-text brevity, and focused hover and state checks | Supported windows and UI technologies, design system, components, and explicit exceptions |
-| `git-commit-rules` | Covered commit-review, identity-checking, and message-writing procedures | Required identities, signing/hooks, and project-specific authorization or message conventions |
+| `desktop-ui-design` | Pointer conventions, layout stability while content changes, reference proportions and contrast minimums, interface-text brevity, and screenshot, pointer, and state checks | Supported windows and UI technologies, components, the app's chosen values (control height, radii, colors) and their reasons, verification tooling, and explicit exceptions |
+| `git-commit-rules` | Covered commit-boundary, commit-review, identity-checking, and message-writing procedures | Required identities, signing/hooks, and project-specific authorization or message conventions |
 | `grilling` | An existing explicit interview procedure, transition to authorized implementation, and documentation of the verified outcome | Actual requirements, agreed decisions, pending questions, document destinations, and any separately adopted automatic planning rules |
-| `installed-app-lifecycle` | Data-folder item rules, per-item versions, migration and consent before loss, backup and uninstall handling, settings-file rules, start-with-OS default, and update-check behavior | Data location, the actual items and their versions, migrations, installer tool and paths, release location, and explicit exceptions |
+| `installed-app-lifecycle` | Data-folder item rules, per-item versions, migration and consent before loss, backup and uninstall handling, settings-file rules, start-with-OS default, update-check behavior, and log files, their limits, and rotation | Data location, the actual items and their versions, migrations, installer tool and paths, release location, and explicit exceptions |
 | `legal-compliance` | When legal checks run and how deep, the areas checked, naming recommendations, recording decisions once, ground rules, and the record's structure | The products and companies it works with, their sources, the project's own limits (such as what its product must never do), decisions already taken, and the record's path |
-| `mobile-ui-basics` | Keyboard visibility, focus, scrolling, touch interaction, feedback, navigation, and focused usability checks | Supported platforms and devices, design system, installed libraries, navigation semantics, native configuration, verified behavior, and explicit exceptions |
+| `mobile-ui-design` | Platform conventions (insets, Back, permissions, window sizes), reference proportions and contrast minimums, where items are edited, removed, and confirmed, keyboard visibility, layout stability, feedback, interface-text brevity, and emulator-based checks | Supported platforms, target SDK and devices, components and libraries, the app's chosen values, navigation semantics, native configuration, verified behavior, and explicit exceptions |
+| `privacy-by-design` | Data minimization, what never goes into logs, errors, URLs, or exports, network and telemetry defaults, retention, permissions, made-up data in fixtures, and the checks for each | What the product actually reads, stores, and sends (in the compliance record), log locations and limits, approved network endpoints, and explicit exceptions |
 | `project-documentation` | Document responsibilities, maintenance procedure, and ADR history rules | Actual architecture, decisions and their rationale, document paths, evidence, and pending work |
 | `react-granular-store-subscriptions` | General subscription and memoization practices | Installed library/version, store ownership and lifetimes, domain constraints, and measured behavior |
-| `release-publishing` | Tag and version rules, pipeline steps, release titles, latest marking, notes sections and template, the license and disclaimer requirement before a first release, outcome records, and tag-deletion cleanup | Host and repository, version source, build scripts and runners, file names, the notes template's text, and explicit exceptions |
+| `release-publishing` | Tag and version rules, pipeline steps, release titles, latest marking, notes sections and template, the license and disclaimer requirement before a first release, outcome records, tag-deletion cleanup, and measuring and speeding up release runs | Host and repository, version source, build scripts and runners, file names, the notes template's text, and explicit exceptions |
 | `repository-language` | Where the language is declared and the rules for writing in it | The declared language, any area that uses another language, conversation-language preferences, externally required text, and commit-message format rules |
 | `shared-core-and-adapters` | Shared-rule placement, dependency boundaries, adapter integration, and boundary verification practices | Actual domain rules, module paths, contracts, runtime lifetimes, supported platforms, toolchains, release constraints, and explicit exceptions |
 | `stateless-jwt-auth` | Password storage, asymmetric signing and public-key verification, JWT validation order, credential binding, and revocation requirements | Existing client contracts, hashing parameters, key ownership, claim names, lifetimes, credential-update paths, and explicit migration exceptions |
@@ -283,15 +291,16 @@ Reusable project practices keep automatic selection enabled. Adoption makes thei
 | `checksum-named-artifacts` | Creating, changing, or reviewing commands that build installable development or release artifacts | Running an unchanged build command; web asset URLs or product version numbers |
 | `concept-prototype` | Explicit user invocation of the concept-prototype command | Ordinary feature requests, planning, design-value tuning, installation, or another skill suggesting it |
 | `design-tuning-lab` | Building or revising an interactive page for the owner to explore or decide visual design values | Implementing a chosen design in the product, static galleries or contact sheets, and ordinary UI fixes |
-| `desktop-ui-basics` | Creating, changing, or reviewing desktop screens, their clickable elements, changing content, or interface text | Mobile screens, backend-only changes, and the operating system's own dialogs and menus |
+| `desktop-ui-design` | Creating, changing, or reviewing desktop screens, their clickable elements, changing content, proportions, colors, or interface text | Mobile screens, backend-only changes, and the operating system's own dialogs and menus |
 | `git-commit-rules` | Commit-message preparation or requested commit, history-rewrite, or push work | Ordinary coding, `git status`, or code review |
 | `grilling` | Explicit user invocation of the grilling command | Ordinary planning, ambiguous requirements, architecture changes, installation, or another skill suggesting an interview |
-| `installed-app-lifecycle` | Changing an installer or uninstaller, anything the app keeps between runs, update checks, and preparing a release that changes saved data | Ordinary features that leave saved data and the installer unchanged; web deployments or app-store releases |
+| `installed-app-lifecycle` | Changing an installer or uninstaller, anything the app keeps between runs (logs included), update checks, and preparing a release that changes saved data | Ordinary features that leave saved data and the installer unchanged; web deployments or app-store releases |
 | `legal-compliance` | Naming a project, closing a task that touches its areas, preparing a release, and making a repository public, submitting to a store, or charging | Changes that add no dependency, asset, data handling, permission, or other company's name or material |
-| `mobile-ui-basics` | Creating, changing, or reviewing mobile screens and their input, layout, or interaction behavior | Backend-only changes, desktop-only UI, or asset generation without changing the mobile interaction |
+| `mobile-ui-design` | Creating, changing, or reviewing mobile screens, their input, layout, proportions, interaction, platform behavior, or interface text, including web UIs shown on a phone | Backend-only changes, desktop windows, or asset generation without changing the mobile interface |
+| `privacy-by-design` | Adding or changing logging, stored data, network calls, error or crash reporting, analytics, exports or sharing, permissions, or fixtures and screenshots | Changes that touch none of the user's data, or legal texts alone (legal-compliance) |
 | `project-documentation` | Requested documentation work or necessary updates identified by the documentation-impact assessment | A code change with no documentation impact, or reading README for context |
 | `react-granular-store-subscriptions` | React store subscription work or diagnosis of store-driven rerenders | Unrelated React layout, styling, or imports |
-| `release-publishing` | Creating or changing a release pipeline or its notes template, and preparing, publishing, editing, or deleting a release | App-store submissions, web deployments, and local builds that are not published |
+| `release-publishing` | Creating or changing a release pipeline or its notes template, a slow release run, and preparing, publishing, editing, or deleting a release | App-store submissions, web deployments, and local builds that are not published |
 | `repository-language` | Writing, editing, or reviewing repository content, or a repository without a declared language | Conversation or reading files for context |
 | `shared-core-and-adapters` | Shared domain/protocol logic, extraction or review of core boundaries, and adapter integration | Ordinary UI or platform-only work using unchanged boundaries; reading a shared module for context |
 | `stateless-jwt-auth` | Password and application-issued JWT authentication work under the adopted model, including credential changes and revocation | Unrelated UI, ordinary endpoints using unchanged authentication, or external-provider-only authentication |
@@ -481,40 +490,58 @@ In Claude Code:
 /design-tuning-lab Turn these spacing and type-scale options into a lab with one tab per screen, visible defaults, revert, and compare.
 ```
 
-### Desktop UI basics
+### Desktop UI design
 
-Use this practice when creating or changing a desktop app's own screens: clickable elements, content that changes with state, and interface text. It covers native windows the app draws and web UIs shown in a desktop window or browser; the operating system's own menus and dialogs keep their behavior. Ordinary use checks the affected elements and states; it does not require a redesign or a full-app audit.
+Use this practice when creating or changing a desktop app's own screens: clickable elements, content that changes with state, proportions and colors, and interface text. It covers native windows the app draws and web UIs shown in a desktop window or browser; the operating system's own menus and dialogs keep their behavior. Its proportions are reference values from the platform's guidelines, widely used component libraries, and WCAG; a project records the values it chooses and any deviation with its reason. Ordinary use checks the affected screens; it does not require a redesign or a full-app audit.
 
-A project adopting it can add a conditional instruction to read the installed `desktop-ui-basics` skill for that work, while retaining its design system, components, and existing exceptions. Adding this catalog entry does not install it in another project or adopt it in this collection.
+A project adopting it can add a conditional instruction to read the installed `desktop-ui-design` skill for that work, while retaining its components, recorded values, and existing exceptions. Adding this catalog entry does not install it in another project or adopt it in this collection. It replaces `desktop-ui-basics`: a project that installed that skill renames its copy and its references when it next updates its copies.
 
 In Codex:
 
 ```text
-Use $desktop-ui-basics to add a Check now button to this settings card so it keeps its place while the status changes.
+Use $desktop-ui-design to add a Check now button to this settings card so it keeps its place while the status changes.
 ```
 
 In Claude Code:
 
 ```text
-/desktop-ui-basics Review this window's clickable elements and status texts without changing its visual design.
+/desktop-ui-design Review this window's spacing, control heights, and contrast in both themes, with before and after screenshots.
 ```
 
-### Mobile UI basics
+### Mobile UI design
 
-Use this practice when creating or changing a mobile screen, editable control, layout, or interaction, or when reviewing a mobile usability defect. It covers native apps and mobile web only where the project supports them. Ordinary use checks the affected behavior; it does not require a redesign, new dependency, or full-app audit. Keyboard details load separately for the relevant runtime.
+Use this practice when creating or changing a mobile screen, component, editable control, layout, or interaction, or when reviewing a mobile usability defect. It covers native Android and iOS apps and web UIs on a phone where the project supports them. Ordinary use checks the affected screens; it does not require a redesign, new dependency, or full-app audit. Android platform details, reference proportions, editing patterns, keyboard handling, and emulator verification load separately when relevant.
 
-A project adopting it can add a conditional instruction to read the installed `mobile-ui-basics` skill for that work, while retaining its supported platforms, design system, navigation rules, and existing exceptions. Adding this catalog entry does not install it in another project or adopt it in this collection.
+A project adopting it can add a conditional instruction to read the installed `mobile-ui-design` skill for that work, while retaining its supported platforms, components, recorded values, navigation rules, and existing exceptions. Adding this catalog entry does not install it in another project or adopt it in this collection.
 
 In Codex:
 
 ```text
-Use $mobile-ui-basics to fix this mobile form so its focused input stays visible above the keyboard and its submit action remains reachable.
+Use $mobile-ui-design to fix this mobile form so its focused input stays visible above the keyboard and its submit action remains reachable.
 ```
 
 In Claude Code:
 
 ```text
-/mobile-ui-basics Review this mobile sheet's keyboard, scrolling, touch targets, and Back behavior without changing its visual design.
+/mobile-ui-design Review this screen's touch targets, insets, text scaling, and Back behavior, with before and after emulator screenshots.
+```
+
+### Privacy by design
+
+Use this practice when a change touches what an app knows about its user: logs and error texts, stored data, network calls, crash or usage reports, exports and shared files, permissions, and the fixtures, examples, and screenshots that stand in for real data. It applies to desktop, mobile, web, and server code. Ordinary use checks the data the change touches; it does not require auditing the whole app. What the product must state publicly about its data stays with `legal-compliance`.
+
+A project adopting it can add a conditional instruction to read the installed `privacy-by-design` skill for that work, while keeping its own record of what the product reads, stores, and sends, and any agreed exceptions. Adding this catalog entry does not install it in another project.
+
+In Codex:
+
+```text
+Use $privacy-by-design to review the logging and the error messages this change adds.
+```
+
+In Claude Code:
+
+```text
+/privacy-by-design Check what this export writes and what the update check sends.
 ```
 
 ### React subscriptions

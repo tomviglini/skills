@@ -9,6 +9,10 @@
 
 - The repository is public under the MIT [LICENSE](LICENSE). When closing a task that adds material from someone else, such as quoted documentation or a copied example, or that names another company's product beyond saying what a skill works with, and before each release tag, read and apply [legal-compliance](.agents/skills/legal-compliance/SKILL.md). The record is [docs/compliance.md](docs/compliance.md).
 
+## Privacy
+
+- When a change touches what a skill tells agents to log, store, send, export, or put in examples and fixtures, read and apply [privacy-by-design](.agents/skills/privacy-by-design/SKILL.md): the skills' own guidance and examples keep users' data private and use made-up values.
+
 ## Collection
 
 - Store each independent reusable skill under `skills/<skill-name>/SKILL.md`. Add sibling folders as the collection grows, and keep each folder portable on its own.

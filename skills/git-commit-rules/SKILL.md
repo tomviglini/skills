@@ -18,6 +18,12 @@ Respect documented project exceptions and choices already resolved by the user. 
 - Force-push only when explicitly authorized for that operation and target. Do not use force to work around an ordinary push rejection.
 - A message-only request authorizes reviewing relevant changes and drafting text. Leave the index, history, configuration, and remotes unchanged.
 
+## Commit boundaries
+
+- Commit when a piece of work is closed, not after each step. Work that hangs together, even several topics from one working session, usually goes into one commit: later changes often refine earlier ones, and commits in between would only record drafts.
+- Separate commits fit parts that are clearly independent, or that the user may want to revert on their own. When the grouping is unclear, propose one and let the user decide.
+- If the work already has unpushed commits, offer to combine them before pushing; squashing still needs the user's authorization.
+
 ## Review the intended changes
 
 Reuse adopted conventions without repeating a repository-wide policy review. Select only the work needed:

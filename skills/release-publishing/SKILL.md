@@ -1,6 +1,6 @@
 ---
 name: release-publishing
-description: "Publish versioned releases from a tag: one product version, CI that runs the project's own checks and builds, files named by version, a dated title, the host's latest mark only on the highest version, notes that introduce the product and list the release's changes, a license and disclaimer, a record of each outcome, and cleanup when a tag is deleted. Use when creating or changing a release pipeline or its notes template, or when preparing, publishing, editing, or deleting a release; app-store submissions and web deployments do not trigger it."
+description: "Publish versioned releases from a tag: one product version, CI that runs the project's own checks and builds, files named by version, a dated title, the host's latest mark only on the highest version, notes that introduce the product and list the release's changes, a license and disclaimer, a record of each outcome, and cleanup when a tag is deleted. Use when creating or changing a release pipeline or its notes template, when a release run is slow, or when preparing, publishing, editing, or deleting a release; app-store submissions and web deployments do not trigger it."
 ---
 
 # Release Publishing
@@ -30,6 +30,10 @@ Respect explicit project exceptions and resolved user choices. If an unresolved 
 - Deleting the tag deletes its release, its runs, and its record. A run cannot delete itself, so the next run removes finished cleanup runs.
 - To test an update path, publish a throwaway higher version from a commit that never reaches the main branch, and delete its tag afterwards.
 
+## Speed
+
+Measure a slow run from its job logs before changing it, and keep the measured times with the project's build notes. Removing repeated work, installing only what the runner lacks, keeping small generated test inputs as fixtures, and pinned downloads need no decision. Caching between runs, prebuilt tools or runner images, self-hosted or paid runners, and lower release optimization trade trust, cleanliness, upkeep, or money for speed: ask the maintainer with the measured gain. Read [pipeline speed](references/pipeline-speed.md) for how to measure, the runners' limits, and examples.
+
 ## Notes
 
 Keep the notes' fixed text in a template next to the pipeline, such as `.github/RELEASE_NOTES.md`, with placeholders for the version and the changes. Update it when what the product offers changes. The sections, in this order:
@@ -55,5 +59,6 @@ Keep every text short: what the reader gets and does, without the product's inte
 | Pipeline | A tag publishes the release; its record shows success; the release's title, files, digests, and latest mark are as expected. A deliberately failing step leaves its name and output in the record. |
 | Notes template | A published release shows every section filled in, no placeholder left, the right file names for its version, and only that release's changes. |
 | Deletion | Deleting the tag removes the release, its runs, and its record. |
+| Speed | Each job's time in the run's logs, compared with the recorded baseline. |
 
 Report what was published or changed and what was verified on the host.

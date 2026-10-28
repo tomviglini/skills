@@ -1,6 +1,6 @@
 ---
 name: installed-app-lifecycle
-description: "Install, update, and uninstall a desktop app while keeping its saved data across versions: per-item format versions, migrations, consent and a backup before any loss, TOML settings, opt-in start with the OS, and update checks against published releases. Use when changing an installer or uninstaller, adding or changing anything the app keeps between runs, adding or changing update checks, or preparing a release that changes saved data; excludes web deployments and app-store mobile releases."
+description: "Install, update, and uninstall a desktop app while keeping its saved data across versions: per-item format versions, migrations, consent and a backup before any loss, TOML settings, opt-in start with the OS, and update checks against published releases. Use when changing an installer or uninstaller, adding or changing anything the app keeps between runs (its logs included), adding or changing update checks, or preparing a release that changes saved data; excludes web deployments and app-store mobile releases."
 ---
 
 # Installed App Lifecycle
@@ -33,6 +33,14 @@ Read [settings files](references/settings-files.md) when creating or changing a 
 - Unknown keys and comments survive saving. A key name is never reused with a new meaning.
 - A new option has one default, the same for a new install and an update. A dependency on another setting can still keep it inactive.
 
+## Keep logs
+
+Read [logs](references/logs.md) when adding or changing what the app logs or how it keeps the files. In short:
+- `error.log` in the data folder, always: one line per failure with the UTC time and context, crashes included. A failure that repeats is written once until it changes.
+- Activity logs only where they help diagnose something concrete, such as one file per job in `logs\`. No debug logging in release builds.
+- About 1 MiB per file unless the project records another limit and why. At the limit, the file moves to `error.1.log`, replacing the previous one; never empty a file in place. A folder of per-job files deletes its oldest files to fit a total.
+- One process writes each file, and a failure to log never stops the app. Logs are drop items. What a line may contain follows privacy-by-design when the project installs it.
+
 ## Install, update, and uninstall
 
 1. **Running app:** detect a running copy and its helper processes and close it without asking; installing, updating, or removing the app implies it.
@@ -51,4 +59,4 @@ Read [update checks](references/update-checks.md) when adding or changing update
 
 ## Verify
 
-After changing an item, a migration, or the installer, run the sample upgrade tests. Exercise the affected installer paths when possible: a new install, an update over the previous release with and without data loss, a downgrade warning, and an uninstall with and without backups. Report which paths ran on a real system and which were only built.
+After changing an item, a migration, or the installer, run the sample upgrade tests. After changing logging, run the rotation and repeat tests. Exercise the affected installer paths when possible: a new install, an update over the previous release with and without data loss, a downgrade warning, and an uninstall with and without backups. Report which paths ran on a real system and which were only built.
