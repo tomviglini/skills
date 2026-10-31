@@ -4,7 +4,7 @@ This repository publishes Markdown instructions and YAML metadata for AI coding 
 
 ## Status
 
-As of 2026-10-26:
+As of 2026-10-31:
 
 | Area | Status | Summary |
 | --- | --- | --- |
@@ -29,6 +29,16 @@ None.
 | [The MIT License, Open Source Initiative](https://opensource.org/license/mit) | 2026-10-24 | SPDX `MIT`; the page shows no update date |
 
 ## Review log
+
+### 2026-10-31: implementation-trade-offs
+
+- **Reviewers:** the owner, with Claude (Opus 5.5) in Claude Code.
+- **Reviewed:** the change that adds `implementation-trade-offs`.
+- **Scope:** the skill's files and its README entries.
+- **Findings and actions:**
+  - The skill is the owner's own practice and cites nothing. FFmpeg, Rust, and C are named only as examples of a library and of languages; MPEG-2, H.265, and RTSP only to describe the examples' formats and protocol.
+  - The examples come from the owner's own projects, written generically: no product, vendor, device, or person is named, and no figure identifies a network or a device.
+- **Not checked:** nothing else; no name appears beyond plain text.
 
 ### 2026-10-28: mobile-ui-design, logs, pipeline speed and commit boundaries
 

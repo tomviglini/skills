@@ -1,0 +1,6 @@
+interface:
+  display_name: "Implementation Trade-offs"
+  short_description: "Choose custom code, a library, or a workaround by measured gains"
+
+policy:
+  allow_implicit_invocation: true

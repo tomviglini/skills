@@ -36,6 +36,9 @@ skills/
   grilling/
     SKILL.md
     agents/openai.yaml
+  implementation-trade-offs/
+    SKILL.md
+    agents/openai.yaml
   installed-app-lifecycle/
     SKILL.md
     agents/openai.yaml
@@ -98,6 +101,7 @@ The angle-bracket names illustrate future skills. Each skill owns its instructio
 | [desktop-ui-design](skills/desktop-ui-design/SKILL.md) | Keep a desktop app's own screens predictable and consistent: the hand pointer on everything clickable it draws, layouts that stay put while their content changes, reference proportions (spacing, control heights, alignment, type, corners, contrast, target size), short interface text, and screenshots of every changed screen in each theme and state. |
 | [git-commit-rules](skills/git-commit-rules/SKILL.md) | Group closed work into few commits, review commit scope, verify configured author and committer identities, draft messages in the project's language, and keep commit, history-rewrite, and push authorization separate. |
 | [grilling](skills/grilling/SKILL.md) | Run an explicitly invoked interview, implement when the user asks to proceed, then update docs and ADRs from the actual implementation and verification. |
+| [implementation-trade-offs](skills/implementation-trade-offs/SKILL.md) | Choose how to build a piece that shapes a product's performance, quality, or reliability (implement it, use or improve a library, or work around the gap) by measured gains and losses, with little weight on writing time and depth matched to the project's phase. |
 | [installed-app-lifecycle](skills/installed-app-lifecycle/SKILL.md) | Install, update, and uninstall desktop apps while keeping saved data across versions: per-item format versions and migrations, consent and a backup before any loss, TOML settings, opt-in start with the OS, update checks against published releases, and log files with rotation. |
 | [legal-compliance](skills/legal-compliance/SKILL.md) | Check what a repository publishes for legal issues at a depth that fits the moment (task close, release, going public or to a store), recommend names that keep other companies' brands referential, record decisions once, and keep a compliance record. |
 | [mobile-ui-design](skills/mobile-ui-design/SKILL.md) | Keep mobile screens at home on the platform (edge-to-edge insets, system Back, permissions), consistent in their proportions (spacing, touch targets, type, corners, contrast, text scaling), with items controlled on their cards and managed in an editor, text entry visible above the keyboard, steady feedback, and screens checked on an emulator. |
@@ -172,6 +176,7 @@ This review applies to every adopted practice, not only `project-documentation`.
 | `desktop-ui-design` | Pointer conventions, layout stability while content changes, reference proportions and contrast minimums, interface-text brevity, and screenshot, pointer, and state checks | Supported windows and UI technologies, components, the app's chosen values (control height, radii, colors) and their reasons, verification tooling, and explicit exceptions |
 | `git-commit-rules` | Covered commit-boundary, commit-review, identity-checking, and message-writing procedures | Required identities, signing/hooks, and project-specific authorization or message conventions |
 | `grilling` | An existing explicit interview procedure, transition to authorized implementation, and documentation of the verified outcome | Actual requirements, agreed decisions, pending questions, document destinations, and any separately adopted automatic planning rules |
+| `implementation-trade-offs` | Existing guidance on choosing between custom code, libraries, and workarounds, and on presenting such options with measurements | The project's language and library choices, decisions already recorded with their reasons, and explicit exceptions |
 | `installed-app-lifecycle` | Data-folder item rules, per-item versions, migration and consent before loss, backup and uninstall handling, settings-file rules, start-with-OS default, update-check behavior, and log files, their limits, and rotation | Data location, the actual items and their versions, migrations, installer tool and paths, release location, and explicit exceptions |
 | `legal-compliance` | When legal checks run and how deep, the areas checked, naming recommendations, recording decisions once, ground rules, and the record's structure | The products and companies it works with, their sources, the project's own limits (such as what its product must never do), decisions already taken, and the record's path |
 | `mobile-ui-design` | Platform conventions (insets, Back, permissions, window sizes), reference proportions and contrast minimums, where items are edited, removed, and confirmed, keyboard visibility, layout stability, feedback, interface-text brevity, and emulator-based checks | Supported platforms, target SDK and devices, components and libraries, the app's chosen values, navigation semantics, native configuration, verified behavior, and explicit exceptions |
@@ -294,6 +299,7 @@ Reusable project practices keep automatic selection enabled. Adoption makes thei
 | `desktop-ui-design` | Creating, changing, or reviewing desktop screens, their clickable elements, changing content, proportions, colors, or interface text | Mobile screens, backend-only changes, and the operating system's own dialogs and menus |
 | `git-commit-rules` | Commit-message preparation or requested commit, history-rewrite, or push work | Ordinary coding, `git status`, or code review |
 | `grilling` | Explicit user invocation of the grilling command | Ordinary planning, ambiguous requirements, architecture changes, installation, or another skill suggesting an interview |
+| `implementation-trade-offs` | A missing piece pushing a design toward a workaround, a library that is weak for the need, a clearly better result than existing tools looking possible, or a choice between writing code and adopting a library | Ordinary work with libraries the project already chose, choices already recorded with their reasons, and fixes within an unchanged design |
 | `installed-app-lifecycle` | Changing an installer or uninstaller, anything the app keeps between runs (logs included), update checks, and preparing a release that changes saved data | Ordinary features that leave saved data and the installer unchanged; web deployments or app-store releases |
 | `legal-compliance` | Naming a project, closing a task that touches its areas, preparing a release, and making a repository public, submitting to a store, or charging | Changes that add no dependency, asset, data handling, permission, or other company's name or material |
 | `mobile-ui-design` | Creating, changing, or reviewing mobile screens, their input, layout, proportions, interaction, platform behavior, or interface text, including web UIs shown on a phone | Backend-only changes, desktop windows, or asset generation without changing the mobile interface |
@@ -397,6 +403,24 @@ In Claude Code:
 ```
 
 Choosing a direction does not authorize a commit, push, or deployment.
+
+### Implementation trade-offs
+
+Use this practice when a missing piece starts to bend a design toward a workaround, when a library is weak for what the product needs, or when deciding between writing code and adopting a library. It maps the routes that genuinely differ (build the piece in the project, use or improve a library, work around the gap), weighs them by what the product gets, such as performance, quality, reliability, usability, security, and licensing, and gives writing time little weight, because an agent writes code cheaply and estimates of that time are often far off. Doubtful gains are tested with a proof of concept instead of guessed. Deep, mature libraries such as FFmpeg stay, built narrowly and called directly; elsewhere an existing library is not a reason to stop. The depth follows the phase: a prototype testing feasibility takes the quickest route, while one testing an optimization is built as well as it can be.
+
+Before building a workaround or a large custom piece, the agent presents the options with measurements and a recommendation that defaults to the direct route. A project adopting it keeps its language and library choices and its recorded decisions; the practice reopens a recorded choice only on new evidence.
+
+In Codex:
+
+```text
+Use $implementation-trade-offs to decide how the app should read this recorder's download format instead of replaying the recording over RTSP.
+```
+
+In Claude Code:
+
+```text
+/implementation-trade-offs Compare improving this HTTP client library with writing a focused client for our two endpoints, and measure both.
+```
 
 ### Project documentation
 
