@@ -1,0 +1,7 @@
+interface:
+  display_name: "Repository Language"
+  short_description: "Write repository content in the project's declared language"
+  default_prompt: "Use $repository-language to keep the repository content in this task in the project's declared language."
+
+policy:
+  allow_implicit_invocation: true

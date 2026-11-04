@@ -1,0 +1,34 @@
+# Repository Instructions
+
+## Language
+
+- Repository language: English.
+- When creating, editing, or reviewing repository content, read and apply [repository-language](.agents/skills/repository-language/SKILL.md). Conversation follows the user's language.
+
+## Compliance
+
+- The repository is public under the MIT [LICENSE](LICENSE). When closing a task that adds material from someone else, such as quoted documentation or a copied example, or that names another company's product beyond saying what a skill works with, and before each release tag, read and apply [legal-compliance](.agents/skills/legal-compliance/SKILL.md). The record is [docs/compliance.md](docs/compliance.md).
+
+## Privacy
+
+- When a change touches what a skill tells agents to log, store, send, export, or put in examples and fixtures, read and apply [privacy-by-design](.agents/skills/privacy-by-design/SKILL.md): the skills' own guidance and examples keep users' data private and use made-up values.
+
+## Collection
+
+- Store each independent reusable skill under `skills/<skill-name>/SKILL.md`. Add sibling folders as the collection grows, and keep each folder portable on its own.
+- Keep the skills adopted by this repository, listed in README, discoverable through relative folder links in `.agents/skills/` and `.claude/skills/`. Adding a skill to the catalog does not itself adopt it here.
+- Keep the shared skill compatible with Claude Code and Codex: use `name` and `description` frontmatter and plain Markdown instructions. Put optional Codex metadata in `agents/openai.yaml`.
+- Keep each skill self-contained. Use relative links for supporting resources and avoid machine-specific paths or required agent-specific tools.
+- Describe when a skill applies precisely. Follow the root README's authoring guidance: for lightweight use, check matching and non-matching tasks, separate review from implementation, and load detailed references conditionally; and [keep skills general](README.md#keep-skills-general), without ties to a particular project. Preserve the consuming project's library choices and conventions.
+- Each skill must respect explicit project exceptions and resolved user choices. For an unresolved conflict with project rules, identify the conflicting requirements and ask whether to adjust the rule or record a scoped exception before the disputed action. Do not invent exceptions; record agreed ones in the consuming project with their scope and reason.
+- Keep the shared installation and adoption procedure in the root README. Installation must provide native discovery for each target agent and the adopted project rule; a README or instruction link alone does not install a skill. During adoption of any skill, review README, agent instructions, guides, and ADRs relevant to its subject for covered rules and conflicts, following [ADR reconciliation](README.md#reconcile-adrs-during-adoption). Replace only covered generic rules in current guidance with references to the installed skills. Preserve project-specific requirements, exceptions, decision history, and `CLAUDE.md` compatibility. Do not turn each skill into an installer. Distinguish these practices from workflows invoked for a particular deliverable.
+- Separate initial adoption from ordinary use. After adoption, reuse recorded rules and exceptions and inspect only context relevant to the task. Keep task-specific verification; repeat a broader review only when requested or justified by relevant new evidence or changed guidance.
+- When creating or reorganizing documentation, read and apply [project-documentation](.agents/skills/project-documentation/SKILL.md). Before completing a task, assess documentation impact and use that skill to update affected records. Ask before a substantial documentation migration that the user has not already chosen.
+- Use [grilling](.agents/skills/grilling/SKILL.md) only when the user explicitly invokes that workflow. Preserve its manual invocation controls; installation, ordinary planning, and other skills do not start an interview.
+- Put substantial library-specific details in references, loaded only when relevant.
+- For version-sensitive code examples, state the target library versions, documentation review date, sources, and validation status. Distinguish API targets from exact versions actually tested; adapt to the consuming project's installed versions instead of requiring upgrades to match examples.
+- Update the root README catalog when adding or renaming a skill.
+- A change to a skill does not update the projects that install it. Each consuming project compares its copies with the pushed `main` once per task and reports differences to the owner ([Check installed copies](README.md#check-installed-copies)). When the owner asks to check every project, run that comparison in each consuming project and report per project; update a project's copies only when the owner asks.
+- When adding or changing a skill, check the other skills in the catalog for guidance it contradicts or duplicates, such as a different moment for the same documentation or checks, and resolve the overlap in the same change.
+- For changes in this repository, apply [task-lifecycle](.agents/skills/task-lifecycle/SKILL.md). Its focused checks are the frontmatter, relative links, examples, and version-sensitive claims of the skills a change touches, and that their text stays general ([keep skills general](README.md#keep-skills-general)): read by someone who does not know the owner's projects, it names none of them and holds no example or value that fits only one. Its full checks repeat them for every skill and the README catalog. Use an available skill validator when possible; this repository has no application build or test suite.
+- When preparing commit messages or performing commit, history-rewrite, or push operations in this repository, read and apply [git-commit-rules](.agents/skills/git-commit-rules/SKILL.md). Creating or editing a skill does not itself authorize a commit or push.

@@ -1,0 +1,7 @@
+interface:
+  display_name: "Local Device Control"
+  short_description: "Find, identify, command, and read devices on the local network"
+  default_prompt: "Use $local-device-control to review how this app discovers its devices, confirms each command, and polls their state."
+
+policy:
+  allow_implicit_invocation: true

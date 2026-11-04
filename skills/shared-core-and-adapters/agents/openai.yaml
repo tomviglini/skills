@@ -1,0 +1,6 @@
+interface:
+  display_name: "Shared Core and Adapters"
+  short_description: "Share domain logic through explicit platform adapters"
+
+policy:
+  allow_implicit_invocation: true

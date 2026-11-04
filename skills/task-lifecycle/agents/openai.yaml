@@ -1,0 +1,7 @@
+interface:
+  display_name: "Task Lifecycle"
+  short_description: "Document and fully check work once, when the owner closes the task"
+  default_prompt: "Use $task-lifecycle to close this task: update the documentation from the pending notes and run the full checks."
+
+policy:
+  allow_implicit_invocation: true

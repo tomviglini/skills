@@ -1,0 +1,6 @@
+interface:
+  display_name: "Grilling"
+  short_description: "Explicitly challenge and clarify ideas and decisions"
+
+policy:
+  allow_implicit_invocation: false

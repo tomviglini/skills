@@ -1,0 +1,6 @@
+interface:
+  display_name: "Mobile UI Design"
+  short_description: "Keep mobile screens at home on the platform, well proportioned, and usable"
+
+policy:
+  allow_implicit_invocation: true

@@ -1,0 +1,6 @@
+interface:
+  display_name: "Desktop UI Design"
+  short_description: "Keep desktop screens predictable, steady, and well proportioned"
+
+policy:
+  allow_implicit_invocation: true

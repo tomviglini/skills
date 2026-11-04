@@ -1,0 +1,6 @@
+interface:
+  display_name: "Privacy by Design"
+  short_description: "Keep users' data out of logs, requests, exports, and fixtures"
+
+policy:
+  allow_implicit_invocation: true
