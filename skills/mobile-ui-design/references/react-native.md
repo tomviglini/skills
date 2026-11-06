@@ -26,6 +26,14 @@ They were found on 2026-11-02 in an app built with Expo SDK 58, React Native 0.8
 - **Focus before layout, seen on Android:** a `TextInput` focused when it mounts (`autoFocus`, or `focus()` right away) inside a `ScrollView` makes the scroll view jump to the field's provisional position at the top, then back once the keyboard opens. Focus it from its `onLayout`, once it has its place.
 - **Revealing a field:** scroll a field into view with `scrollTo({ y, animated: false })`. An animated scroll right after the keyboard opens reads as the page going back and forth.
 
+## A field focused in a modal without the keyboard
+
+Found on 2026-11-06 in the same app and versions, first on a phone and then on the same emulator, where the input method's state and screenshots confirmed the fix.
+
+- **Seen on Android:** a `TextInput` focused as a `Modal` appears, with `autoFocus` or with `focus()` from the modal's `onShow`, shows its cursor but no keyboard, so the user taps a field that already looks active. Outside a modal the same focus opens the keyboard.
+- **Why:** React Native's focus asks for the keyboard through `InputMethodManager.showSoftInput`, which Android ignores while the field's window does not have the focus yet; logcat says `Ignoring showSoftInput() as view=… is not served`. A modal is a window of its own, and it gets the focus some tens of milliseconds after it appears, after `onShow` too. Calling `focus()` again does nothing, because React Native skips a field that already has the focus.
+- **Fix:** ask through the field's window instead, as Android's guide to [showing the keyboard reliably](https://developer.android.com/develop/ui/views/touch-and-input/keyboard-input/visibility) recommends: `view.windowInsetsController.show(WindowInsets.Type.ime())` from Android 11, which Android keeps and carries out once the window has the focus (logcat shows the request, then `onShown` when the focus arrives); before Android 11, wait for that focus with a `ViewTreeObserver.OnWindowFocusChangeListener` and then call `showSoftInput`. React Native has no call for this, so a small native module function receives the field's view tag (`findNodeHandle`) and runs it on the main thread. The shared input calls `focus()` and then that function, once the field has its place and, inside a modal, after `onShow`, when the native view exists. ESLint's `no-restricted-syntax` with the selector `JSXAttribute[name.name='autoFocus']` keeps `autoFocus` from coming back.
+
 ## Scaling to the size range
 
 Found on 2026-11-04 in the same app and versions, on the same emulator, at scales from 0.81 to 1.22 ([size range](proportions.md#size-range)).

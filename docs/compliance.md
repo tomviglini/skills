@@ -4,7 +4,7 @@ This repository publishes Markdown instructions and YAML metadata for AI coding 
 
 ## Status
 
-As of 2026-11-04:
+As of 2026-11-06:
 
 | Area | Status | Summary |
 | --- | --- | --- |
@@ -29,6 +29,16 @@ None.
 | [The MIT License, Open Source Initiative](https://opensource.org/license/mit) | 2026-10-24 | SPDX `MIT`; the page shows no update date |
 
 ## Review log
+
+### 2026-11-06: mobile-ui-design focus, keyboard, and dialog placement
+
+- **Reviewers:** the owner, with Claude (Opus 5.5) in Claude Code.
+- **Reviewed:** the change that adds to mobile-ui-design when a field takes focus as its screen appears and that the keyboard opens with it, how far a screen moves to reveal a field and its action, where a dialog with a field sits, and the React Native reference's case of a field focused in a modal without the keyboard.
+- **Scope:** the skill's SKILL.md and its keyboard-handling and React Native references.
+- **Findings and actions:**
+  - The React Native reference cites Android's developer guide on keyboard visibility, summarized in the skill's own words with a link; it names the platform's APIs and quotes one log message to identify the case, and copies no text or code.
+  - The rules are the owner's own standards, written generically; they name no project or product of the owner.
+- **Not checked:** nothing else.
 
 ### 2026-11-04: general skills, local-device-control, and a single commit
 
